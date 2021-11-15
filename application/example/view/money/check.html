@@ -1,0 +1,43 @@
+<style type="text/css">
+    body{
+        height: 100vh;
+        overflow: hidden;
+        margin: 0;
+        padding: 0 !important;
+    }
+    .page-tab-content{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .layui-form-item{
+        text-align: center;
+    }
+    .layui-form-item .layui-input-inline{
+        float: none !important;
+        display: inline-block;
+    }
+    .layui-input-block{
+        margin-left: 0;
+    }
+    .layui-form-label{
+        text-align: center;
+        padding: 20px 0;
+    }
+    .layui-form-select dl{z-index:9999;}
+</style>
+
+<div class="layui-form-item">
+    {if ($moneyInfo['pay_type'] == 1)}
+    <div class="layui-form-label" style="width: 100%" style="width: 100%;text-align: center;padding: 9px 0;">收款方式: 银行卡</div>
+    <div class="layui-form-label" style="width: 100%" style="width: 100%;text-align: center;padding: 9px 0;">开户行: {$newsInfo['bank']}</div>
+    <div class="layui-form-label" style="width: 100%" style="width: 100%;text-align: center;padding: 9px 0;">户主姓名: {$newsInfo['moneyname']}</div>
+    <div class="layui-form-label" style="width: 100%" style="width: 100%;text-align: center;padding: 9px 0;">卡号: {$newsInfo['cird']}</div>
+    {else /}
+    <div class="layui-form-label" style="width: 100%" style="width: 100%;text-align: center;padding: 9px 0;">收款方式: USDT</div>
+    <div class="layui-form-label" style="width: 100%" style="width: 100%;text-align: center;padding: 9px 0;">USDT钱包地址: <br>{$newsInfo['usdt_account']}</div>
+    <div class="layui-form-label" style="width: 100%" style="width: 100%;text-align: center;padding: 9px 0;">兑换后的USDT金额: {$moneyInfo['usdt_amount']}</div>
+    {/if}
+
+</div>

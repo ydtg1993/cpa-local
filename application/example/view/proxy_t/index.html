@@ -1,0 +1,236 @@
+<style>
+    .appid,
+    .selectGroup .layui-form-select {
+        display: none;
+    }
+
+    .isActive .appid {
+        display: block;
+    }
+
+    .isActive .layui-form-select {
+        display: block;
+    }
+
+    .putMsg {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    /*.putMsg > div {
+        width: 30%;
+    }*/
+
+    .submitBtn > div {
+        margin-left: 0;
+    }
+</style>
+
+<form class="layui-form putMsg" action="">
+
+    <div class="layui-form-item isActive" style="width: 200px">
+        <input type="text" id="proxy_id" name="appid" value="{$appid}" placeholder="请输入代理id" autocomplete="off"
+               class="appid layui-input">
+    </div>
+    <div class="layui-form-item" style="width: 200px">
+        <input type="text" id="startDate" name="startDate" class="layui-input" placeholder="请输入开始时间"
+               autocomplete="off"/>
+    </div>
+    <div class="layui-form-item" style="width: 200px">
+        <input type="text" id="endDate" name="endDate" class="layui-input" placeholder="请输入结束时间" autocomplete="off"/>
+    </div>
+    <div class="layui-form-item" style="width: 200px">
+        <select name="remark">
+            <option value="-1" {if condition="$remark eq -1" } selected{/if}>全部类型</option>
+            <option value="1" {if condition="$remark eq 1" } selected{/if}>首充</option>
+            <option value="0" {if condition="$remark eq 0" } selected{/if}>续充</option>
+        </select>
+    </div>
+    <div class="layui-form-item" style="width: 200px">
+        <select name="level">
+            <option value="0">全部等级</option>
+            <option value="1" {if condition="$level eq 1" } selected{/if}>L1</option>
+            <option value="2" {if condition="$level eq 2" } selected{/if}>L2</option>
+            <option value="3" {if condition="$level eq 3" } selected{/if}>L3</option>
+            <option value="4" {if condition="$level eq 4" } selected{/if}>L4</option>
+            <option value="5" {if condition="$level eq 5" } selected{/if}>L5</option>
+        </select>
+    </div>
+    <div class="layui-form-item submitBtn">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="sub" lay-submit lay-filter="sss">立即提交</button>
+            <button type="button" lay-submit="" class="layui-btn layui-btn-warm" lay-filter="uploadImg">导出Excel</button>
+        </div>
+    </div>
+    <div class="layui-input-block" style="margin-left: 30px;">首充金额：{$firstMoney}元</div>
+    <div class="layui-input-block" style="margin-left: 30px;">续费金额：{$afterMoney}元</div>
+    <div class="layui-input-block" style="margin-left: 30px;">安装数量：{$installNum}个</div>
+</form>
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+<script src="/static/js/layui_exts/excel.min.js"></script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form,
+            layer = layui.layer;
+        form.on('submit(sss)', function (data) {
+            $.ajax({
+                url: "/example/proxy_t/index",
+                traditional: true,
+                type: "POST",
+                dataType: "text",
+                data: {data: data, appid: appid, name: name},
+                success: function (data) {
+                    if (data && data.code && data.code == 1) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop" title="查看"
+       width="460" height="270">查看</a><a href="{:url('edit')}?id={{ d.id }}"
+                                         class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop" title="修改"
+                                         width="460" height="270">修改</a><a href="{:url('del')}?id={{ d.id }}"
+                                                                           class="layui-btn layui-btn-xs layui-btn-danger j-tr-del">删除</a>
+</script>
+
+<script type="text/javascript">
+    function createTime(v) {
+        var date = new Date(v);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? '0' + m : m;
+        var d = date.getDate();
+        d = d < 10 ? ("0" + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ("0" + h) : h;
+        var M = date.getMinutes();
+        M = M < 10 ? ("0" + M) : M;
+        var str = y + "-" + m + "-" + d + " " + h + ":" + M;
+        return str;
+    }
+</script>
+<script type="text/javascript">
+    layui.use(['layer', 'form', 'table', 'laydate', 'jquery'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            form = layui.form,
+            laydate = layui.laydate,
+            table = layui.table;
+        // 加载框
+        var loading;
+        loading = layer.load(1, {shade: [0.3, '#fff']});
+        var tableIns = table.render({
+            elem: '#dataTable',
+            cols: [[ //表头
+                {type: 'checkbox'}
+                , {
+                    field: 'datetime', title: '日期', templet: function (d) {
+                        return d.datetime;
+                    }
+                }
+                , {
+                    field: 'level', title: '用户类型', templet: function (d) {
+                        if (d.level == '1') {
+                            return "L1";
+                        } else if (d.level == '2') {
+                            return "L2";
+                        } else if (d.level == '3') {
+                            return "L3";
+                        } else if (d.level == '4') {
+                            return "L4";
+                        } else if (d.level == '5') {
+                            return "L5";
+                        } else {
+                            return "";
+                        }
+                    }
+                }
+                , {field: 'appid', title: '代理ID', templet: '<div>{{ d.appid }}</div>'}
+                , {field: 'userid', title: '用户ID', templet: '<div>{{ d.userid }}</div>'}
+                , {
+                    field: 'remark', title: '充值类型', templet: function (d) {
+                        if (d.remark == '0') {
+                            return "续充";
+                        } else if (d.remark == '1') {
+                            return "首充";
+                        } else {
+                            return "";
+                        }
+                    }
+                }
+                , {field: 'orderno', title: '交易单号', templet: '<div>{{ d.orderno }}</div>'}
+                , {field: 'amount', title: '充值金额', templet: '<div>{{ d.amount }}</div>'}
+                , {field: 'profit', title: '分成金额', templet: '<div>{{ d.profit }}</div>'}
+            ]],
+            url: '{:url(\'\', input(\'get.\'))}',
+            page: true,
+            even: true,
+            height: 'full-90',
+            request: {
+                pageName: 'page', //页码的参数名称，默认：page
+                limitName: 'limit' //每页数据量的参数名，默认：limit
+            },
+            limit: 20,
+            done: function (res, curr, count) {
+                layer.close(loading);
+            }
+        });
+        form.on('submit(uploadImg)', function (data) {
+            loading = layer.load(1, {shade: [0.3, '#fff']});
+            var $ = layui.jquery;
+            var excel = layui.excel;
+            $.ajax({
+                url: '{:url(\'\', input(\'get.\'))}',
+                dataType: 'json',
+                data: {
+                    datas: JSON.stringify(data.field),
+                    type: '1'
+                },
+                success: function (res) {
+                    layer.close(loading);
+                    layer.msg('导出成功');
+                    // 假如返回的 res.data 是需要导出的列表数据
+                    console.log(res.data);//
+                    // 1. 数组头部新增表头
+                    res.data.unshift({
+                        datetime: '日期',
+                        level: '用户类型',
+                        appid: '代理id',
+                        userid: '用户id',
+                        remark: '充值类型',
+                        orderno: '交易单号',
+                        amount: '充值金额',
+                        profit: '分成金额'
+                    });
+                    // 3. 执行导出函数，系统会弹出弹框
+                    excel.exportExcel({
+                        sheet1: res.data
+                    }, '平台流水.xlsx', 'xlsx');
+                },
+                error: function (res) {
+                    layer.close(loading);
+                    layer.msg('导出失败');
+                }
+            });
+        });
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startDate',
+            type: 'datetime',
+            value: '{$startDate}'
+        });
+        laydate.render({
+            elem: '#endDate',
+            type: 'datetime',
+            value: '{$endDate}'
+        });
+    });
+</script>

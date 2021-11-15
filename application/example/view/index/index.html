@@ -1,0 +1,111 @@
+<style>
+    .layui-layer, .layui-layer-iframe{
+        width: 500px !important;
+        height: 300px !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+    .putMsg {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+</style>
+<form class="layui-form putMsg" action="">
+
+    <div class="layui-form-item isActive" style="width: 200px">
+        <input type="text" name="email" value="{$email}" placeholder="请输入账号" autocomplete="off"
+               class="appid layui-input">
+    </div>
+    <div class="layui-form-item" style="width: 200px">
+        <select name="level">
+            <option>请选择等级</option>
+            <option value="1"{if condition="$level eq 1"} selected{/if}>L1</option>
+            <option value="2"{if condition="$level eq 2"} selected{/if}>L2</option>
+            <option value="3"{if condition="$level eq 3"} selected{/if}>L3</option>
+            <option value="4"{if condition="$level eq 4"} selected{/if}>L4</option>
+            <option value="5"{if condition="$level eq 5"} selected{/if}>L5</option>
+        </select>
+    </div>
+
+    <div class="layui-form-item submitBtn">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="sub" lay-submit lay-filter="sss">立即提交</button>
+        </div>
+    </div>
+</form>
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+<script type="text/html" id="statusTpl">
+    <input type="checkbox" name="status" value="{{ d.status }}" lay-skin="switch" lay-filter="switchStatus" lay-text="正常|待开通" {{ d.status == 1 ? 'checked' : '' }} data-href="{:url('status')}?id={{ d.id }}">
+</script>
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('example/index/show')}?id={{ d.appid }}" class="layui-btn layui-btn-xs layui-btn-primary">查看</a>
+    <a href="{:url('setProfitScale')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop" title="设置单价">设置单价</a>
+    {if ($installDeductionAuth)}
+    <a href="{:url('setDeductionRatio')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop" title="设置无效比例">设置无效比例</a>
+    {/if}
+    <a href="{:url('add')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop" title="重置密码">重置密码</a>
+    <a href="{:url('example/index/recstatus')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger">暂停</a>
+    <a href="{:url('example/index/rec')}" class="layui-btn layui-btn-xs layui-btn-danger ">回收站</a>
+<!--    <a href="{:url('example/proxy_t/index')}?appid={{d.appid}}" class="layui-btn layui-btn-xs layui-btn-danger ">查订单</a>-->
+    <a href="{:url('example/money/cha')}?appid={{d.appid}}" class="layui-btn layui-btn-xs layui-btn-danger ">查提款</a>
+</script>
+
+{if ($installDeductionAuth)}
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url(\'\', input(\'get.\'))}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,cols: [[ //表头
+                {field: 'appid', title: 'ID', width: 110, templet: '<div>{{ d.appid }}</div>'}
+                ,{field: 'email', title: '账号', width: 110, templet: '<div>{{ d.email }}</div>'}
+                ,{field: 'status', title: '当前状态', width: 100, templet: '#statusTpl'}
+                ,{field: 'cid', title: '所属分组', width: 90, templet: '<div>{{ d.cid }}</div>'}
+                ,{field: 'level', width: 90, title: '代理等级', templet: '<div>L{{ d.level }}</div>'}
+                ,{field: 'mtime', width: 170, title: '最近登录时间'}
+                ,{field: 'install_deduction_ratio', width: 90, title: '无效比例', templet: '<div>{{ d.install_deduction_ratio }}%</div>'}
+                ,{title: '操作', width: 480, templet: '#buttonTpl'}
+            ]]
+        });
+    });
+</script>
+{else /}
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url(\'\', input(\'get.\'))}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,cols: [[ //表头
+                {field: 'appid', title: 'ID', width: 110, templet: '<div>{{ d.appid }}</div>'}
+                ,{field: 'email', title: '账号', width: 110, templet: '<div>{{ d.email }}</div>'}
+                ,{field: 'status', title: '当前状态', width: 100, templet: '#statusTpl'}
+                ,{field: 'cid', title: '所属分组', width: 90, templet: '<div>{{ d.cid }}</div>'}
+                ,{field: 'level', width: 90, title: '代理等级', templet: '<div>L{{ d.level }}</div>'}
+                ,{field: 'mtime', width: 170, title: '最近登录时间'}
+                ,{title: '操作', width: 480, templet: '#buttonTpl'}
+            ]]
+        });
+    });
+</script>
+{/if}

@@ -1,0 +1,47 @@
+<style type="text/css">
+    .layui-form-select dl{z-index:9999;}
+    .layui-form-item .layui-input-inline{
+        margin: 0;
+    }
+    .layui-form-item{
+        text-align: center;
+    }
+    .pb50{
+        overflow: hidden;
+    }
+    .layui-form-item .layui-input-inline{
+        float: none !important;
+        display: inline-block;
+    }
+    .layui-input-block{
+        margin-left: 0;
+    }
+    .layui-form-mid{
+        float: right !important;
+        padding: 9px 91px 0 0!important;
+    }
+    .layui-text em, .layui-word-aux{
+        color: red!important;
+    }
+</style>
+<form class="layui-form" action="{:url('example/index/submitSetProfitScale')}?id={$id}" method="post" id="editForm">
+    <div class="layui-form-item">
+        <label class="layui-form-label">安装提成单价</label>
+        <div class="layui-input-inline w200">
+            <input type="text" class="layui-input field-title" name="first" lay-verify="required" value="{$data['first']}" autocomplete="off" placeholder="请输入安装提成单价">
+        </div>
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">续充提成</label>-->
+        <!--<div class="layui-input-inline w200">-->
+            <!--<input type="text" class="layui-input field-title" name="follow" lay-verify="required" value="{$data['follow']}" autocomplete="off" placeholder="请输入续充提成">-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" class="field-id" name="id">
+            <button type="submit" class="layui-btn layui-btn-normal" hisi-data="{pop: true, refresh: true}" lay-submit="" lay-filter="formSubmit">提交</button>
+        </div>
+    </div>
+</form>
+{include file="system@block/layui" /}

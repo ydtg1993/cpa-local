@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>登录</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/layui.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="nav">
+            <div class="nav_title"><h4>登录</h4></div>
+            <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>"></div>
+        </div>
+    </header>
+    <section style="margin-top: 50px">
+        <div class="loginSec">
+            <form onsubmit="return false">
+                <div class="put_content"><input type="text" id='email' name="email" placeholder="账号"></div>
+                <div class="msg1" style="font-size: 8px; color:red"></div>
+                <div class="put_content"><input type="password" id='password' name="password" placeholder="密码"></div>
+                <div class="msg2" style="font-size: 8px; color:red"></div>
+                <div class="tac loginSecTo">
+                    <button class="login-btn <?php echo 'btn_bg_c'.$_theme_id ?>">登录</button>
+                </div>
+
+            </form>
+            <div class="tac registered"><a href="reg">注册</a></div>
+        </div>
+    </section>
+
+
+    <script src="/static/example/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/example/js/layui.js"></script>
+    <script src="/static/example/js/common.js"></script>
+
+    <script type="text/javascript">
+        window.onload=function () {
+
+            $('.login-btn').on('click', function (evt) {
+                $('.msg1').html('');
+                $('.msg2').html('');
+                if ($('#email').val() == '') {
+                    $('.msg1').html('登录名不能为空');
+                    return;
+                }
+                if ($('#password').val() == '') {
+                    $('.msg2').html('密码不能为空');
+                    return;
+                }
+                $.ajax({
+                    url: "/admin.php/example/login/login",
+                    data: { email: $('#email').val(), password: $('#password').val() },
+                    type: "POST",
+                    //dataType: "json",
+                    success: function (data) {
+                        // data = eval("(" + data+ ")");
+                        console.log(data)
+                        if (data.status == 'success') {
+
+                            layer.msg(data.msg,{icon:6,time:2000}, function(){
+                                $(location).attr('href', '/admin.php/example/main/form');
+                            });
+
+                        } else if (data.status == 0) {
+                            layer.msg('登录成功',{icon:6,time:2000}, function(){
+                                $(location).attr('href', 'wait');
+                            });
+                        } else if (data.status == 2) {
+                            layer.msg('登录成功',{icon:6,time:2000}, function(){
+                                $(location).attr('href', 'out');
+                            });
+                        }
+                        else {
+                            alert(data.msg);
+                        }
+                        // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+                    }
+                });
+
+            });
+
+        }
+    </script>
+    <script>
+
+    </script>
+</body>
+
+</html>

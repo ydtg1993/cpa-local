@@ -1,0 +1,132 @@
+<style>
+    .layui-layer, .layui-layer-iframe{
+        width: 400px !important;
+        height: 300px !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+    .layui-table-cell{
+        text-align: center;
+    }
+    .appid,
+    .selectGroup .layui-form-select {
+        display: none;
+    }
+
+    .isActive .appid {
+        display: block;
+    }
+
+    .isActive .layui-form-select {
+        display: block;
+    }
+
+    .putMsg {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    /*.putMsg > div {
+        width: 30%;
+    }*/
+
+    .submitBtn > div {
+        margin-left: 0;
+    }
+</style>
+
+<form class="layui-form putMsg" action="">
+
+    <div class="layui-form-item isActive" style="width: 130px">
+        <input type="text" id="proxy_id" name="appid" value="{$appid > 0 ? $appid : ''}" placeholder="请输入代理ID" autocomplete="off"
+               class="appid layui-input">
+    </div>&nbsp;
+    <div class="layui-form-item" style="width: 180px">
+        <input type="text" id="startDate" name="start_date" class="layui-input" placeholder="请选择开始时间" autocomplete="off"/>
+    </div>&nbsp;
+    <div class="layui-form-item" style="width: 180px">
+        <input type="text" id="endDate" name="end_date" class="layui-input" placeholder="请选择结束时间" autocomplete="off"/>
+    </div>&nbsp;
+    <div class="layui-form-item submitBtn">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="sub" lay-submit lay-filter="sss">查询</button>
+        </div>
+    </div>
+    <div style="margin-left:30px;">已提款金额：<span style="text-indent: 2em;" id="alreadydraw"></span></div>
+</form>
+
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+<form action="" display=""></form>
+
+<script type="text/javascript">
+
+    layui.use(['layer', 'form', 'table', 'laydate', 'jquery'], function() {
+        var table = layui.table;
+        var $ = layui.$;
+        var firstAuth = "{$data['firstAuth']}";
+        var secondAuth = "{$data['secondAuth']}";
+        var thirdAuth = "{$data['thirdAuth']}";
+        var payDoneAuth = "{$data[\'payDoneAuth\']}";
+        $("#alreadydraw").text("{$data['drawingpass']}");
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url(\'\', input(\'get.\'))}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,cols: [[ //表头
+                //{type:'checkbox'},
+                {field: 'ctime', title: '提交时间',width:180, templet: '<div>{{ d.ctime }}</div>'}
+                ,{field: 'appid', title: '代理ID',width:120, templet: '<div>{{ d.appid }}</div>'}
+                ,{field: 'orderid', title: '编号', templet: '<div>{{ d.orderid }}</div>'}
+                ,{field: 'money', title: '申请金额', templet: '<div>{{ d.money }}</div>'}
+                ,{field: 'statusDesc', title: '提款状态', templet: '<div>{{ d.statusDesc }}</div>'}
+                ,{field: 'first_auth_at', title: '一审时间',width:180, templet:function (d) {if (d.first_auth_at == null) {return "-";}else {return  d.first_auth_at ;}}}
+                ,{field: 'first_auth_user', title: '审核人', templet:function (d) {if (d.first_auth_user == null) {return "-";}else {return  d.first_auth_user ;}}}
+                ,{field: 'auth_remark', title: '备注说明', templet:function (d) {if (d.auth_remark == null) {return "";}else {return  d.auth_remark ;}}}
+                , {
+                    title: '操作', width: 210, templet: function (d) {
+                        if (d.status == '0' && firstAuth) {
+                            return "<a href=\'{:url('check')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-normal j-iframe-pop\">查看</a>\n" +
+                                "    <a href=\'{:url('pass1Dialog')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-normal j-iframe-pop\">一审通过</a>\n" +
+                                "    <a href=\'{:url('refuse1Dialog')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-danger j-iframe-pop\">一审驳回</a>\n";
+                        } else if (d.status == '1' && secondAuth) {
+                            return "<a href=\'{:url('check')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-normal j-iframe-pop\">查看</a>\n" +
+                                "    <a href=\'{:url('pass2Dialog')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-normal j-iframe-pop\">二审通过</a>\n" +
+                                "    <a href=\'{:url('refuse2Dialog')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-danger j-iframe-pop\">二审驳回</a>\n";
+                        } else if (d.status == '8' && thirdAuth && d.money > 50000) {
+                            return "<a href=\'{:url('check')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-normal j-iframe-pop\">查看</a>\n" +
+                                "    <a href=\'{:url('pass3Dialog')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-normal j-iframe-pop\">三审通过</a>\n" +
+                                "    <a href=\'{:url('refuse3Dialog')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-danger j-iframe-pop\">三审驳回</a>\n";
+                        } else if (d.status == '5' && payDoneAuth) {
+                            return "<a href=\'{:url('check')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-normal j-iframe-pop\">查看</a>\n" +
+                                "    <a href=\'{:url('payDoneDialog')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-normal j-iframe-pop\">已打款</a>\n";
+                        } else {
+                            return "<a href=\'{:url('check')}?id="+d.id+"'"+" class=\"layui-btn layui-btn-xs layui-btn-normal j-iframe-pop\">查看</a>\n";                        }
+                    }
+                }
+            ]]
+        });
+
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startDate',
+            type: 'datetime',
+            value: '{$start_date}'
+        });
+        laydate.render({
+            elem: '#endDate',
+            type: 'datetime',
+            value: '{$end_date}'
+        });
+    });
+</script>

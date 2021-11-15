@@ -1,0 +1,310 @@
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-overflow-scrolling : touch;
+    font-size: 100px;
+}
+
+html *
+{
+    font-family: FangSong,sans-serif !important;
+}
+@media(min-width:768px){
+    body {width:414px!important;height: 736px!important;margin:0 auto!important;overflow-y: auto;overflow-x: hidden}
+}
+
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    /*-webkit-tap-highlight-color: rgba(0, 0, 0, 0);*/
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+img {
+    -ms-interpolation-mode: bicubic;/*为了照顾ie图片缩放失真*/
+    border:0;
+}
+a,button,input,optgroup,select,textarea {
+    -webkit-tap-highlight-color:rgba(0,0,0,0); /*去掉a、input和button点击时的蓝色外边框和灰色半透明背景*/
+}
+a, img {
+    -webkit-touch-callout: none; /*禁止长按链接与图片弹出菜单*/
+}
+/* 初始化 */
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button,
+form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup,
+menu, nav, section {
+    margin: 0;
+    padding: 0;
+    /*background-color: #ecead7;*/
+}
+
+body {
+    font-size: 0.16rem;
+    letter-spacing: 1px;
+}
+input,button,textarea{
+    outline: none;
+    resize: none;
+    border: none;
+    /*background-color: transparent;*/
+}
+em, i {
+    font-style: normal;
+}
+ul,li{
+    list-style-type: none;
+}
+
+table{
+    border-collapse:collapse;
+    border-spacing:0
+}
+textarea {
+    resize:none; /*禁用了文本的拖拉，尤其在谷歌下*/
+}
+p {
+    word-wrap:break-word; /* 不够的单词自动换行 而不会被截掉 */
+}
+.clearfix:after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: both;
+}
+.clearfix {
+    zoom: 1;
+}
+a:link,a:active,a:visited,a:hover {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+a:hover {
+    text-decoration: none;
+}
+ul, ol {
+    list-style: none;
+}
+img {
+    border: none;
+}
+.one-txt-cut{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.txt-cut{
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 2; */
+    -webkit-box-orient: vertical;
+}
+
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.db{
+    display: block !important;
+}
+.after{
+    text-align: justify;
+}
+.after:after {
+    content:'';
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    height: 0;
+}
+
+.clear{
+    clear: both;
+}
+.flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.tac{
+    text-align: center;
+}
+.botder-bottom{
+    border-bottom: 1px solid transparent !important;
+}
+.formControl{
+    background-image: none;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.formControl:focus{
+    border-color: #c9c9c9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 75, 161, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 75, 161, 0.6);
+    transition: all .5s;
+}
+/*------------------------------------------
+公共顶部
+---------------------------------------------*/
+header{
+    width: 100%;
+    height: 0.56rem;
+    background-color: black;
+}
+.nav a{
+    color: #fff;
+}
+.nav{
+    position: relative;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.nav .nav_title{
+    text-align: center;
+    width: 100%;
+    line-height: 0.56rem;
+}
+.nav .nav_left,
+.nav .nav_right{
+    height: 0.3rem;
+    line-height: 0.3rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.nav .nav_left{
+    left: 0.18rem;
+}
+.nav .nav_right{
+    right: 0.18rem;
+}
+.nav .nav_right a{
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 0.14rem;
+    border-radius: 5px;
+}
+.btn_bg_c1,.btn_bg_c1 a{
+    background-color: steelblue;
+}
+.btn_bg_c2,.btn_bg_c2 a{
+    background-color: #f9cc00;
+}
+
+.nav_right .takeMoney{
+    cursor: pointer;
+}
+.nav_right .takeMoney .icon-money{
+    display: inline-block;
+    vertical-align: middle;
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+    font-size: 12px;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    text-align: center;
+    transform: scale(.8);
+}
+.menu{
+    left: 100%;
+}
+.modal-money{
+    right: -100%;
+    /*opacity: 0;*/
+    /*z-index: -99;*/
+}
+.menu,.modal-money{
+    position: fixed;
+    top: 0.56rem;
+    width: 100%;
+    z-index: 999;
+    height: calc(100vh - 0.56rem);
+    background-color: rgba(51, 51, 51, 0.4);
+    transition: all 1s;
+}
+.menulist{
+    width: 50%;
+    height: 100%;
+    color: #fff;
+    position: relative;
+    left: -150%;
+    transition: all 1s;
+}
+.menulist_c1{
+    background-color: #333;
+}
+.menulist_c2{
+    background-color: #483900;
+}
+.menu-other{
+    width: 49%;
+    height: 100%;
+}
+.menulist ul{
+    line-height: 0.45rem;
+    box-sizing: border-box;
+    padding: 0 15pt;
+}
+.menulist a{
+    display: block;
+    font-size: 0.14rem;
+    color: #fff;
+}
+.money-intro{
+    background-color: #fff;
+    width: 1.8rem;
+    height: 1.3rem;
+    float: right;
+    margin:10pt 15pt 0 0;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    z-index: 99;
+}
+.moneyZindex{
+    position: relative;
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+}
+.money-intro:after{
+    content: '';
+    position: absolute;
+    right: 15px;
+    top: -6px;
+    width: 15px;
+    height: 15px;
+    border-radius: 4px;
+    background-color: #fff;
+    transform: rotate(45deg);
+}
+.money-intro p:first-child{
+    margin-top: 0.2rem;
+}
+.money-intro p{
+    width: 100%;
+    line-height: 2.5;
+}
+.money-intro p a i{
+    margin-right: 0.1rem;
+}
+/*------------------------------------------
+公共底部
+---------------------------------------------*/

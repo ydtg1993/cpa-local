@@ -1,0 +1,16 @@
+/runtime/*
+/backup/*
+/public/theme/*
+/public/upload/*
+/public/pull.php
+/config/hs_auth.php
+/config/hs_cloud.php
+composer.lock
+.idea
+*.log
+.DS_Store
+Thumbs.db
+config/database.php
+/public/decode.php
+/public/static/images
+test

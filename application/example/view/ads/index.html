@@ -1,0 +1,54 @@
+<form action="{:url('example/ads/add1')}" class="page-list-form layui-form" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="title" value="" autocomplete="off" placeholder="">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="sort" value="" autocomplete="off" placeholder="数字越大排序越靠前">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">内容</label>
+        <div class="layui-input-inline">
+            <textarea rows="6"  class="layui-textarea" name="content" autocomplete="off" placeholder=""></textarea>
+        </div>
+    </div>
+    <div class="layui-input-block">
+        <button type="submit" class="layui-btn layui-btn-normal" >发布公告</button>
+    </div>
+</form>
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('example/ads/understatus')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger " title="下架" width="460" height="270">下架</a><a href="{:url('example/ads/putstatus')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal " title="发布" width="460" height="270">发布</a><a href="javascript:void(0);" onclick="if(confirm('确认删除？')) location.href='{:url(\'example/ads/recstatus\')}?id={{ d.id }}'" class="layui-btn layui-btn-xs layui-btn-danger">删除</a>
+</script>
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url('/example/ads/add1', input('get.'))}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,cols: [[ //表头
+                {type:'checkbox'}
+                ,{field: 'ctime', title: '发布日期',width: 180, templet: '<div>{{ d.ctime }}</div>'}
+                ,{field: 'adsid', title: '公告ID', templet: '<div>{{ d.adsid }}</div>'}
+                ,{field: 'title', title: '公告标题', templet: '<div>{{ d.title }}</div>'}
+                ,{field: 'sort', title: '排序'}
+                ,{field: 'status', title: '状态', templet:function (d) {if (d.status == '0') {return "已下架";} else if (d.status == '1') {return "发布";} else if (d.status == '2') {return "已删除";} else {return "";}}}
+                ,{title: '操作', width: 200, templet: '#buttonTpl'}
+            ]]
+        });
+    });
+</script>

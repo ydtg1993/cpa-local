@@ -1,0 +1,232 @@
+<style>
+    .appid,
+    .selectGroup .layui-form-select {
+        display: none;
+    }
+
+    .isActive .appid {
+        display: block;
+    }
+
+    .isActive .layui-form-select {
+        display: block;
+    }
+
+    .putMsg {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    /*.putMsg > div {
+        width: 30%;
+    }*/
+
+    .submitBtn > div {
+        margin-left: 0;
+    }
+</style>
+
+<form class="layui-form putMsg" action="">
+
+    <div class="layui-form-item isActive" style="width: 130px">
+        <input type="text" id="proxy_id" name="appid" value="{$appid ?: ''}" placeholder="请输入代理ID" autocomplete="off"
+               class="appid layui-input">
+    </div>
+    <div class="layui-form-item" style="width: 130px">
+        <input type="text" id="uid" name="uid" value="{$uid?: ''}" class="layui-input" placeholder="请输入用户ID"
+               autocomplete="off"/>
+    </div>
+    <div class="layui-form-item" style="width: 180px">
+        <input type="text" id="startDate" name="start_date" class="layui-input" placeholder="请选择开始时间" autocomplete="off"/>
+    </div>
+    <div class="layui-form-item" style="width: 180px">
+        <input type="text" id="endDate" name="end_date" class="layui-input" placeholder="请选择结束时间" autocomplete="off"/>
+    </div>
+    <div class="layui-form-item" style="width: 120px">
+        <select name="type">
+            <option value="" >全部类型</option>
+            <option value="1" {if condition="$type == 1"} selected {/if}>已绑定</option>
+            <option value="2" {if condition="$type == 2"} selected {/if}>未绑定</option>
+        </select>
+    </div>
+    <div class="layui-form-item" style="width: 100px">
+        <select name="os">
+            <option value="">全部设备</option>
+            <option value="1" {if condition="$os == 1"} selected {/if}>Andriod</option>
+            <option value="2" {if condition="$os == 2"} selected {/if}>IOS</option>
+        </select>
+    </div>
+    {if ($installDeductionAuth)}
+    <div class="layui-form-item" style="width: 100px">
+        <select name="status">
+            <option value="">全部状态</option>
+            <option value="1" {if condition="$status != null && $status == 1"} selected {/if}>正常</option>
+            <option value="0" {if condition="$status != null && $status == 0"} selected {/if}>无效</option>
+        </select>
+    </div>
+    {/if}
+    <div class="layui-form-item submitBtn">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="sub" lay-submit lay-filter="sss">查询</button>
+            <button type="button" lay-submit="" class="layui-btn layui-btn-warm" lay-filter="uploadImg">导出Excel</button>
+        </div>
+    </div>
+
+</form>
+<div><span style="text-indent: 2em;" id="installnum"></span></div>
+
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+<script src="/static/js/layui_exts/excel.min.js"></script>
+
+
+<script type="text/javascript">
+    function createTime(v) {
+        var date = new Date(v);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? '0' + m : m;
+        var d = date.getDate();
+        d = d < 10 ? ("0" + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ("0" + h) : h;
+        var M = date.getMinutes();
+        M = M < 10 ? ("0" + M) : M;
+        var str = y + "-" + m + "-" + d + " " + h + ":" + M;
+        return str;
+    }
+</script>
+<script type="text/javascript">
+    layui.use(['layer', 'form', 'table', 'laydate', 'jquery'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            form = layui.form,
+            laydate = layui.laydate,
+            table = layui.table;
+        // 加载框
+        var loading;
+        loading = layer.load(1, {shade: [0.3, '#fff']});
+        var tableIns = table.render({
+            elem: '#dataTable',
+            cols: [[ //表头
+                {field: 'id', title: '序号'}
+                , {field: 'uid', title: '代理ID'}
+                , {field: 'invite_uid', title: '用户ID'}
+                , {field: 'invite_nickname', title: '用户名称'}
+                , {
+                    field: 'invite_user_phonenumber', title: '手机号码', templet: function (dd) {
+                        if (dd.invite_user_phonenumber == null) {
+                            return "未绑定";
+                        }
+                        return dd.invite_user_phonenumber;
+                    }
+                }
+                , {
+                    field: 'invite_user_os', title: '设备类型', templet: function (dd) {
+                        if (dd.invite_user_os == 1) {
+                            return "Android";
+                        } else if (dd.invite_user_os == 2) {
+                            return "IOS";
+                        }
+                        return "未知";
+                    }
+                }
+                , {field: 'invite_time', title: '注册时间'}
+                , {
+                    field: 'status', title: '状态', templet: function (dd) {
+                        if (dd.status == 1) {
+                            return "正常";
+                        } else if (dd.status == 0) {
+                            return "<font color=red>无效</font>";
+                        }
+                        return "未知";
+                    }
+                }
+            ]],
+            url: '{:url(\'\', input(\'get.\'))}',
+            method: 'POST',
+            page: true,
+            even: true,
+            height: 'full-90',
+            request: {
+                pageName: 'page', //页码的参数名称，默认：page
+                limitName: 'limit' //每页数据量的参数名，默认：limit
+            },
+            limit: 20,
+            done: function (res, curr, count) {
+                $("#installnum").text("安装量：" + res.count);
+                layer.close(loading);
+            }
+        });
+        form.on('submit(uploadImg)', function (data) {
+
+            function getQueryString(name) {
+                let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                let r = window.location.search.substr(1).match(reg);
+                if (r != null) {
+                    return unescape(r[2]);
+                };
+                return '';
+            }
+
+            var appid = getQueryString('appid');
+            var uid = getQueryString('uid');
+            var start_date = getQueryString('start_date');
+            var end_date = getQueryString('end_date');
+            var type = getQueryString('type');
+            var os = getQueryString('os');
+            location.href = '/admin.php/example/cpa_report/download.html?appid='+appid+'&uid='+uid+'&start_date='+
+                start_date+'&end_date='+end_date+'&type='+type+'&os='+os;
+        });
+       /* form.on('submit(uploadImg)', function (data) {
+            loading = layer.load(1, {shade: [0.3, '#fff']});
+            var $ = layui.jquery;
+            var excel = layui.excel;
+            $.ajax({
+                url: '{:url(\'\', input(\'get.\'))}',
+                dataType: 'json',
+                data: {
+                    datas: JSON.stringify(data.field),
+                    type: '1'
+                },
+                success: function (res) {
+                    layer.close(loading);
+                    layer.msg('导出成功');
+                    // 假如返回的 res.data 是需要导出的列表数据
+                    console.log(res.data);//
+                    // 1. 数组头部新增表头
+                    res.data.unshift({
+                        datetime: '日期',
+                        level: '用户类型',
+                        appid: '代理id',
+                        userid: '用户id',
+                        remark: '充值类型',
+                        orderno: '交易单号',
+                        amount: '充值金额',
+                        profit: '分成金额'
+                    });
+                    // 3. 执行导出函数，系统会弹出弹框
+                    excel.exportExcel({
+                        sheet1: res.data
+                    }, '平台流水.xlsx', 'xlsx');
+                },
+                error: function (res) {
+                    layer.close(loading);
+                    layer.msg('导出失败');
+                }
+            });
+        });*/
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startDate',
+            type: 'datetime',
+            value: '{$start_date}'
+        });
+        laydate.render({
+            elem: '#endDate',
+            type: 'datetime',
+            value: '{$end_date}'
+        });
+    });
+</script>

@@ -1,0 +1,594 @@
+
+/* ------------------------------------------------
+ 登录.html
+-------------------------------------------------- */
+
+.loginSec{
+    box-sizing: border-box;
+    padding: 0 15pt;
+    overflow: hidden;
+}
+.loginSec form{
+    margin-top: 0.6rem;
+}
+.loginSec form input{
+    color: #333;
+    width: 100%;
+    height: 100%;
+}
+.loginSec form>.put_content{
+    height: 0.6rem;
+    line-height: 0.6rem;
+    overflow: hidden;
+    border-bottom: 1px solid #E0E0E0FF;
+}
+.loginSecTo{
+    overflow: hidden;
+    width: 100%;
+    height: 0.4rem;
+    border-radius: 0.2rem;
+    /*background-color: #3982F6FF;*/
+    background-color: steelblue;
+    color: #fff;
+    margin: 0.3rem auto;
+}
+.m30{
+    width: auto;
+    box-sizing: border-box;
+    margin: 30pt 15pt;
+}
+.loginSecTo a{
+    color: #fff;
+}
+.loginSecTo button{
+    width: 100%;
+    height: 100%;
+    color: #fff;
+}
+.loginSec .registered a{
+    color: #3982F6FF;
+}
+
+/* ------------------------------------------------
+ reg.html
+-------------------------------------------------- */
+.registered_agent{
+    box-sizing: border-box;
+}
+.input_information{
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    overflow: hidden;
+    border-bottom: 1px solid #f6f6f6;
+    box-sizing: border-box;
+    margin: 0 15pt;
+}
+.input_information .input_information_left{
+    color: #333;
+    white-space: nowrap;
+}
+.input_information .input_information_right{
+    color: #999;
+    width: 65%;
+}
+.input_information_right input{
+    width: 100%;
+    height: 0.5rem;
+    line-height: 0.5rem;
+}
+
+.registered_agent form>div:nth-child(2){
+    border-top:5px solid #f6f6f6;
+    border-bottom:5px solid #f6f6f6;
+}
+
+.textarea_information{
+    position: relative;
+    box-sizing: border-box;
+    margin: 10pt 15pt;
+    padding: 10pt;
+    height: 0.9rem;
+    border-radius: 5px;
+    background-color: #f6f6f6;
+}
+.textarea_information textarea{
+    width: 100%;
+    height: 100%;
+}
+.registered_agent .loginSecTo{
+    width: auto;
+    box-sizing: border-box;
+    margin: 30pt 15pt;
+}
+/* ------------------------------------------------
+ out.html
+-------------------------------------------------- */
+.waiting_for{
+    color: #999;
+    font-size: 0.14rem;
+    height: 2.2rem;
+    overflow: hidden;
+}
+.waiting_for>p{
+    width: 100%;
+    font-size: 0.16rem;
+    color: #333;
+    margin:1rem auto 0.1rem auto;
+}
+
+/* ------------------------------------------------
+ 代理系统.html
+-------------------------------------------------- */
+
+.agent_system_title{
+    width: 100%;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    box-sizing: border-box;
+    padding: 0 15pt;
+    border-bottom: 5px solid #f6f6f6;
+}
+.agent_system_information{
+    box-sizing: border-box;
+    padding: 0 15pt;
+    font-size: 0.14rem;
+}
+.agent_system_information>div{
+    padding-bottom: 0.05rem;
+}
+.agent_system_information div h2{
+    font-weight: 400;
+    font-size: 0.16rem;
+    margin: 0.2rem 0 0.15rem 0;
+}
+.agent_system_information .new-announcement ul li {
+    margin-bottom: 0.2rem;
+}
+.agent_system_information .new-announcement ul li a i {
+    padding: 8px;
+    font-size: 12px;
+    padding: 8px;
+    color: #fff;
+    background-color: steelblue;
+    border-radius: 50%;
+}
+.today-charge div table,
+.chare-to-users div table{
+    width: 100%;
+    text-align: center;
+    border:1px solid #E0E0E0FF;
+}
+.today-charge div table thead,
+.chare-to-users div table thead{
+    background-color: #f6f6f6;
+    font-weight: 400;
+    height: 0.28rem;
+    line-height: 0.28rem;
+}
+.today-charge div table thead th,
+.chare-to-users div table thead th{
+    font-weight: 400;
+}
+.today-charge div table th,
+.chare-to-users div table th{
+    width: 33.33%;
+}
+.today-charge div table tbody,
+.chare-to-users div table tbody{
+    height: 0.45rem;
+    line-height: 0.45rem;
+}
+
+/* ------------------------------------------------
+ ads.html
+-------------------------------------------------- */
+
+.publicity-title{
+    border-bottom: 5px solid #f6f6f6;
+    padding: 0 15pt;
+    line-height: 0.6rem;
+}
+.publicity-ext{
+    padding: 0 15pt;
+    line-height: 1.7;
+    margin-top: 0.1rem;
+    overflow: hidden;
+    text-align: justify;
+    color: #999;
+}
+/* ------------------------------------------------
+ downlink.html
+-------------------------------------------------- */
+.app-down{
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 0 0.3rem;
+    font-size: 0.14rem;
+}
+.app-down-img{
+    width: 1.8rem;
+    height: 1.8rem;
+    background-color: #fff;
+    margin: 1rem auto 0.2rem auto;
+}
+.app-down-img img{
+    width: 100%;
+}
+.app-down-click{
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-top: 0.3rem;
+}
+.app-down-click a{
+    width: 47%;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    background-color: #3982F6FF;
+    text-align: center;
+    color: #fff;
+    border-radius: 0.2rem;
+}
+/* ------------------------------------------------
+ userinfo.html
+-------------------------------------------------- */
+
+.account-information{
+    box-sizing: border-box;
+    padding: 0 15pt;
+    border-bottom: 1px solid #E0E0E0FF;
+}
+.account-information>div{
+    color: #333;
+}
+.account-information>div.flex{
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.1rem 0;
+}
+.account-information>div a{
+    color: #999;
+    font-size: 0.12rem;
+    border: 1px solid #999;
+    padding: 2px 3px;
+    border-radius: 12px;
+}
+.account-information p{
+    font-size: 0.14rem;
+    color: #999;
+    padding-bottom: 0.1rem;
+}
+.bank-card{
+    box-sizing: border-box;
+    padding: 0 15pt;
+    border-top: 5px solid #f6f6f6;
+}
+.bank-card h2{
+    font-size: 0.16rem;
+    font-weight: 400;
+    padding: 0.1rem 0;
+    position: relative;
+}
+.bank-card h2 .fixCard{
+    font-size: 0.12rem;
+    border-radius: 10px;
+    border: 1px solid #f6f2f2;
+    padding: 5px 12px;
+}
+.bank-card .flex{
+    justify-content: flex-start;
+    align-items: center;
+    color: #999;
+    height: 0.5rem;
+    font-size: 0.14rem;
+}
+.bank-card .flex>span:first-child{
+    width: 26%;
+    color: #333;
+    font-size: 0.14rem;
+}
+.bank-card .no-card{
+    text-align: center;
+    color: #999;
+    font-size: 0.14rem;
+}
+.bank-card .no-card p{
+    width: 1rem;
+    height: 1rem;
+    margin: 0.1rem auto;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background-color: red;
+}
+/* 未绑定银行卡的弹框 */
+.modal-no-bank-card,
+.modal-know-level{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(51, 51, 51, 0.4);
+    overflow: hidden;
+}
+.modal-no-bank-card>div{
+    position: relative;
+    width: 2.8rem;
+    height: 1.8rem;
+    margin: 2rem auto 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden;
+}
+.modal-no-bank-card>div p{
+    margin-top: 0.46rem;
+}
+.modal-no-bank-card>div a{
+    display: block;
+    width: 80%;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    margin: 0 auto;
+    border-radius: 0.2rem;
+    margin-top: 0.6rem;
+    color: #fff;
+}
+/* 了解等级的弹框 */
+.modal-know-level{
+    display: none;
+}
+.modal-know-level>div{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 3rem;
+    height: 3rem;
+    overflow: hidden;
+    background-color: #fff;
+    color: #000;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0.1rem;
+    border-radius: 10px;
+}
+.modal-know-level .know-level-title{
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-know-level .know-level-title .iconfont{
+    font-weight: bold;
+}
+.know-level-ext{
+    height: 2.45rem;
+    overflow-y: scroll;
+}
+.know-level-ext table{
+    width: 100%;
+    margin-top: 0.1rem;
+    text-align: center;
+    border: 1px solid #E0E0E0FF;
+}
+.know-level-ext thead{
+    background-color: #f6f6f6;
+    height: 0.3rem;
+}
+.know-level-ext thead th{
+    font-weight: 400;
+    height: 0.3rem;
+    width: 25%;
+}
+.know-level-ext tr{
+    font-size: 0.12rem;
+}
+.know-level-ext tbody td{
+    width: 25%;
+    height: 0.4rem;
+}
+
+/* ------------------------------------------------
+ 修改用户资料.html
+-------------------------------------------------- */
+.fix-data-title{
+    border-bottom: 8px solid #f6f6f6;
+    padding: 0 15pt;
+    height: 0.7rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.fix-data-title p{
+    color: #999;
+    font-size: 0.14rem;
+    width: 100%;
+}
+.fix-data-title p strong{
+    font-weight: 400;
+    color: #333;
+    font-size: 0.16rem;
+}
+.validation-email{
+    box-sizing: border-box;
+    padding: 0 15pt;
+}
+.validation-email>h2{
+    font-weight: 400;
+    font-size: 0.16rem;
+    margin-top: 0.15rem;
+}
+.validation-email>div{
+    padding-bottom: 0.12rem;
+}
+.validation-email>div>div{
+    margin-top: 0.15rem;
+}
+.validation-email>div>p{
+    margin-top: 0.15rem;
+}
+.input-email-code,
+.input_email{
+    position: relative;
+    width: 100%;
+    height: 0.4rem;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #F6F6F6FF;
+}
+.input-email-code input,
+.input_email input{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0 0.1rem;
+}
+.input_email>span{
+    position: absolute;
+    right: 0.1rem;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 0.6rem;
+    height: 0.3rem;
+    text-align: center;
+    line-height: 0.3rem;
+    background-color: #3982F6FF;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 0.14rem;
+}
+.email-desc{
+    font-size: 0.12rem;
+    color: #999;
+}
+.bind-bank-card{
+    box-sizing: border-box;
+    padding: 0 15pt;
+    border-top: 8px solid #F6F6F6FF;
+}
+.bind-bank-card h2{
+    font-weight: 400;
+    font-size: 0.16rem;
+    margin-top: 0.15rem;
+}
+.bind-bank-card div .flex{
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 0.4rem;
+    overflow: hidden;
+    background-color: #F6F6F6FF;
+    border-radius: 5px;
+    font-size: 0.14rem;
+    color: #333;
+    margin-top: 0.1rem;
+}
+.bind-bank-card div .flex span{
+    width: 25%;
+    text-indent: 1em;
+}
+.bind-bank-card div .flex input{
+    width: 70%;
+    height: 0.4rem;
+    box-sizing: border-box;
+    padding: 0 0.05rem;
+}
+/* ------------------------------------------------
+ form.html
+-------------------------------------------------- */
+.performance-report{
+    border-bottom: 5px solid #f6f6f6;
+}
+.performance-report .agent_system_title{
+    width: auto;
+    border-bottom: 1px solid #f6f6f6;
+    padding: 0;
+    margin: 0 15pt;
+}
+.performance-report .current-balance{
+    margin: 0 15pt;
+    padding: 0;
+    line-height: 1.5;
+}
+.current-balance p{
+    font-size: 0.16rem;
+    margin: 0.1rem 0 0 0;
+}
+.current-balance h2{
+    color: #FFA517FF;
+    font-weight: 400;
+    margin:0 0 0.1rem 0 ;
+}
+.check-report>h2{
+    font-weight: 400;
+    font-size: 0.16rem;
+    margin: 15pt;
+}
+.report-details-head{
+    margin: 15pt;
+}
+.report-details-head select{
+    height: 0.3rem;
+    width: 40%;
+    border: 1px solid #f6f6f6;
+    border-radius: 5px;
+    margin-right: 15pt;
+}
+.report-details-head button{
+    width: 0.7rem;
+    height: 0.3rem;
+    border-radius: 5px;
+    /*background-color: black !important;*/
+    color: #000;
+}
+.check-table{
+    margin-top: 15pt;
+    width: 100%;
+    overflow-x: scroll;
+}
+.check-table table{
+    border: 1px solid #f0f0f0;
+    text-align: center;
+}
+.check-table thead{
+    background-color: #f6f6f6;
+}
+.check-table thead tr th{
+    min-width: 0.8rem;
+    font-size: 0.14rem;
+    padding: 0.05rem 0.1rem;
+    font-weight: 400;
+}
+.check-table tbody tr td{
+    width: 0.8rem;
+    font-size: 0.12rem;
+    padding: 0.1rem 0.2rem;
+}
+/* ------------------------------------------------
+ form.html
+-------------------------------------------------- */
+.draw-lines{
+    margin: 0 15pt;
+    border-bottom: 1px solid #F6F6F6;
+    padding-bottom: 0.05rem;
+}
+.draw-lines i{
+    font-size: 0.16rem;
+    font-weight: 600;
+}
+.draw-lines input{
+    width: 80%;
+    font-size: 0.2rem;
+}
+
+
+
+
+
+
+
+
+
+

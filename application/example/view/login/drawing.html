@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>申请提款</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="nav_left">
+            <a href="form"><i class="iconfont icon-zuobianjiantoujiaoduxiao"></i></a>
+        </div>
+        <div class="nav_title">申请提款</div>
+        <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>"></div>
+    </div>
+</header>
+<div class="menu">
+    <div class="menulist <?php echo 'menulist_c'.$_theme_id ?>">
+        <ul>
+            <li><a href="/admin.php/example/main/form">首页</a></li>
+            <li><a href="/admin.php/example/main/userinfo">账户资料</a></li>
+            <!--<li><a href="/admin.php/example/main/form">业绩报表</a></li>-->
+            <li><a href="/admin.php/example/main/link">推广链接</a></li>
+            <!--<li><a href="/admin.php/example/main/getrecord">提款记录</a></li>-->
+            <!--<li><a href="/admin.php/example/main/faq">FAQ</a></li>-->
+        </ul>
+    </div>
+</div>
+<section>
+    <div class="performance-report">
+        <div class="agent_system_title flex">
+            <span><span id="level"></span>代理唯一id</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                id="appid"></span>
+        </div>
+        <div class="current-balance">
+            <p>当前余额</p>
+            <h2><i id="balance">0</i><i>元</i></h2>
+        </div>
+    </div>
+
+    <div class="check-report">
+        <h2>提款额度</h2>
+        <div class="draw-lines">
+            <i class="iconfont icon-money"></i>
+            <input id="money" type="number" pattern="number" onkeyup="value=value.replace(/[^\d].]/g,'')" name="money"
+                   value="" placeholder="0">
+        </div>
+        <div class="money" style="font-size: 8px; color:red"></div>
+    </div>
+
+    <div class="check-report">
+        <h2>提款方式</h2>
+        <div class="check-report-details">
+            <div class="report-details-head">
+                <select id="pay_type">
+                    <option value="1">银行卡</option>
+                    <option value="3">USDT</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="bank-card pay_type1">
+        <h2>银行卡信息<a class="fixCard fr" href="editbank">修改银行卡信息</a></h2>
+        <div>
+            <div class="flex">
+                <span>开户行</span>
+                <span id="bank"></span>
+            </div>
+            <div class="flex">
+                <span>卡号</span>
+                <span id="cird"></span>
+            </div>
+            <div class="flex">
+                <span>收款人</span>
+                <span id="moneyname"></span>
+            </div>
+        </div>
+        <div class="no-card" style="display: none">
+            <p><img src="" alt="暂未添加银行卡"></p>
+            <span>暂未添加银行卡</span>
+        </div>
+    </div>
+
+    <div class="bank-card pay_type3">
+        <h2>USDT信息<a class="fixCard fr" href="editbank">修改USDT信息</a></h2>
+        <div>
+            <div class="flex">
+                <span>账号</span>
+                <span id="usdt_account"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="tac loginSecTo m30" style="margin: 22pt 15pt;">
+        <button id="submit" class="<?php echo 'btn_bg_c'.$_theme_id ?>">申请提款</button>
+    </div>
+</section>
+
+
+<script src="/static/example/js/jquery-3.3.1.min.js"></script>
+<script src="/static/example/js/common.js"></script>
+<script>
+    $(".pay_type1").show();
+    $(".pay_type3").hide();
+    $('#pay_type').on('change',function(){
+        var pay_type = $(this).val();
+        if (pay_type == 1) {
+            $(".pay_type1").show();
+            $(".pay_type3").hide();
+        } else if (pay_type == 3) {
+            $(".pay_type1").hide();
+            $(".pay_type3").show();
+        }
+    });
+
+    window.onload = function () {
+        $.ajax({
+            url: "/admin.php/example/main/drawing",
+            data: {},
+            type: "POST",
+            success: function (data) {
+                // data = eval("(" + data+ ")");
+                data = JSON.parse(data);
+                if (data.code == '1') {
+                    $("#appid").text(data.bank[0].appid);
+                    // $("#level").text(data.bank[0].level);
+
+                    $("#bank").text(data.bank[0].bank);
+                    $("#moneyname").text(data.bank[0].moneyname);
+                    $("#cird").text(data.bank[0].cird);
+                    $("#usdt_account").text(data.bank[0].usdt_account);
+
+                    $("#balance").text(data.balance);
+                    if (!data.balance) {
+                        $("#balance").text('0');
+                    }
+
+                } else if (data.code == '0') {
+                    $("#appid").text(data.userinfo[0].appid);
+                    $("#email").text(data.userinfo[0].email);
+                } else {
+                    alert('网络繁忙');
+                }
+            }
+        });
+    };
+    $('#submit').on('click', function (evt) {
+        $('.money').html('');
+        var money = $('#money').val();
+        var bank = $('#bank').text();
+        var cird = $('#cird').text();
+        var moneyname = $('#moneyname').text();
+        var usdt_account = $('#usdt_account').text();
+        var pay_type = $('#pay_type').val();
+        if (money == '') {
+            $('.money').html('提款金额不能为空');
+            return;
+        }
+        if (money < 700) {
+            $('.money').html('提款金额最低700');
+            return;
+        }
+        if (parseInt(money) > parseInt($('#balance').html())) {
+            $('.money').html('余额不足！');
+            return;
+        }
+        if (pay_type == 1) {
+            if (bank == '' || cird == '' || moneyname == '') {
+                alert('请先填写银行卡信息');
+                return;
+            }
+        } else if (pay_type == 3) {
+            if (usdt_account == '') {
+                alert('请先填写USDT收款地址信息');
+                return;
+            }
+        }
+
+        $.ajax({
+            url: "/admin.php/example/main/getmoney",
+            data: {money: money, pay_type: pay_type},
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                // data = eval("(" + data+ ")");
+                data = JSON.parse(data);
+                if (data.code) {
+                    alert(data.message);
+                    window.location.reload();
+                } else {
+                    alert('网络繁忙');
+                }
+                // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

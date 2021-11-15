@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>账户资料</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="__PUBLIC_JS__/layui/css/layui.css?v={:config('hisiphp.version')}">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="nav_left">
+            <i class="iconfont icon-caidan1 menuIcon"></i>
+        </div>
+        <div class="nav_title">账户资料</div>
+        <div class="nav_right edit_userinfo">
+            <i class="iconfont icon-bianji3"></i>
+            修改
+        </div>
+    </div>
+</header>
+<div class="menu">
+    <div class="menulist <?php echo 'menulist_c'.$_theme_id ?>">
+        <ul>
+            <li><a href="/admin.php/example/main/form">首页</a></li>
+            <li><a href="/admin.php/example/main/userinfo">账户资料</a></li>
+            <!--<li><a href="/admin.php/example/main/form">业绩报表</a></li>-->
+            <li><a href="/admin.php/example/main/link">推广链接</a></li>
+            <!--<li><a href="/admin.php/example/main/getrecord">提款记录</a></li>-->
+            <!--<li><a href="/admin.php/example/main/faq">FAQ</a></li>-->
+        </ul>
+    </div>
+</div>
+
+<div>
+    <div class="account-information">
+        <div class="flex">
+            <span>代理唯一ID：</span>
+        </div>
+        <span style="font-size: 12px;" id="appid"></span>
+    </div>
+
+    <div class="account-information">
+        <div class="flex">
+            <span>邀请码：</span>
+        </div>
+        <span style="font-size: 12px;" id="invite_code"></span>
+    </div>
+
+    <div class="bank-card">
+        <h2>信息</h2>
+        <div>
+            <div class="flex">
+                <span>账号</span>
+                <span id="email"></span>
+            </div>
+            <div class="flex">
+                <span>小飞机</span>
+                <span id="we"></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- 了解等级的弹框 -->
+<div class="modal-know-level">
+    <div>
+        <div class="know-level-title flex">
+            <span></span>
+            <span>等级说明</span>
+            <span class="iconfont icon-fork"></span>
+        </div>
+        <div class="know-level-ext">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>等级</th>
+                        <th>达标条件</th>
+                        <th>首充提成</th>
+                        <th>续费提成</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>LV1</td>
+                        <td>通过审核</td>
+                        <td><span id="first1"></span>%</td>
+                        <td><span id="follow1"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>LV2</td>
+                        <td><span id="level2"></span></td>
+                        <td><span id="first2"></span>%</td>
+                        <td><span id="follow2"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>LV3</td>
+                        <td><span id="level3"></span></td>
+                        <td><span id="first3"></span>%</td>
+                        <td><span id="follow3"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>LV4</td>
+                        <td><span id="level4"></span></td>
+                        <td><span id="first4"></span>%</td>
+                        <td><span id="follow4"></span>%</td>
+                    </tr>
+                    <tr>
+                        <td>LV5</td>
+                        <td><span id="level5"></span></td>
+                        <td><span id="first5"></span>%</td>
+                        <td><span id="follow5"></span>%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="/static/example/js/jquery-3.3.1.min.js"></script>
+<script src="/static/example/js/common.js"></script>
+<script>
+    window.onload = function () {
+        var name, value;
+        var str = location.href; //取得整个地址栏
+        var num = str.indexOf("?")
+        str = str.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr = str.split("&"); //各个参数放到数组里
+        for (var i = 0; i < arr.length; i++) {
+            num = arr[i].indexOf("=");
+            if (num > 0) {
+                name = arr[i].substring(0, num);
+                value = arr[i].substr(num + 1);
+                this[name] = value;
+            }
+        }
+        // $("#email").text(value);
+        $.ajax({
+            url: "/admin.php/example/main/userinfo",
+            data: { email: value },
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                if (data.code == '1') {
+                    $("#appid").text(data.userinfo[0].appid);
+                    $("#email").text(data.userinfo[0].email);
+                    $("#we").text(data.userinfo[0].we);
+                    $("#invite_code").text(data.userinfo[0].invite_code);
+                } else {
+                    alert('网络繁忙');
+                }
+                // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+            }
+        });
+    }
+    $('.edit_userinfo').on('click', function (evt) {
+        $(location).attr('href', 'editbank');
+
+    });
+    $('.editinfo').on('click', function (evt) {
+        $(location).attr('href', 'editbank');
+
+    });
+    $('.know-level').on('click', function (evt) {
+        $('.modal-know-level').fadeIn();
+        $.ajax({
+            url: "/admin.php/example/main/level",
+            data: {},
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.code == '1') {
+                    $("#first1").text(data.level[0].first1);
+                    $("#first2").text(data.level[0].first2);
+                    $("#first3").text(data.level[0].first3);
+                    $("#first4").text(data.level[0].first4);
+                    $("#first5").text(data.level[0].first5);
+                    $("#follow1").text(data.level[0].follow1);
+                    $("#follow2").text(data.level[0].follow2);
+                    $("#follow3").text(data.level[0].follow3);
+                    $("#follow4").text(data.level[0].follow4);
+                    $("#follow5").text(data.level[0].follow5);
+                    $("#level2").text(data.level[0].level2.replace(',','>=客户充值<'));
+                    $("#level3").text(data.level[0].level3.replace(',','>=客户充值<'));
+                    $("#level4").text(data.level[0].level4.replace(',','>=客户充值<'));
+                    $("#level5").text(data.level[0].level5.replace(',','>=客户充值<'));
+                    var email = $('#email').val();
+
+                }else {
+                    alert('网络繁忙');
+                }
+                // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+            }
+        });
+
+    });
+</script>
+{include file="system@block/layui" /}
+<script>
+    layui.use('layer', function(){ //独立版的layer无需执行这一句
+
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+    //     layer.open({
+    //         type: 1
+    //         ,title: false //不显示标题栏
+    //         ,closeBtn: false
+    //         ,area: '300px;'
+    //         ,shade: 0.8
+    //         ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+    //         ,resize: false
+    //         ,btn: ['关闭']
+    //         ,btnAlign: 'c'
+    //         ,moveType: 1 //拖拽模式，0或者1
+    //         ,content: '<div class="check-table">\n' +
+    //             '<h2 style="text-align: center; margin-bottom: 10px;font-weight: bold">代理提成规则</h2>'+
+    //             '        <table border="1" style="margin: 0 auto;">\n' +
+    //             '            <thead>\n' +
+    //             '            <tr>\n' +
+    //             '                <th>日安装数</th>\n' +
+    //             '                <th>安装单价(X元/安装)</th>\n' +
+    //             '            </tr>\n' +
+    //             '            </thead>\n' +
+    //             '            <tbody>\n' +
+    //             {foreach $msg as $v}
+    //         '           <tr>\n' +
+    //                 '                <td>{$v.a} - {$v.b}</td>\n' +
+    //             '                <td>{$v.f}</td>\n' +
+    //             '            </tr>\n' +
+    //             {/foreach}
+    //     '                        </tbody>\n' +
+    //     '        </table>\n' +
+    //     '\n' +
+    //     '    </div>'
+    //         ,success: function(layero){
+    //
+    //     }
+    // });
+
+
+        var active = {
+            notice: function(){
+                layer.closeAll();
+                layer.open({
+                    type: 1
+                    ,title: false //不显示标题栏
+                    ,closeBtn: false
+                    ,area: '300px;'
+                    ,shade: 0.8
+                    ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,resize: false
+                    ,btn: ['关闭']
+                    ,btnAlign: 'c'
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,content: '<div class="check-table">\n' +
+                        '<h2 style="text-align: center; margin-bottom: 10px;font-weight: bold">代理提成规则</h2>'+
+                        '        <table border="1" style="margin: 0 auto;">\n' +
+                        '            <thead>\n' +
+                        '            <tr>\n' +
+                        '                <th>日安装数</th>\n' +
+                        '                <th>安装单价(X元/安装)</th>\n' +
+                        '            </tr>\n' +
+                        '            </thead>\n' +
+                        '            <tbody>\n' +
+                        {foreach $msg as $v}
+                    '           <tr>\n' +
+                            '                <td>{$v.a} - {$v.b}</td>\n' +
+                        '                <td>{$v.f}</td>\n' +
+                        '            </tr>\n' +
+                        {/foreach}
+                '                        </tbody>\n' +
+                '        </table>\n' +
+                '\n' +
+                '    </div>'
+                    ,success: function(layero){
+
+                }
+            });
+
+            }
+        };
+        $('.layui-btn-t').on('click', function(){
+
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+    });
+</script>
+</body>
+</html>

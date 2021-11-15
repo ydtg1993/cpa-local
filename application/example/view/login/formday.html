@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>业绩报表</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="nav_left">
+            <div class="nav_left"><a href="javascript:history.back(-1)"><i class="iconfont icon-zuobianjiantoujiaoduxiao"></i></a></div>
+        </div>
+        <div class="nav_title">交易详情</div>
+        <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>">
+            <span class="takeMoney"><i class="iconfont icon-money"></i>提款</span>
+        </div>
+    </div>
+</header>
+<div class="menu">
+    <div class="fl menulist <?php echo 'menulist_c'.$_theme_id ?>">
+        <ul>
+            <li><a href="/admin.php/example/main/form">首页</a></li>
+            <li><a href="/admin.php/example/main/userinfo">账户资料</a></li>
+            <!--<li><a href="/admin.php/example/main/form">业绩报表</a></li>-->
+            <li><a href="/admin.php/example/main/link">推广链接</a></li>
+            <!--<li><a href="/admin.php/example/main/getrecord">提款记录</a></li>-->
+            <!--<li><a href="/admin.php/example/main/faq">FAQ</a></li>-->
+        </ul>
+    </div>
+    <div class="fr menu-other"></div>
+</div>
+<section>
+    <div class="performance-report">
+        <div class="agent_system_title flex">
+            <span><span id="level"></span>级账号</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="appid"></span>
+        </div>
+        <div class="current-balance">
+            <p>当前余额</p>
+            <h2><i id="balance"></i><i>.00元</i></h2>
+        </div>
+    </div>
+    <div class="check-report">
+        <h2>查看报表</h2>
+        <div class="check-report-details">
+            <div class="report-details-head">
+                <div class="check-table" >
+                        <table border="1" id="tab">
+                            <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>充值客户ID</th>
+                                <th>充值类型</th>
+                                <th>交易单号</th>
+                                <th>充值金额</th>
+                                <th>提成金额</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal-money overflow">
+    <div class="money-intro">
+        <p>
+            <a href="getrecord"><i class="iconfont icon-qiyejianjie"></i>提款记录</a>
+        </p>
+        <p>
+            <a href="drawing"><i class="iconfont icon-money1"></i>申请提款</a>
+        </p>
+    </div>
+    <div class="moneyZindex"></div>
+</div>
+<script src="/static/example/js/jquery-3.3.1.min.js"></script>
+<script src="/static/example/js/common.js"></script>
+<script>
+    function getMyDate(str){
+        var oDate = new Date(str),
+            oYear = oDate.getFullYear(),
+            oMonth = oDate.getMonth()+1,
+            oDay = oDate.getDate(),
+            oHour = oDate.getHours(),
+            oMin = oDate.getMinutes(),
+            oSen = oDate.getSeconds(),
+            oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);//最后拼接时间
+        return oTime;
+    };
+    //补0操作
+    function getzf(num){
+        if(parseInt(num) < 10){
+            num = '0'+num;
+        }
+        return num;
+    };
+    window.onload = function () {
+        var name, value;
+        var str = location.href; //取得整个地址栏
+        var num = str.indexOf("?")
+        str = str.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr = str.split("&"); //各个参数放到数组里
+        for (var i = 0; i < arr.length; i++) {
+            num = arr[i].indexOf("=");
+            if (num > 0) {
+                name = arr[i].substring(0, num);
+                value = arr[i].substr(num + 1);
+                this[name] = value;
+            }
+        }
+
+        $.ajax({
+            url: "/admin.php/example/main/form",
+            data: {},
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                // data = eval("(" + data+ ")");
+                data = JSON.parse(data);
+
+                if (data.code == '1') {
+                    $("#appid").text(data.level[0].appid);
+                    $("#level").text(data.level[0].level);
+                    $("#balance").text(data.balance);
+
+                } else if (data.code == '0') {
+                    $("#appid").text(data.userinfo[0].appid);
+                    $("#email").text(data.userinfo[0].email);
+                } else {
+                    alert('网络繁忙');
+                }
+                // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+            }
+        });
+        $.ajax({
+            url: "/admin.php/example/main/formday",
+            data: {timeday : value},
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                // data = eval("(" + data+ ")");
+                data = JSON.parse(data);
+                if (data.code = 1) {
+                    $(function(){
+                        var s = "";
+                        $('.timadata').text('');
+                        for(var i = 0; i < data.week.length; i++) {
+                            var time = getMyDate(data.week[i].datetime*1000);
+                            if (data.week[i].remark == 1){
+                                status = '首充';
+                            }
+                            if (data.week[i].remark == 0){
+                                status = '续充';
+                            }
+                            s = "<tr class='timadata'><td>" + time + "</td><td>" + data.week[i].userid + "</td><td>" + status + "</td><td>" + data.week[i].orderno + "</td><td>" + data.week[i].amount + "</td><td>" + data.week[i].profit + "</td><td>" + data.week[i].content + "</td></tr>";
+                            $('#tab').append(s);
+                        }
+                    });
+                    // var email = $('#email').val();
+                }else if(data.code == '0'){
+                    alert(data.message);
+                }else {
+                    alert('网络繁忙');
+                }
+                // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+            }
+        });
+    };
+
+
+</script>
+</body>
+</html>

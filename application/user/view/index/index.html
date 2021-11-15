@@ -1,0 +1,84 @@
+<style type="text/css">
+    .layui-table-body{overflow-x:auto;}
+    .layui-table-cell{font-size:12px;}
+</style>
+<div class="layui-form hisi-search">
+    <form action="{:url()}" method="get" id="hisi-table-search">
+        <div class="layui-form-item">
+            <label class="layui-form-label">关键词</label>
+            <div class="layui-input-inline">
+                <input type="text" name="keyword" class="layui-input" lay-verify="required" placeholder="用户名/邮箱/手机/昵称" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">分组</label>
+            <div class="layui-input-inline">
+                <select name="group_id">
+                    <option value="">分组过滤</option>
+                    {foreach name="groups" id="vo"}
+                    <option value="$key">{$vo}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item hisi-search-btn">
+            <div class="layui-input-inline">
+                <button type="submit" class="layui-btn layui-btn-normal layui-icon layui-icon-search">查询</button><button type="reset" class="layui-btn layui-btn-primary layui-icon layui-icon-delete">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<table id="dataTable"></table>
+<script type="text/html" id="usernameTpl">
+    <div style="line-height:18px;">
+    <img src="{{ d.avatar ? d.avatar : '__ADMIN_IMG__/avatar.png' }}" width="60" height="60" class="fl">
+    <p class="ml10 fl"><strong class="mcolor">{{ d.username }} ({{ d.nick }})</strong><br>手机：{{ d.mobile }}<br>邮箱：{{ d.email }}</p></div>
+</script>
+<script type="text/html" id="statusTpl">
+    <input type="checkbox" name="status" value="{{ d.status }}" lay-skin="switch" lay-filter="switchStatus" lay-text="正常|关闭" {{ d.status == 1 ? 'checked' : '' }} data-href="{:url('status')}?id={{ d.id }}">
+</script>
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal hisi-iframe-pop"  hisi-data="{width: '550px', height: '420px', title: '修改会员'}">修改</a><a href="{:url('del')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger j-tr-del">删除</a>
+</script>
+{include file="system@block/layui" /}
+<script id="toolbar" type="text/html">
+    <a href="{:url('add')}" class="layui-btn layui-btn-normal layui-btn-sm hisi-iframe-pop" hisi-data="{width: '550px', height: '420px', title: '添加会员'}">&nbsp;添加</a><a data-href="{:url('status?val=1')}" class="layui-btn j-page-btns layui-btn-sm" data-table="dataTable">&nbsp;启用</a><a data-href="{:url('status?val=0')}" class="layui-btn layui-btn-warm j-page-btns layui-btn-sm" data-table="dataTable">&nbsp;禁用</a><a data-href="{:url('resetPwd')}" class="layui-btn layui-btn-normal j-page-btns confirm layui-btn-sm">&nbsp;重置密码</a><a data-href="{:url('del')}" class="layui-btn layui-btn-danger j-page-btns confirm layui-btn-sm">&nbsp;删除</a>
+</script>
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url()}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,toolbar: '#toolbar'
+            ,defaultToolbar: ['filter']
+            ,cols: [[ //表头
+                {type:'checkbox'}
+                ,{field: 'username', title: '账号', templet: '#usernameTpl'}
+                ,{field: 'exper', title: '等级&经验', width: 120, templet: function(d){
+                    return d.has_group.name+'<br>经验值：'+d.exper;
+                }}
+                ,{field: 'money', title: '资金', width: 100, templet: function(d) {
+                    return '余额：'+d.money+'<br>冻结：'+d.frozen_money;
+                }}
+                ,{field: 'integral', title: '注册&登录', width: 180, templet: function(d) {
+                    return '登录：'+d.last_login_time+'<br>注册：'+d.ctime;
+                }}
+                ,{field: 'status', title: '状态', width: 100, templet: '#statusTpl'}
+                ,{title: '操作', width: 120, templet: '#buttonTpl'}
+            ]]
+            ,done: function(){
+                if (typeof(layui.global.addTableTool) !== 'undefined') {
+                    layui.global.addTableTool();
+                }
+            }
+        });
+    });
+</script>

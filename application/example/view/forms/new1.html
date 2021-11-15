@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="/static/js/layui/css/layui.css"  media="all">
+<body>
+<form class="layui-form" action="">
+
+    <div class="layui-form-item">
+
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">代理ID</label>
+                    <div class="layui-input-inline">
+                    <input type="text" name="appid" value="{$appid}" placeholder="请输入代理id" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">开始时间</label>
+                    <div class="layui-input-inline">
+                    <input type="text" class="layui-input" value="{$stime}" id="stime" name="stime" placeholder="年-月-日">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">结束时间</label>
+                    <div class="layui-input-inline">
+                    <input type="text" class="layui-input" value="{$etime}" id="etime" name="etime" placeholder="年-月-日">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="sub" lay-submit>立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+<table id="demo" lay-filter="test"></table>
+{include file="block/layui" /}
+<script src="/static/js/jquery.2.1.4.min.js" charset="utf-8"></script>
+
+<script src="/static/js/layui/layui.js" charset="utf-8"></script>
+<script>
+    //Demo
+
+</script>
+<script type="text/javascript">
+    function createTime(v){
+        var date = new Date(v);
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        m = m<10?'0'+m:m;
+        var d = date.getDate();
+        d = d<10?("0"+d):d;
+        var h = date.getHours();
+        h = h<10?("0"+h):h;
+        var M = date.getMinutes();
+        M = M<10?("0"+M):M;
+        var str = y+"-"+m+"-"+d+" "+h+":"+M;
+        return str;
+    }
+</script>
+<script>
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+
+        //常规用法
+        laydate.render({
+            elem: '#stime'
+        });
+        laydate.render({
+            elem: '#etime'
+        });
+    });
+</script>
+
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,url: '{:url('/example/forms/new1', input('get.'))}' //数据接口
+            ,page: true //开启分页
+
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,cols: [[ //表头
+                {field: 'date', title: '日期', width:'20%', sort: true, templet:function (d){
+                        return createTime(d.date*1000);
+                    }}
+                ,{field: 'houtai', title: '后台账号', width:'20%', sort: true, templet:function (d) {if (d.houtai == null) {return "";}else {return  d.houtai ;}}}
+                ,{field: 'sex', title: '代理新增', width:'20%', sort: true, templet: '<div>{{ d.count }}</div>'}
+                ,{field: 'city', title: '首充账号新增', width:'20%', sort: true, templet: '<div>{{ d.count }}</div>'}
+                ,{field: 'sign', title: '续费账号数', width: '20%', sort: true, templet: '<div>{{ d.afternum }}</div>'}
+            ]]
+        });
+
+    });
+</script>
+</body>
+</html>

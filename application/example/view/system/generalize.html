@@ -1,0 +1,134 @@
+<form action="{:url('example/system/generalize')}" class="page-list-form layui-form" method="post">
+    <!--<h3>代理链接配置   &nbsp;&nbsp;&nbsp;(说明：推广内容限制50个字)</h3><br/>&nbsp;&nbsp;&nbsp;-->
+    <div class="layui-form-item t1">
+        <label class="layui-form-label"> 推广渠道1：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[1][title]" value="{$data[1]['title']??''}" autocomplete="off" >
+        </div>
+        <label class="layui-form-label"> 跳转链接：</label>
+        <div class="layui-input-inline">
+            <select name="date[1][content]">
+                <option>请跳转链接方式</option>
+                <option value="不跳转"{if condition="$data[1]['content'] eq '不跳转'"} selected{/if}>不跳转</option>
+                <option value="防封跳转"{if condition="$data[1]['content'] eq '防封跳转'"} selected{/if}>防封跳转</option>
+            </select>
+        </div>
+        <label class="layui-form-label"> 推广URL：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[1][url]" value="{$data[1]['url']??''}" autocomplete="off" >
+        </div>
+    </div>
+    <div class="layui-form-item t1">
+        <label class="layui-form-label"> 推广渠道2：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[2][title]" value="{$data[2]['title']??''}" autocomplete="off" >
+        </div>
+        <label class="layui-form-label"> 跳转链接：</label>
+        <div class="layui-input-inline">
+            <select name="date[2][content]">
+                <option>请跳转链接方式</option>
+                <option value="不跳转"{if condition="$data[2]['content'] eq '不跳转'"} selected{/if}>不跳转</option>
+                <option value="防封跳转"{if condition="$data[2]['content'] eq '防封跳转'"} selected{/if}>防封跳转</option>
+            </select>
+        </div>
+        <label class="layui-form-label"> 推广URL：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[2][url]" value="{$data[2]['url']??''}" autocomplete="off" >
+        </div>
+    </div>
+    <div class="layui-form-item t1">
+        <label class="layui-form-label"> 推广渠道3：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[3][title]" value="{$data[3]['title']??''}" autocomplete="off" >
+        </div>
+        <label class="layui-form-label"> 跳转链接：</label>
+        <div class="layui-input-inline">
+            <select name="date[3][content]">
+                <option>请跳转链接方式</option>
+                <option value="不跳转"{if condition="$data[3]['content'] eq '不跳转'"} selected{/if}>不跳转</option>
+                <option value="防封跳转"{if condition="$data[3]['content'] eq '防封跳转'"} selected{/if}>防封跳转</option>
+            </select>
+        </div>
+        <label class="layui-form-label"> 推广URL：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[3][url]" value="{$data[3]['url']??''}" autocomplete="off" >
+        </div>
+    </div><div class="layui-form-item t1">
+    <label class="layui-form-label"> 推广渠道4：</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" name="date[4][title]" value="{$data[4]['title']??''}" autocomplete="off" >
+    </div>
+    <label class="layui-form-label"> 跳转链接：</label>
+    <div class="layui-input-inline">
+        <select name="date[4][content]">
+            <option>请跳转链接方式</option>
+            <option value="不跳转"{if condition="$data[4]['content'] eq '不跳转'"} selected{/if}>不跳转</option>
+            <option value="防封跳转"{if condition="$data[4]['content'] eq '防封跳转'"} selected{/if}>防封跳转</option>
+        </select>
+    </div>
+    <label class="layui-form-label"> 推广URL：</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" name="date[4][url]" value="{$data[4]['url']??''}" autocomplete="off" >
+    </div>
+    </div>
+    <div class="layui-form-item t1">
+    <label class="layui-form-label"> 推广渠道5：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[5][title]" value="{$data[5]['title']??''}" autocomplete="off" >
+        </div>
+        <label class="layui-form-label"> 跳转链接：</label>
+        <div class="layui-input-inline">
+            <select name="date[5][content]">
+                <option>请跳转链接方式</option>
+                <option value="不跳转"{if condition="$data[5]['content'] eq '不跳转'"} selected{/if}>不跳转</option>
+                <option value="防封跳转"{if condition="$data[5]['content'] eq '防封跳转'"} selected{/if}>防封跳转</option>
+            </select>
+        </div>
+        <label class="layui-form-label"> 推广URL：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[5][url]" value="{$data[5]['url']??''}" autocomplete="off" >
+        </div>
+    </div>
+    <div class="layui-form-item t1">
+    <label class="layui-form-label"> 推广渠道6：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[6][title]" value="{$data[6]['title']??''}" autocomplete="off" >
+        </div>
+        <label class="layui-form-label"> 跳转链接：</label>
+        <div class="layui-input-inline">
+            <select name="date[6][content]">
+                <option>请跳转链接方式</option>
+                <option value="不跳转"{if condition="$data[6]['content'] eq '不跳转'"} selected{/if}>不跳转</option>
+                <option value="防封跳转"{if condition="$data[6]['content'] eq '防封跳转'"} selected{/if}>防封跳转</option>
+            </select>
+        </div>
+        <label class="layui-form-label"> 推广URL：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[6][url]" value="{$data[6]['url']??''}" autocomplete="off" >
+        </div>
+    </div>
+    <div class="layui-form-item t1">
+        <label class="layui-form-label"> 推广渠道7：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[7][title]" value="{$data[7]['title']??''}" autocomplete="off" >
+        </div>
+        <label class="layui-form-label"> 跳转链接：</label>
+        <div class="layui-input-inline">
+            <select name="date[7][content]">
+                <option>请跳转链接方式</option>
+                <option value="不跳转"{if condition="$data[7]['content'] eq '不跳转'"} selected{/if}>不跳转</option>
+                <option value="防封跳转"{if condition="$data[7]['content'] eq '防封跳转'"} selected{/if}>防封跳转</option>
+            </select>
+        </div>
+        <label class="layui-form-label"> 推广URL：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="date[7][url]" value="{$data[7]['url']??''}" autocomplete="off" >
+        </div>
+</div>
+    <div class="layui-input-block">
+        <button type="submit" class="layui-btn layui-btn-normal" >保存设置</button>
+    </div>
+</form>
+<table id="dataTable">
+</table>
+{include file="system@block/layui" /}

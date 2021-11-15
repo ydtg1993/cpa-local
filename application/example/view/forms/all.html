@@ -1,0 +1,918 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>总报表</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="./styles.css" type="text/css" rel="stylesheet"/>
+    {include file="system@block/layui" /}
+    <style>
+        body {
+            margin:0px;
+            background-image:none;
+            position:relative;
+            left:-58px;
+            width:459px;
+            margin-left:auto;
+            margin-right:auto;
+            text-align:left;
+        }
+        .form_sketch {
+            border-color:transparent;
+            background-color:transparent;
+        }
+        #base {
+            position:absolute;
+            z-index:0;
+        }
+        #u581_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:108px;
+            height:21px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u581 {
+            border-width:0px;
+            position:absolute;
+            left:70px;
+            top:72px;
+            width:108px;
+            height:21px;
+            display:flex;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u581 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u581_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u582_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:144px;
+            height:21px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u582 {
+            border-width:0px;
+            position:absolute;
+            left:70px;
+            top:264px;
+            width:144px;
+            height:21px;
+            display:flex;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u582 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u582_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u583_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:90px;
+            height:21px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u583 {
+            border-width:0px;
+            position:absolute;
+            left:256px;
+            top:264px;
+            width:90px;
+            height:21px;
+            display:flex;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u583 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u583_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u584_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:144px;
+            height:21px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u584 {
+            border-width:0px;
+            position:absolute;
+            left:71px;
+            top:377px;
+            width:144px;
+            height:21px;
+            display:flex;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u584 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u584_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u585_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:36px;
+            height:21px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u585 {
+            border-width:0px;
+            position:absolute;
+            left:283px;
+            top:72px;
+            width:36px;
+            height:21px;
+            display:flex;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u585 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u585_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u586_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:36px;
+            height:21px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u586 {
+            border-width:0px;
+            position:absolute;
+            left:436px;
+            top:72px;
+            width:36px;
+            height:21px;
+            display:flex;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u586 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u586_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u587_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:133px;
+            height:32px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u587 {
+            border-width:0px;
+            position:absolute;
+            left:58px;
+            top:108px;
+            width:133px;
+            height:32px;
+            display:flex;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u587 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u587_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u588_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:94px;
+            height:32px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u588 {
+            border-width:0px;
+            position:absolute;
+            left:252px;
+            top:108px;
+            width:94px;
+            height:32px;
+            display:flex;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u588 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u588_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u589_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:110px;
+            height:32px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u589 {
+            border-width:0px;
+            position:absolute;
+            left:407px;
+            top:108px;
+            width:110px;
+            height:32px;
+            display:flex;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u589 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u589_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u590_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:133px;
+            height:32px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-size:28px;
+            color:#555555;
+        }
+        #u590 {
+            border-width:0px;
+            position:absolute;
+            left:58px;
+            top:302px;
+            width:133px;
+            height:32px;
+            display:flex;
+            font-size:28px;
+            color:#555555;
+        }
+        #u590 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u590_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u591_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:94px;
+            height:32px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-size:28px;
+            color:#555555;
+        }
+        #u591 {
+            border-width:0px;
+            position:absolute;
+            left:252px;
+            top:302px;
+            width:94px;
+            height:32px;
+            display:flex;
+            font-size:28px;
+            color:#555555;
+        }
+        #u591 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u591_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u592_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:88px;
+            height:32px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-size:28px;
+            color:#555555;
+        }
+        #u592 {
+            border-width:0px;
+            position:absolute;
+            left:96px;
+            top:412px;
+            width:88px;
+            height:32px;
+            display:flex;
+            opacity:0.7;
+            font-size:28px;
+            color:#555555;
+        }
+        #u592 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u592_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u593_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:144px;
+            height:21px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u593 {
+            border-width:0px;
+            position:absolute;
+            left:70px;
+            top:162px;
+            width:144px;
+            height:21px;
+            display:flex;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u593 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u593_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u594_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:72px;
+            height:21px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u594 {
+            border-width:0px;
+            position:absolute;
+            left:265px;
+            top:162px;
+            width:72px;
+            height:21px;
+            display:flex;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u594 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u594_text {
+            border-width:0px;
+            word-wrap:break-word;
+            text-transform:none;
+        }
+        #u595_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:72px;
+            height:21px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u595 {
+            border-width:0px;
+            position:absolute;
+            left:436px;
+            top:162px;
+            width:72px;
+            height:21px;
+            display:flex;
+            font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+            font-weight:700;
+            font-style:normal;
+        }
+        #u595 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u595_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u596_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:78px;
+            height:32px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u596 {
+            border-width:0px;
+            position:absolute;
+            left:58px;
+            top:198px;
+            width:78px;
+            height:32px;
+            display:flex;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u596 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u596_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u597_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:47px;
+            height:32px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u597 {
+            border-width:0px;
+            position:absolute;
+            left:265px;
+            top:198px;
+            width:47px;
+            height:32px;
+            display:flex;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u597 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u597_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+        #u598_div {
+            border-width:0px;
+            position:absolute;
+            left:0px;
+            top:0px;
+            width:47px;
+            height:32px;
+            background:inherit;
+            background-color:rgba(255, 255, 255, 0);
+            border:none;
+            border-radius:0px;
+            -moz-box-shadow:none;
+            -webkit-box-shadow:none;
+            box-shadow:none;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u598 {
+            border-width:0px;
+            position:absolute;
+            left:436px;
+            top:198px;
+            width:47px;
+            height:32px;
+            display:flex;
+            font-size:28px;
+            color:#D9001B;
+        }
+        #u598 .text {
+            position:absolute;
+            align-self:flex-start;
+            padding:0px 0px 0px 0px;
+            box-sizing:border-box;
+            width:100%;
+        }
+        #u598_text {
+            border-width:0px;
+            white-space:nowrap;
+            text-transform:none;
+        }
+
+    </style>
+</head>
+<body>
+<div id="base" class="">
+
+    <!-- Unnamed (矩形) -->
+    <div id="u581" class="ax_default _三级标题">
+        <div id="u581_div" class=""></div>
+        <div id="u581_text" class="text ">
+            <p><span style="text-decoration:none;">今日累计充值</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u582" class="ax_default _三级标题">
+        <div id="u582_div" class=""></div>
+        <div id="u582_text" class="text ">
+            <p><span style="text-decoration:none;">今日累计提款申请</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u583" class="ax_default _三级标题">
+        <div id="u583_div" class=""></div>
+        <div id="u583_text" class="text ">
+            <p><span style="text-decoration:none;">今日已提款</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u584" class="ax_default _三级标题">
+        <div id="u584_div" class=""></div>
+        <div id="u584_text" class="text ">
+            <p><span style="text-decoration:none;">今日平均出款时间</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u585" class="ax_default _三级标题">
+        <div id="u585_div" class=""></div>
+        <div id="u585_text" class="text ">
+            <p><span style="text-decoration:none;">首充</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u586" class="ax_default _三级标题">
+        <div id="u586_div" class=""></div>
+        <div id="u586_text" class="text ">
+            <p><span style="text-decoration:none;">续费</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u587" class="ax_default label">
+        <div id="u587_div" class=""></div>
+        <div id="u587_text" class="text ">
+            <p><span style="text-decoration:none;">200000.00</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u588" class="ax_default label">
+        <div id="u588_div" class=""></div>
+        <div id="u588_text" class="text ">
+            <p><span style="text-decoration:none;">150000</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u589" class="ax_default label">
+        <div id="u589_div" class=""></div>
+        <div id="u589_text" class="text ">
+            <p><span style="text-decoration:none;">1700000</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u590" class="ax_default label">
+        <div id="u590_div" class=""></div>
+        <div id="u590_text" class="text ">
+            <p><span style="text-decoration:none;">200000.00</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u591" class="ax_default label">
+        <div id="u591_div" class=""></div>
+        <div id="u591_text" class="text ">
+            <p><span style="text-decoration:none;">150000</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u592" class="ax_default label">
+        <div id="u592_div" class=""></div>
+        <div id="u592_text" class="text ">
+            <p><span style="text-decoration:none;">15分钟</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u593" class="ax_default _三级标题">
+        <div id="u593_div" class=""></div>
+        <div id="u593_text" class="text ">
+            <p><span style="text-decoration:none;">今日累计新增用户</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u594" class="ax_default _三级标题">
+        <div id="u594_div" class=""></div>
+        <div id="u594_text" class="text ">
+            <p><span style="text-decoration:none;">首充人数</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u595" class="ax_default _三级标题">
+        <div id="u595_div" class=""></div>
+        <div id="u595_text" class="text ">
+            <p><span style="text-decoration:none;">续费人数</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u596" class="ax_default label">
+        <div id="u596_div" class=""></div>
+        <div id="u596_text" class="text ">
+            <p><span style="text-decoration:none;">80000</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u597" class="ax_default label">
+        <div id="u597_div" class=""></div>
+        <div id="u597_text" class="text ">
+            <p><span style="text-decoration:none;">500</span></p>
+        </div>
+    </div>
+
+    <!-- Unnamed (矩形) -->
+    <div id="u598" class="ax_default label">
+        <div id="u598_div" class=""></div>
+        <div id="u598_text" class="text ">
+            <p><span style="text-decoration:none;">600</span></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>提款记录</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+    <style type="text/css">
+        .pagination li{list-style:none;float:left;margin-left:10px;
+            padding:0 10px;
+            margin-top: 10px;
+            background-color:#5a98de;
+            border:1px solid #ccc;
+            height:26px;
+            line-height:26px;
+            cursor:pointer;color:#fff;
+        }
+        .pagination li a{color:white;padding: 0;line-height: inherit;border: none;}
+        .pagination li a:hover{background-color: #5a98de;}
+        .pagination li.active{background-color:white;color:gray;}
+        .pagination li.disabled{background-color:white;color:gray;}
+        .link {
+            color: #fff;
+            border-radius: 4px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="nav_left">
+            <i class="iconfont icon-caidan1 menuIcon"></i>
+        </div>
+        <div class="nav_title">提款记录</div>
+        <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>"></div>
+    </div>
+</header>
+<div class="menu">
+    <div class="menulist <?php echo 'menulist_c'.$_theme_id ?>">
+        <ul>
+            <li><a href="/admin.php/example/main/form">首页</a></li>
+            <li><a href="/admin.php/example/main/userinfo">账户资料</a></li>
+            <!--<li><a href="/admin.php/example/main/form">业绩报表</a></li>-->
+            <li><a href="/admin.php/example/main/link">推广链接</a></li>
+            <!--<li><a href="/admin.php/example/main/getrecord">提款记录</a></li>-->
+            <!--<li><a href="/admin.php/example/main/faq">FAQ</a></li>-->
+        </ul>
+    </div>
+</div>
+<section>
+    <div class="performance-report">
+        <div class="current-balance">
+            <p id="level">代理唯一id</p>
+            <i id="appid">
+        </div>
+        <div class="current-balance">
+            <div style="float:left;">
+                <p>当前余额</p>
+                <h2><i id="balance"></i><i>元</i></h2>
+            </div>
+            {if (config('base.withdrawal_status'))}
+            <div style="float: right;margin-top: 35px;">
+                <a href="/admin.php/example/main/drawing" class="link btn <?php echo 'btn_bg_c'.$_theme_id ?>" data-clipboard-action="copy" data-clipboard-target="#url1" id="link1">申请提款</a>
+            </div>
+            {/if}
+        </div>
+    </div>
+    <div class="report-details-head">
+        <div class="check-table">
+        <table border="1">
+            <thead>
+            <tr>
+                <th>日期</th>
+                <th>单号</th>
+                <th>金额</th>
+                <th>状态</th>
+                <th>备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td>{$v.ctime}</td>
+                <td>{$v.orderid}</td>
+                <td>{$v.money}</td>
+                <td>{$v.statusDesc}</td>
+                <td>{$v.remark}</td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+        <div>{$list->render()|raw}</div>
+
+        </div>
+    </div>
+</section>
+
+
+<script src="/static/example/js/jquery-3.3.1.min.js"></script>
+<script src="/static/example/js/common.js"></script>
+<script>
+    window.onload = function () {
+
+        $.ajax({
+            url: "/admin.php/example/main/getrecord",
+            data: {},
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                // data = eval("(" + data+ ")");
+                // data = JSON.parse(data);
+                if (data.status == '200') {
+                    $("#appid").text(data.appid);
+                    // $("#level").text(data.level);
+                    $("#balance").text(data.balance);
+                    if (!data.balance) {
+                        $("#balance").text('0');
+                    }
+
+                } else {
+                    alert('网络繁忙');
+                }
+                // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+            }
+        });
+    };
+</script>
+</body>
+</html>

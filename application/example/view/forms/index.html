@@ -1,0 +1,32 @@
+
+<table id="dataTable">
+    <tr>
+        <td style="width: 350px;padding-left: 50px"><h2>今日安装量</h2></td>
+        <td style="width: 300px"><h2>IOS安装量</h2></td>
+        <td style="width: 300px"><h2>安卓安装量</h2></td>
+    </tr>
+    <tr>
+        <td style="width: 350px;padding-left: 50px;padding-top: 20px;color: red"><h2 id="summoney">{$data['today_count']}</h2></td>
+        <td style="width: 300px;padding-top: 20px;color: red"><h2 id="firstmoney">{$data['today_ios_count']}</h2></td>
+        <td style="width: 300px;padding-top: 20px;color: red"><h2 id="aftermoney">{$data['today_android_count']}</h2></td>
+    </tr>
+    <tr>
+        <td style="width: 350px;padding-left: 50px;padding-top: 40px"><h2>累计安装</h2></td>
+        <td style="width: 300px;padding-top: 40px"><h2>累计IOS安装</h2></td>
+        <td style="width: 300px;padding-top: 40px"><h2>累计安卓安装</h2></td>
+    </tr>
+    <tr>
+        <td style="width: 350px;padding-left: 50px;padding-top: 20px;color: red"><h2 id="sumnew">{$data['all_count']}</h2></td>
+        <td style="width: 300px;padding-top: 20px;color: red"><h2 id="firstnum">{$data['all_ios_count']}</h2></td>
+        <td style="width: 300px;padding-top: 20px;color: red"><h2 id="afternum">{$data['all_android_count']}</h2></td>
+    </tr>
+    <tr>
+        <td style="width: 350px;padding-left: 50px;padding-top: 40px"><h2>今日提款申请</h2></td>
+        <td style="width: 300px;padding-top: 40px"><h2>今日出款金额</h2></td>
+    </tr>
+    <tr>
+        <td style="width: 350px;padding-left: 50px;padding-top: 20px"><h2 id="drawmoney">{$data['drawing']}</h2></td>
+        <td style="width: 300px;padding-top: 20px"><h2 id="alreadydraw">{$data['drawingpass']}</h2></td>
+    </tr>
+</table>
+{include file="system@block/layui" /}

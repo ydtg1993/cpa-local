@@ -1,0 +1,24 @@
+<style type="text/css">
+    .layui-form-select dl{z-index:9999;}
+</style>
+<form class="layui-form" action="{:url()}" method="post" id="editForm">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否审批通过来自</label>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">xxx的申请xxx元</label>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" class="field-id" name="id">
+            <button type="submit" class="layui-btn layui-btn-normal" hisi-data="{pop: true, refresh: true}" lay-submit="" lay-filter="formSubmit">通过</button>
+<!--            <a href="{:url('index')}" class="layui-btn layui-btn-primary ml10">返回</a>-->
+        </div>
+    </div>
+</form>
+
+<script>
+
+</script>

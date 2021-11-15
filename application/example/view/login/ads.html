@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>公告详情</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="nav_left"><a href="javascript:history.back(-1)"><i class="iconfont icon-zuobianjiantoujiaoduxiao"></i></a></div>
+        <div class="nav_title">公告详情</div>
+        <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>"></div>
+    </div>
+</header>
+
+<section>
+    <div class="publicity">
+        <div class="publicity-title" id="title">
+
+        </div>
+        <div class="publicity-ext" id="content">
+
+        </div>
+    </div>
+</section>
+
+
+<script src="/static/example/js/jquery-3.3.1.min.js"></script>
+<script src="/static/example/js/common.js"></script>
+<script>
+window.onload = function () {
+            var name, value;
+            var str = location.href; //取得整个地址栏
+            var num = str.indexOf("?")
+            str = str.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
+            var arr = str.split("&"); //各个参数放到数组里
+            for (var i = 0; i < arr.length; i++) {
+                num = arr[i].indexOf("=");
+                if (num > 0) {
+                    name = arr[i].substring(0, num);
+                    value = arr[i].substr(num + 1);
+                    this[name] = value;
+                }
+            }
+            $.ajax({
+                url: "/admin.php/example/main/ads",
+                data: { id: value },
+                type: "POST",
+                //dataType: "json",
+                success: function (data) {
+                    // data = eval("(" + data+ ")");
+                    data = JSON.parse(data)
+                    if (data.code == '1') {
+                        $("#title").text(data.ads[0].title);
+                        $("#content").text(data.ads[0].content);
+
+                    } 
+                    else {
+                        alert('网络错误请返回重试');
+                    }
+                    // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+                }
+            });
+        }
+</script>
+</body>
+</html>

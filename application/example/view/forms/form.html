@@ -1,0 +1,40 @@
+<style type="text/css">
+    .layui-form-select dl{z-index:9999;}
+</style>
+<form class="layui-form" action="{:url('example/index/editpwd')}?id={{ d.id }}" method="post" id="editForm">
+    <div></div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新密码</label>
+        <div class="layui-input-inline w200">
+            <input type="text" class="layui-input field-title" name="password" lay-verify="required" autocomplete="off" placeholder="请输入新密码">
+        </div>
+        <div class="layui-form-mid layui-word-aux">必填项</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">重复输入</label>
+        <div class="layui-input-inline w200">
+            <input type="text" class="layui-input field-title" name="password2" lay-verify="required" autocomplete="off" placeholder="请重复新密码">
+        </div>
+        <div class="layui-form-mid layui-word-aux">必填项</div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" class="field-id" name="id">
+            <button id="mopwdbtn" type="submit" class="layui-btn layui-btn-normal" >提交</button>
+            <a href="{:url('index')}" class="layui-btn layui-btn-primary ml10">返回</a>
+        </div>
+    </div>
+</form>
+{include file="system@block/layui" /}
+<script>
+layui.use(['upload', 'func'], function() {
+    var $ = layui.jquery, layer = layui.layer, upload = layui.upload, func = layui.func;
+    // 编辑模式下表单自动赋值
+    func.assign({:json_encode($formData)});
+
+});
+// $("#mopwdbtn").click(()=> {
+//     showModifyLayer()
+// })
+</script>
+{:editor(['content'])}

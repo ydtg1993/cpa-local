@@ -1,0 +1,41 @@
+<style type="text/css">
+    .layui-form-select dl{z-index:9999;}
+    .layui-form-item .layui-input-inline{
+        margin: 0;
+    }
+    .layui-form-item{
+        text-align: center;
+    }
+    .pb50{
+        overflow: hidden;
+    }
+    .layui-form-item .layui-input-inline{
+        float: none !important;
+        display: inline-block;
+    }
+    .layui-input-block{
+        margin-left: 0;
+    }
+</style>
+<form class="layui-form" action="/admin.php/example/money/refuse3?id={$id}" method="post" id="editForm">
+
+
+    <div class="layui-form-item">
+        <div class="layui-form-label" style="width: 100%;text-align: center;padding: 9px 0;">正在驳回来自{$record['appid']}的申请{$record['money']}元</div>
+    </div>
+
+    <div class="layui-form-item">
+<!--        <label class="layui-form-label">输入驳回原因</label>-->
+        <div class="layui-input-inline">
+            <textarea rows="4"  class="layui-textarea" name="auth_remark" autocomplete="off" placeholder="请输入驳回原因"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" class="field-id" name="id">
+            <button type="submit" class="layui-btn layui-btn-normal" hisi-data="{pop: true, refresh: true}" lay-submit="" lay-filter="formSubmit">驳回</button>
+<!--            <a href="{:url('index')}" class="layui-btn layui-btn-primary ml10">返回</a>-->
+        </div>
+    </div>
+</form>
+{include file="system@block/layui" /}

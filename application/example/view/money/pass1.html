@@ -1,0 +1,44 @@
+<style type="text/css">
+    body{
+        height: 100vh;
+        overflow: hidden;
+        margin: 0;
+        padding: 0 !important;
+    }
+    .page-tab-content{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .layui-form-item{
+        text-align: center;
+    }
+    .layui-form-item .layui-input-inline{
+        float: none !important;
+        display: inline-block;
+    }
+    .layui-input-block{
+        margin-left: 0;
+    }
+    .layui-form-label{
+        text-align: center;
+        padding: 20px 0;
+    }
+    .layui-form-select dl{z-index:9999;}
+</style>
+<form class="layui-form" action="/admin.php/example/money/pass1?id={$id}" method="post" id="editForm" >
+
+    <div class="layui-form-item">
+        <div class="layui-form-label" style="width: 100%" style="width: 100%;text-align: center;padding: 9px 0;">是否审批通过来自{$record['appid']}的申请{$record['money']}元</div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" class="field-id" name="id">
+            <button type="submit" class="layui-btn layui-btn-normal" hisi-data="{pop: true, refresh: true}" lay-submit="" lay-filter="formSubmit">确认完成</button>
+<!--            <a href="{:url('index')}" class="layui-btn layui-btn-primary ml10">返回</a>-->
+        </div>
+    </div>
+</form>
+{include file="system@block/layui" /}

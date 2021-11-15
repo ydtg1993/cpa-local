@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>代理系统.html</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+</head>
+
+<body>
+
+    <header>
+        <div class="nav">
+            <div class="nav_left"><i class="iconfont icon-caidan1 menuIcon"></i></div>
+            <div class="nav_title">代理系统</div>
+            <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>">
+                <a href="logout">退出登录</a>
+            </div>
+        </div>
+    </header>
+    <div class="menu">
+        <div class="fl menulist <?php echo 'menulist_c'.$_theme_id ?>">
+            <ul>
+                <li><a href="/admin.php/example/main/form">首页</a></li>
+                <li><a href="/admin.php/example/main/userinfo">账户资料</a></li>
+                <!--<li><a href="/admin.php/example/main/form">业绩报表</a></li>-->
+                <li><a href="/admin.php/example/main/link">推广链接</a></li>
+                <!--<li><a href="/admin.php/example/main/getrecord">提款记录</a></li>-->
+                <!--<li><a href="/admin.php/example/main/faq">FAQ</a></li>-->
+            </ul>
+        </div>
+        <div class="fr menu-other"></div>
+    </div>
+    <section>
+        <div class="agent_system">
+            <div class="agent_system_title flex">
+                <span>您好：</span><span id="email"></span>
+            </div>
+            <div class="agent_system_information">
+                <div>
+                    <h2>最新公告</h2>
+                    <div class="new-announcement">
+                        <ul>
+                            <li>
+                                <a>
+                                    <i class="iconfont icon-xiaolaba"></i>
+                                    <button class="ads-btn1" id="title1"></button>
+                                    <div style="display:none;" id="title1id"></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <i class="iconfont icon-xiaolaba"></i>
+                                    <button class="ads-btn2" id="title2"></button>
+                                    <div style="display:none;" id="title2id"></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <i class="iconfont icon-xiaolaba"></i>
+                                    <button class="ads-btn3" id="title3"></button>
+                                    <div style="display:none;" id="title3id"></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="today-charge">
+                    <h2>今日安装</h2>
+                    <div>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>安装量</th>
+                                    <th>Android</th>
+                                    <th>IOS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="today_install_number"></td>
+                                    <td id="today_android_install_number"></td>
+                                    <td id="today_ios_install_number"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chare-to-users">
+                    <h2>今日收益</h2>
+                    <div>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>今日收益</th>
+                                    <th>累计收益</th>
+                                    <th>安装单价</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="firstnum"></td>
+                                    <td id="afternum"></td>
+                                    <td id="installnum"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chare-to-users">
+                    <h2>联系客服</h2>
+                    <div>
+                        <table border="1">
+                            <tbody>
+                            {foreach $custtext as $k=>$v }
+                            <tr>
+                                <td>{$v}</td>
+                                <td>{$custQQ[$k]}</td>
+                            </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+
+    <script src="/static/example/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/example/js/common.js"></script>
+    <script>
+        window.onload = function () {
+            // $.ajax({
+            //     url: "/admin.php/example/main/jisuan",
+            //     data: { },
+            //     type: "POST",
+            //     //dataType: "json",
+            //     success: function (data) {}
+            // });
+            // $.ajax({
+            //     url: "/admin.php/example/main/order",
+            //     data: { },
+            //     type: "POST",
+            //     //dataType: "json",
+            //     success: function (data) {}
+            // });
+
+            $.ajax({
+                url: "/admin.php/example/login/index",
+                data: { },
+                type: "POST",
+                //dataType: "json",
+                success: function (data) {
+                    // data = eval("(" + data+ ")");
+                    data = JSON.parse(data);
+                    if (data.code == '1') {
+                        /*$("#title1").text(data.ads[0].title);
+                        $("#title2").text(data.ads[1].title);
+                        $("#title3").text(data.ads[2].title);
+                        $("#title1id").text(data.ads[0].id);
+                        $("#title2id").text(data.ads[1].id);
+                        $("#title3id").text(data.ads[2].id);*/
+                        $("#today_install_number").text(data.data.today_install_number); // 安装量
+                        $("#today_android_install_number").text(data.data.today_android_install_number); // 安装量android
+                        $("#today_ios_install_number").text(data.data.today_ios_install_number); // 安装量ios
+                        $("#firstnum").text(data.data.today_income); // 今日收益
+                        $("#afternum").text(data.data.sum_income); // 累计收益
+                        $("#installnum").text(data.data.today_price); // 单价
+                        $("#email").text(data.forms[0].email);
+                        if (data.forms[0].firstmoneyprofit == null) {
+                            $("#firstmoneyprofit").text('0元');
+                        }
+                        if (data.forms[0].aftermoneyprofit == null) {
+                            $("#aftermoneyprofit").text('0元');
+                        }
+
+                    } else if (data.status == 0) {
+                        alert('登录成功');
+                        $(location).attr('href', './等待开通账户2.html');
+                    } else if (data.status == 2) {
+                        alert('登录成功');
+                        $(location).attr('href', './等待开通账户.html');
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+                    // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+                }
+            });
+        }
+        $('.ads-btn1').on('click', function (evt) {
+            var title=$(this).text();
+            var id = $("#title1id").text();
+            var link = "ads" + '?id=' + id;
+            $(location).attr('href', link);
+        })
+        $('.ads-btn2').on('click', function (evt) {
+            var id = $("#title2id").text();
+            var link = "ads" + '?id=' + id;
+            $(location).attr('href', link);
+        })
+        $('.ads-btn3').on('click', function (evt) {
+            var id = $("#title3id").text();
+            var link = "ads" + '?id=' + id;
+            $(location).attr('href', link);
+        })
+    </script>
+</body>
+
+</html>

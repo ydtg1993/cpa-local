@@ -1,0 +1,59 @@
+<form action="{:url('example/proxy/add1')}" class="page-list-form layui-form" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">分组名称</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="name" value="" autocomplete="off" placeholder="请填写分组名称">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">组长账号</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="appid" value="" autocomplete="off" placeholder="请填写组长账号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">组员账号</label>
+        <div class="layui-input-inline">
+            <textarea rows="6"  class="layui-textarea" name="groupname" autocomplete="off" placeholder="请填写组员账号"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">组长客服QQ</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="cust" value="" autocomplete="off" placeholder="请填写组长客服QQ">
+        </div>
+    </div>
+    <div class="layui-input-block">
+        <button type="submit" class="layui-btn layui-btn-normal" >添加账号</button>
+    </div>
+</form>
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop" title="查看" width="460" height="270">查看</a><a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop" title="修改" width="460" height="270">修改</a><a href="{:url('del')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger j-tr-del">删除</a>
+</script>
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url('', input('get.'))}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,cols: [[ //表头
+                {type:'checkbox'}
+                ,{field: 'name', title: '组名', templet: '<div>{{ d.name }}</div>'}
+                ,{field: 'appid', title: '组长', templet: '<div>{{ d.appid }}</div>'}
+                ,{field: 'num', title: '代理数量', templet: '<div>{{ d.num }}</div>'}
+                ,{field: 'money', title: '今日充值', templet:function (d) {if (d.money == null) {return "0";}else {return  d.money ;}}}
+                ,{title: '操作', width: 160, templet: '#buttonTpl'}
+            ]]
+        });
+    });
+</script>

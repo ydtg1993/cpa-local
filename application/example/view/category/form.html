@@ -1,0 +1,41 @@
+<style type="text/css">
+    .layui-form-select dl{z-index:9999;}
+</style>
+<form class="layui-form" action="{:url()}" method="post" id="editForm">
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属分类</label>
+        <div class="layui-input-inline w200">
+            <select name="pid" class="field-pid" type="select" lay-verify="required">
+                <option value="0">默认为一级分类</option>
+                {$category|raw}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类名称</label>
+        <div class="layui-input-inline w200">
+            <input type="text" class="layui-input field-name" name="name" lay-verify="required" autocomplete="off" placeholder="请填写分类名称">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态设置</label>
+        <div class="layui-input-inline">
+            <input type="radio" class="field-status" name="status" value="1" title="启用" checked>
+            <input type="radio" class="field-status" name="status" value="0" title="禁用">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" class="field-id" name="id">
+            <button type="submit" class="layui-btn layui-btn-normal" hisi-data="{pop: true, refresh: true}" lay-submit="" lay-filter="formSubmit">提交</button>
+            <a href="javascript:parent.layui.layer.closeAll();" class="layui-btn layui-btn-primary ml10">取消</a>
+        </div>
+    </div>
+</form>
+{include file="system@block/layui" /}
+<script>
+layui.use(['func'], function() {
+    // 编辑模式下表单自动赋值
+    layui.func.assign({:json_encode($formData)});
+});
+</script>

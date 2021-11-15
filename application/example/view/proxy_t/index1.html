@@ -1,0 +1,109 @@
+<form class="layui-form" action="">
+
+    <div class="layui-form-item">
+                <input type="radio" id="radio1" name="chosed" value="1" title="代理id" checked>
+                <input type="text" name="appid" placeholder="请输入代理id" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-item" style="width: 30%">
+        <input type="radio" id="radio2" name="chosed" value="2" title="选择分组" style="width: 200px">
+        <select name="name" >
+            <option value="">请选择分组</option>
+            {volist name="chosed" id="cho"}
+            <option value="{$cho.name}">{$cho.name}</option>
+            {/volist}
+        </select>
+        <select name="data" style="width: 20%">
+            <option value="1">1周</option>
+            <option value="2">1个月</option>
+            <option value="3">3个月</option>
+        </select>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="sub" lay-submit>立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+
+
+<script>
+
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        form.on('submit()', function(data){
+            $.ajax({
+                url:"/example/proxy_t/index",
+                traditional: true,
+                type:"POST",
+                dataType: "text",
+                data:{chosed:chosed,appid:appid,name:name},
+                success: function(data){
+                    if(data.code==1){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    }else {
+                        window.history.go(-1);
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop" title="查看" width="460" height="270">查看</a><a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop" title="修改" width="460" height="270">修改</a><a href="{:url('del')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger j-tr-del">删除</a>
+</script>
+
+<script type="text/javascript">
+    function createTime(v){
+        var date = new Date(v);
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        m = m<10?'0'+m:m;
+        var d = date.getDate();
+        d = d<10?("0"+d):d;
+        var h = date.getHours();
+        h = h<10?("0"+h):h;
+        var M = date.getMinutes();
+        M = M<10?("0"+M):M;
+        var str = y+"-"+m+"-"+d+" "+h+":"+M;
+        return str;
+    }
+</script>
+
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url('', input('get.'))}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,cols: [[ //表头
+                {type:'checkbox'}
+                ,{field: 'datetime', title: '日期', templet:function (d){
+                        return createTime(d.datetime*1000);
+                    }}
+                ,{field: 'remark', title: '用户类型', templet: function (d) {if (d.level == '1') {return "L1";} else if (d.level == '2') {return "L2";}  else if (d.level == '3') {return "L3";} else if (d.level == '4') {return "L4";} else if (d.level == '5') {return "L5";}}}
+                ,{field: 'appid', title: '代理ID', templet: '<div>{{ d.appid }}</div>'}
+                ,{field: 'userid', title: '用户ID', templet: '<div>{{ d.userid }}</div>'}
+                ,{field: 'money', title: '充值类型', templet: function (d) {if (d.remark == '0') {return "续充";} else if (d.remark == '1') {return "首充";} else {return "";}}}
+                ,{field: 'orderno', title: '交易单号', templet: '<div>{{ d.orderno }}</div>'}
+                ,{field: 'amount', title: '充值金额', templet: '<div>{{ d.amount }}</div>'}
+            ]]
+        });
+    });
+</script>

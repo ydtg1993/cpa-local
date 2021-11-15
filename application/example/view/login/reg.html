@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>代理注册账号</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="nav_left"><i class="iconfont icon-caidan1"></i></div>
+        <div class="nav_title">代理注册账号</div>
+        <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>">
+<!--            <a href="">退出登录</a>-->
+        </div>
+    </div>
+</header>
+
+<section>
+    <div class="registered_agent">
+        <form onsubmit="return false">
+            <div class="registered_agent_first">
+                <div class="input_information flex botder-bottom">
+                    <div class="input_information_left">用户ID</div>
+                    <div class="input_information_right">
+                        <input type="text" id='appid' name="appid" placeholder="用户ID">
+                    </div>
+                </div>
+                <div class="appid" style="font-size: 8px; color:red"></div>
+            </div>
+
+            <div>
+                <div class="input_information flex">
+                    <div class="input_information_left">账号</div>
+                    <div class="input_information_right">
+                        <input type="text" id='email' name="email" placeholder="用作账号">
+                    </div>
+                </div>
+                <div class="email" style="font-size: 8px; color:red"></div>
+                <div class="input_information flex">
+                    <div class="input_information_left">密码</div>
+                    <div class="input_information_right">
+                        <input type="password" id='password' name="password" placeholder="输入登录密码">
+                    </div>
+                </div>
+                <div class="password" style="font-size: 8px; color:red"></div>
+                <div class="input_information flex botder-bottom">
+                    <div class="input_information_left">重复密码</div>
+                    <div class="input_information_right">
+                        <input type="password" id='password2' name="password2" placeholder="再次确认密码">
+                    </div>
+                </div>
+                <div class="password2" style="font-size: 8px; color:red"></div>
+                <div class="input_information flex">
+                    <div class="input_information_left">推广码</div>
+                    <div class="input_information_right">
+                        <input type="text" id='invite_code' name="invite_code" placeholder="输入推广码">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="input_information flex">
+                    <div class="input_information_left">小飞机</div>
+                    <div class="input_information_right">
+                        <input type="text" id='we' name="we" placeholder="输入小飞机号">
+                    </div>
+                </div>
+                <div class="we" style="font-size: 8px; color:red"></div>
+                <!--<div class="input_information flex">
+                    <div class="input_information_left">Q Q</div>
+                    <div class="input_information_right">
+                        <input type="text" id='qq' name="qq" placeholder="输入QQ号">
+                    </div>
+                </div>
+                <div class="qq" style="font-size: 8px; color:red"></div>
+                <div class="input_information flex">
+                    <div class="input_information_left">联系电话</div>
+                    <div class="input_information_right">
+                        <input type="text" id='phone' name="phone" placeholder="输入联系电话">
+                    </div>
+                </div>-->
+                <div class="phone" style="font-size: 8px; color:red"></div>
+                <!--<div class="textarea_information">
+                    <textarea placeholder="申请原因" name="content"></textarea>
+                </div>-->
+            </div>
+
+
+            <div class="tac loginSecTo">
+                <button class="reg-btn <?php echo 'btn_bg_c'.$_theme_id ?>">注册</button>
+            </div>
+        </form>
+    </div>
+
+</section>
+
+
+<script src="/static/example/js/jquery-3.3.1.min.js"></script>
+<script src="/static/example/js/common.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.reg-btn').on('click', function (evt) {
+            $('.appid').html('');
+            $('.email').html('');
+            $('.password').html('');
+            $('.password2').html('');
+            $('.we').html('');
+            // $('.qq').html('');
+            // $('.phone').html('');
+
+            if ($('#appid').val() == '') {
+                $('.appid').html('appid不能为空');
+                return;
+            }
+            var email = $('#email').val();
+            var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            if ($('#email').val() == '') {
+                $('.email').html('登录账号不能为空');
+                return;
+            }
+            // if(!reg.test(email)){
+            //     $('.email').html('邮箱格式不正确');
+            //     return;
+            // }
+            if ($('#password').val() == '') {
+                $('.password').html('密码不能为空');
+                return;
+            }
+            if ($('#password').val() != $('#password2').val()) {
+                $('.password2').html('两次密码不一致');
+                return;
+            }
+            if ($('#we').val() == '') {
+                $('.we').html('请填写小飞机号');
+                // $('.qq').html('微信号,QQ和手机号至少填一项');
+                // $('.phone').html('微信号,QQ和手机号至少填一项');
+                return;
+            }
+
+
+
+            // if ($('#phone').val() == '') {
+            //     $('.phone').html('电话号不能为空');
+            //     return;
+            // }
+
+            $.ajax({
+                url: "/admin.php/example/login/reg",
+                data: { appid: $('#appid').val(), we: $('#we').val(), qq: $('#qq').val(), phone: $('#phone').val(), email: $('#email').val(), password: $('#password').val(), content: $('#content').val(),
+                    invite_code:$('#invite_code').val()},
+                type: "POST",
+                //dataType: "json",
+                success: function (data) {
+                    // data = eval("(" + data+ ")");
+                    if (data.status == '1') {
+                        alert(data.msg);
+                        $(location).attr('href', 'login');
+                    } else if (data.status == 0) {
+                        alert(data.msg);
+                    } else if (data.status == 2) {
+                        alert(data.msg);
+                    }
+                    else {
+                        alert('注册失败');
+                    }
+                    // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+                }
+            });
+
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>修改用户资料2.html</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+</head>
+<body>
+<header>
+    <div class="nav">
+        <div class="nav_left">
+            <div class="nav_left"><a href="javascript:history.back(-1)"><i
+                    class="iconfont icon-zuobianjiantoujiaoduxiao"></i></a></div>
+        </div>
+        <div class="nav_title">修改用户资料</div>
+        <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>">
+            <!--            <a href="">退出登录</a>-->
+        </div>
+    </div>
+</header>
+
+<section>
+    <div class="fix-data">
+
+        <div class="bind-bank-card">
+            <h2>个人信息</h2>
+            <div>
+                <div class="flex">
+                    <span>代理ID</span>
+                    <span id="appid"></span>
+                </div>
+                <div class="flex">
+                    <span>登录账号</span>
+                    <span id="email"></span>
+                </div>
+                <div class="flex">
+                    <span>推广码</span>
+                    <input id="invite_code" name="invite_code">
+                </div>
+                <div class="" style="font-size: 8px; color:red;margin-bottom: 10px"></div>
+            </div>
+        </div>
+
+        <div class="bind-bank-card">
+            <h2>密码修改</h2>
+            <div>
+                <div class="flex">
+                    <span>登录密码</span>
+                    <input id="login_password" name="login_password" type="password" placeholder="输入登录密码">
+                </div>
+                <div class="flex">
+                    <span>新密码</span>
+                    <input id="new_password" name="new_password" type="password" placeholder="输入新密码">
+                </div>
+                <div class="flex">
+                    <span>重复新密码</span>
+                    <input id="repeat_new_password" name="repeat_new_password" type="password" placeholder="重复输入新密码">
+                </div>
+                <div class="repeat_new_password" style="font-size: 8px; color:red;margin-bottom: 10px"></div>
+            </div>
+        </div>
+
+        <!--<div class="validation-email">-->
+        <!--<h2>绑定邮箱</h2>-->
+        <!--<div>-->
+        <!--<div class="input_email">-->
+        <!--<p id="email" style="line-height: 0.4rem"></p>-->
+        <!--<span id="code">验证</span>-->
+        <!--</div>-->
+        <!--<p class="email-desc">验证码（系统向您邮箱发送的验证邮件中）</p>-->
+        <!--<div class="input-email-code">-->
+        <!--<input type="text" class="code" placeholder="输入验证码">-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <div class="bind-bank-card">
+            <h2>联系方式</h2>
+            <div>
+                <div class="flex">
+                    <span>小飞机</span>
+                    <input id="weixin" name="weixin" type="text" placeholder="小飞机号">
+                </div>
+                <!--<div class="flex">
+                    <span>QQ号</span>
+                    <input id="qq" name="qq" type="text" placeholder="输入QQ号">
+                </div>
+                <div class="flex">
+                    <span>联系电话</span>
+                    <input id="phone" name="phone" type="text" placeholder="输入联系电话">
+                </div>-->
+            </div>
+        </div>
+
+        <div class="tac loginSecTo m30" style="margin: 22pt 15pt;">
+            <button id="submit" class="<?php echo 'btn_bg_c'.$_theme_id ?>">保存信息</button>
+        </div>
+
+    </div>
+
+</section>
+
+
+<script src="/static/example/js/jquery-3.3.1.min.js"></script>
+<script src="/static/example/js/common.js"></script>
+<script>
+    window.onload = function () {
+        var name, value;
+        var str = location.href; //取得整个地址栏
+        var num = str.indexOf("?")
+        str = str.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr = str.split("&"); //各个参数放到数组里
+        for (var i = 0; i < arr.length; i++) {
+            num = arr[i].indexOf("=");
+            if (num > 0) {
+                name = arr[i].substring(0, num);
+                value = arr[i].substr(num + 1);
+                this[name] = value;
+            }
+        }
+        // $("#email").text(value);
+        $.ajax({
+            url: "/admin.php/example/main/userinfo",
+            data: {email: value},
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                // data = eval("(" + data+ ")");
+                // data = JSON.parse(data);
+                if (data.code == '1') {
+                    $("#appid").text(data.userinfo[0].appid);
+                    $("#email").text(data.userinfo[0].email);
+                    $("#moneyname").val(data.userinfo[0].moneyname);
+                    $("#bank").val(data.userinfo[0].bank);
+                    $("#cird").val(data.userinfo[0].cird);
+                    $(".cird").val(data.userinfo[0].cird);
+                    $("#usdt_account").val(data.userinfo[0].usdt_account);
+                    $("#weixin").val(data.userinfo[0].we);
+                    // $("#qq").val(data.userinfo[0].qq);
+                    // $("#phone").val(data.userinfo[0].phone);
+                    $("#invite_code").val(data.userinfo[0].invite_code);
+                    var email = $('#email').val();
+
+                } else if (data.code == '0') {
+                    $("#appid").text(data.userinfo[0].appid);
+                    $("#email").text(data.userinfo[0].email);
+                    $("#invite_code").val(data.userinfo[0].invite_code);
+                    $("#weixin").val(data.userinfo[0].we);
+                } else {
+                    alert('网络繁忙');
+                }
+                // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+            }
+        });
+    }
+    $('#code').on('click', function (evt) {
+        email = $('#email').text();
+        alert('请前往邮箱查看');
+        $.ajax({
+            url: "/admin.php/example/main/sendmail",
+            data: {email: email},
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                alert(data);
+                // data = eval("(" + data+ ")");
+                data = JSON.parse(data);
+                if (data.status == '200') {
+                    alert(data.level[0].code);
+                    // var email = $('#email').val();
+
+                } else {
+                    alert('网络繁忙');
+                }
+                // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+            }
+        });
+
+    });
+    $('#submit').on('click', function (evt) {
+        $('.cird').html('');
+        $('.cird2').html('');
+        $('.bank').html('');
+        $('.moneyname').html('');
+        email = $('#email').text();
+        cird = $('#cird').val();
+        bank = $('#bank').val();
+        cird2 = $('#cird2').val();
+        moneyname = $('#moneyname').val();
+        usdt_account = $('#usdt_account').val();
+        code = $('.code').val();
+        invite_code = $('#invite_code').val();
+        if (bank == '') {
+            $('.bank').html('开户行不能为空');
+            return;
+        }
+        if (cird == '') {
+            $('.cird').html('卡号不能为空');
+            return;
+        }
+        if (cird2 == '') {
+            $('.cird2').html('重复卡号不能为空');
+            return;
+        }
+        if (moneyname == '') {
+            $('.moneyname').html('收款人不能为空');
+            return;
+        }
+        if (cird != cird2) {
+            $('.cird2').html('两次卡号不一致');
+            return;
+        }
+
+        login_password = $('#login_password').val();
+        new_password = $('#new_password').val();
+        repeat_new_password = $('#repeat_new_password').val();
+        if (new_password != repeat_new_password) {
+            $('.repeat_new_password').html('两次密码不一致');
+            return;
+        }
+        weixin = $('#weixin').val();
+        qq = $('#qq').val();
+        phone = $('#phone').val();
+        $.ajax({
+            url: "/admin.php/example/main/editbank",
+            // data: {email: email,bank:bank,moneyname:moneyname,cird:cird,code:code},
+            data: {
+                email: email,
+                bank: bank,
+                moneyname: moneyname,
+                cird: cird,
+                usdt_account: usdt_account,
+                login_password: login_password,
+                new_password: new_password,
+                repeat_new_password: repeat_new_password,
+                weixin: weixin,
+                qq: qq,
+                phone: phone,
+                invite_code:invite_code
+            },
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                // data = eval("(" + data+ ")");
+                data = JSON.parse(data);
+                if (data.code > 0) {
+                    alert(data.message);
+                    // var email = $('#email').val();
+                    $(location).attr('href', "userinfo");
+                } else if (data.code == '0') {
+                    alert(data.message);
+                } else {
+                    alert('网络繁忙');
+                }
+                // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{include file="system@block/header" /}
+<div class="layui-fluid">
+    {switch name="$hisiTabType"}
+        {case value="1"}
+            <!--单个分组-->
+            <div class="layui-card" id="hisi-card-head">
+                <div class="layui-card-header">
+                    {$hisiCurMenu['title']|raw}
+                </div>
+                <div class="layui-card-body hisi-card-body">{__CONTENT__}</div>
+            </div>
+        {/case}
+        {case value="2"}
+            <!--多个分组[无刷新]-->
+            <div class="layui-card" id="hisi-card-head">
+                <div class="layui-tab layui-tab-brief">
+                    <ul class="layui-tab-title">
+                        {volist name="hisiTabData['menu']" id="vo" key="k"}
+                            {if ($k eq 1)}
+                                <li class="layui-this">
+                            {else /}
+                                <li>
+                            {/if}
+                                <a href="javascript:;" class="{if (isset($vo['class']))}{$vo['class']}{/if}" id="{if (isset($vo['id']))}{$vo['id']}{/if}">{$vo['title']|raw}</a>
+                            </li>
+                        {/volist}
+                    </ul>
+                    <div class="layui-tab-content hisi-tab-content">{__CONTENT__}</div>
+                </div>
+            </div>
+        {/case}
+        {case value="3"}
+            <!--多个分组[刷新]-->
+            <div class="layui-card" id="hisi-card-head">
+                <div class="layui-tab layui-tab-brief">
+                    <ul class="layui-tab-title">
+                        {volist name="hisiTabData['menu']" id="vo"}
+                            {php}
+                                $hisiTabData['current'] = isset($hisiTabData['current']) ? $hisiTabData['current'] : '';
+                            {/php}
+                            {if ($vo['url'] eq $hisiCurMenu['url'] or (url($vo['url']) eq $hisiTabData['current']))}
+                                <li class="layui-this">
+                            {else /}
+                                <li>
+                            {/if}
+                                {if (substr($vo['url'], 0, 4) eq 'http')}
+                                    <a href="{$vo['url']}" target="_blank">{$vo['title']|raw}</a>
+                                {else /}
+                                    <a href="{:url($vo['url'])}" class="{if (isset($vo['class']))}{$vo['class']}{/if}" id="{if (isset($vo['id']))}{$vo['id']}{/if}">{$vo['title']|raw}</a>
+                                {/if}
+                            </li>
+                        {/volist}
+                    </ul>
+                    <div class="layui-card-body hisi-card-body">{__CONTENT__}</div>
+                </div>
+            </div>
+        {/case}
+        {default /}
+        <!--无分组-->
+        <div class="layui-card hisi-card" style="padding:5px 15px 15px 15px;">{__CONTENT__}</div>
+    {/switch}
+</div>
+{include file="system@block/footer" /}

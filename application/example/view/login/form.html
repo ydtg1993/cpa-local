@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>业绩报表</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="__PUBLIC_JS__/layui/css/layui.css?v={:config('hisiphp.version')}">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+</head>
+<style>
+    .beizhu{
+        height: .24rem;
+        line-height: .12rem;
+        -webkit-line-clamp: 2;
+        cursor: pointer;
+    }
+</style>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="nav_left">
+            <i class="iconfont icon-caidan1 menuIcon"></i>
+        </div>
+        <div class="nav_title">业绩报表</div>
+        <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>">
+            <a href="/admin.php/example/login/logout">退出登录</a>
+        </div>
+        <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>">
+            <!--<span class="takeMoney"><i class="iconfont icon-money"></i>提款</span>-->
+        </div>
+    </div>
+</header>
+<div class="menu">
+    <div class="fl menulist <?php echo 'menulist_c'.$_theme_id ?>">
+        <ul>
+            <li><a href="/admin.php/example/main/form">首页</a></li>
+            <li><a href="/admin.php/example/main/userinfo">账户资料</a></li>
+            <!--<li><a href="/admin.php/example/main/form">业绩报表</a></li>-->
+            <li><a href="/admin.php/example/main/link">推广链接</a></li>
+            <!--<li><a href="/admin.php/example/main/getrecord">提款记录</a></li>-->
+            <!--<li><a href="/admin.php/example/main/faq">FAQ</a></li>-->
+        </ul>
+    </div>
+    <div class="fr menu-other"></div>
+</div>
+<section>
+    <div class="performance-report">
+        <div class="current-balance">
+            <p>今日安装</p>
+            <h2><i id="balance">0</i><i>个</i></h2>
+        </div>
+        <div style="padding-left: 20px">
+            <h2>最新公告</h2>
+            <div class="new-announcement">
+                <ul>
+                    <li>
+                        <a>
+                            <i class="iconfont icon-xiaolaba"></i>
+                            <button class="ads-btn1" id="title1"></button>
+                            <div style="display:none;" id="title1id"></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="iconfont icon-xiaolaba"></i>
+                            <button class="ads-btn2" id="title2"></button>
+                            <div style="display:none;" id="title2id"></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="check-report">
+        <h2>查看报表</h2>
+        <div class="check-report-details">
+            <div class="report-details-head">
+                <form class="layui-form putMsg" action="">
+                开始：<input type="text" id="startDate" name="startDate" class="layui-input" placeholder="请输入开始时间"
+                       autocomplete="off" style="display: inline-table;width:50%;"/><br>
+                结束：<input type="text" id="endDate" name="endDate" class="layui-input" placeholder="请输入结束时间"
+                       autocomplete="off" style="display: inline-table;width:50%;"/>
+                    <button class="layui-btn <?php echo 'btn_bg_c'.$_theme_id ?>" id="sub" lay-submit lay-filter="sss" style="height:auto;width:auto;color:#ffffff;">查询</button>
+                </form>
+                <div class="check-table" >
+                        <table border="1" id="dataTable" style="width: 100%"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal-money overflow">
+    <div class="money-intro">
+        <p>
+            <a href="getrecord"><i class="iconfont icon-jilu"></i>提款记录</a>
+        </p>
+        <p>
+            <a href="drawing"><i class="iconfont icon-money1"></i>申请提款</a>
+        </p>
+    </div>
+    <div class="moneyZindex"></div>
+</div>
+<script src="/static/example/js/jquery-3.3.1.min.js"></script>
+<script src="/static/example/js/common.js"></script>
+{include file="system@block/layui" /}
+<script>
+    $(function (){
+        $.ajax({
+            url: "/admin.php/example/login/index",
+            data: { },
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                // data = eval("(" + data+ ")");
+                if (data.code == '1') {
+                    for(var i=1;i<=data.ads.length;i++){
+                        $("#title"+i).text(data.ads[i-1].title);
+                        $("#title"+i+"id").text(data.ads[i-1].id);
+                    }
+                }
+            }
+        });
+    });
+    layui.use(['layer', 'form', 'table', 'laydate', 'jquery'], function () {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startDate',
+            type: 'date',
+            value: '{$startDate}',
+            format: 'yyyy-MM-dd HH'
+        });
+        laydate.render({
+            elem: '#endDate',
+            type: 'date',
+            value: '{$endDate}',
+            format: 'yyyy-MM-dd HH'
+        });
+        var table = layui.table;
+        var loading = layer.load(1, {shade: [0.3, '#fff']});
+        var tableIns = table.render({
+            elem: '#dataTable',
+            cols: [[ //表头
+                 {field: 'today', title: '日期'}
+                ,{field: 'sum_install', title: '当日安装'}
+            ]],
+            url: '{:url(\'\', input(\'get.\'))}',
+            page: true,
+            even: true,
+            request: {
+                pageName: 'page', //页码的参数名称，默认：page
+                limitName: 'limit' //每页数据量的参数名，默认：limit
+            },
+            limit: 30,
+            done: function (res, curr, count) {
+                layer.close(loading);
+            }
+        });
+
+    });
+    window.onload = function () {
+        /*$.ajax({
+            url: "/admin.php/example/main/jisuan",
+            data: { },
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {}
+        });*/
+        $.ajax({
+            url: "/admin.php/example/main/form",
+            data: {},
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.code == '1') {
+                    $("#appid").text(data.level[0].appid);
+                    // $("#level").text(data.level[0].level);
+                    $("#balance").text(data.sum_install);
+                    if (!data.sum_install) {
+                        $("#balance").text('0');
+                    }
+
+                } else if (data.code == '0') {
+                    $("#appid").text(data.userinfo[0].appid);
+                    $("#email").text(data.userinfo[0].email);
+                } else {
+                    alert('网络繁忙');
+                }
+            }
+        });
+    };
+    function getMyDate(str){
+        var oDate = new Date(str),
+            oYear = oDate.getFullYear(),
+            oMonth = oDate.getMonth()+1,
+            oDay = oDate.getDate(),
+            oHour = oDate.getHours(),
+            oMin = oDate.getMinutes(),
+            oSen = oDate.getSeconds(),
+            oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) ;//最后拼接时间
+        return oTime;
+    };
+    //补0操作
+    function getzf(num){
+        if(parseInt(num) < 10){
+            num = '0'+num;
+        }
+        return num;
+    }
+/*
+    $('#query').on('click', function (evt) {
+        time = $("#time").find("option:selected").val();
+        $.ajax({
+            url: "/admin.php/example/main/formdata",
+            data: {time: time},
+            type: "POST",
+            //dataType: "json",
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.code = 1) {
+                    $(function(){
+                    var s = "";
+                    $('.timadata').text('');
+                    for(var i = 0; i < data.week.length; i++) {
+                        var time = getMyDate(data.week[i].time*1000);
+                        timeday = data.week[i].time;
+                        s = "<tr class='timadata'><td><a href='formday"+ '?timeday=' + timeday + "'>" + time + "</a></td>" +
+                            "<td>" + data.week[i].drawingmoney + "</td>" +
+                            "<td>" +
+                                "<div class='beizhu txt-cut' onclick='fnBeizhu(this)'>" + data.week[i].ordermessage + "</div>" +
+                            "</td>" +
+                            "<td>" + data.week[i].countp + "</td>" +
+                            "<td>" + data.week[i].summoney + "</td>" +
+                            "<td>" + data.week[i].firstmoney + "</td>" +
+                            "<td>" + data.week[i].firstnum + "</td>" +
+                            "<td>" + data.week[i].aftermoney + "</td>" +
+                            "<td>" + data.week[i].afternum + "</td></tr>";
+                        $('#tab').append(s);
+                    }
+                    });
+                }else if(data.code == '0'){
+                    alert(data.message);
+                }else {
+                    alert('网络繁忙');
+                }
+            }
+        });
+
+    });
+*/
+
+    function fnBeizhu(that) {
+        var len = $(that).text().length
+        if(len > 9){
+            alert($(that).text())
+        }
+    }
+</script>
+</body>
+</html>

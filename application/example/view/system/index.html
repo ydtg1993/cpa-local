@@ -1,0 +1,144 @@
+<form action="{:url('example/system/index')}" class="page-list-form layui-form" method="post">
+    <h3>代理等级管理</h3>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-right: 30px;">LEVEL1</label>
+        <div class="layui-input-inline" style="margin-right: 0;">
+            <input type="text"  class="layui-input" name="level1[]" value="{$data['level1'][0]}" autocomplete="off" placeholder="客户当日安装下限">
+        </div><label class="layui-form-label" style="text-align: center;min-width:5px;width:5px;">~</label>
+        <div class="layui-input-inline">
+            <input type="text"  class="layui-input" name="level1[]" value="{$data['level1'][1]}" autocomplete="off" placeholder="客户当日安装上限">
+        </div>
+        <label class="layui-form-label" style="text-align: left">个</label><label class="layui-form-label">单价（X元/安装）</label>
+        <div class="layui-input-inline">
+            <input type="number" min="0" class="layui-input" name="first1" value="{$data['first1']}" autocomplete="off" placeholder="元" step="0.01" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-right: 30px;">LEVEL2</label>
+        <div class="layui-input-inline" style="margin-right: 0;">
+            <input type="text"  class="layui-input" name="level2[]" value="{$data['level2'][0]}" autocomplete="off" placeholder="客户当日安装下限">
+        </div>
+        <label class="layui-form-label" style="text-align: center;min-width:5px;width:5px;">~</label>
+        <div class="layui-input-inline">
+            <input type="text"  class="layui-input" name="level2[]" value="{$data['level2'][1]}" autocomplete="off" placeholder="客户当日安装上限">
+        </div>
+        <label class="layui-form-label" style="text-align: left">个</label><label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="number" min="0" class="layui-input" name="first2" value="{$data['first2']}" autocomplete="off" placeholder="元" step="0.01">
+        </div>
+    </div><div class="layui-form-item">
+    <label class="layui-form-label" style="margin-right: 30px;">LEVEL3</label>
+    <div class="layui-input-inline" style="margin-right: 0;">
+        <input type="text" class="layui-input" name="level3[]" value="{$data['level3'][0]}" autocomplete="off" placeholder="客户当日安装下限">
+    </div>
+    <label class="layui-form-label" style="text-align: center;min-width:5px;width:5px;">~</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" name="level3[]" value="{$data['level3'][1]}" autocomplete="off" placeholder="客户当日安装上限">
+    </div>
+    <label class="layui-form-label" style="text-align: left">个</label><label class="layui-form-label"></label>
+    <div class="layui-input-inline">
+        <input type="number" min="0" class="layui-input" name="first3" value="{$data['first3']}" autocomplete="off" placeholder="元" step="0.01">
+    </div>
+    <!--<label class="layui-form-label">续充提成</label>-->
+    <!--<div class="layui-input-inline">-->
+        <!--<input type="text" class="layui-input" name="follow3" value="{$data['follow3']}" autocomplete="off" placeholder="%">-->
+    <!--</div>-->
+</div><div class="layui-form-item">
+    <label class="layui-form-label" style="margin-right: 30px;">LEVEL4</label>
+    <div class="layui-input-inline" style="margin-right: 0;">
+        <input type="text"  class="layui-input" name="level4[]" value="{$data['level4'][0]}" autocomplete="off" placeholder="客户当日安装下限">
+    </div>
+    <label class="layui-form-label" style="text-align: center;min-width:5px;width:5px;">~</label>
+    <div class="layui-input-inline">
+        <input type="text"  class="layui-input" name="level4[]" value="{$data['level4'][1]}" autocomplete="off" placeholder="客户当日安装上限">
+    </div>
+    <label class="layui-form-label" style="text-align: left">个</label><label class="layui-form-label"></label>
+    <div class="layui-input-inline">
+        <input type="number" min="0" class="layui-input" name="first4" value="{$data['first4']}" autocomplete="off" placeholder="元" step="0.01">
+    </div>
+    <!--<label class="layui-form-label">续充提成</label>-->
+    <!--<div class="layui-input-inline">-->
+        <!--<input type="text" class="layui-input" name="follow4" value="{$data['follow4']}" autocomplete="off" placeholder="%">-->
+    <!--</div>-->
+</div><div class="layui-form-item">
+    <label class="layui-form-label" style="margin-right: 30px;">LEVEL5</label>
+    <div class="layui-input-inline"  style="margin-right: 0;">
+        <input type="text" class="layui-input" name="level5[]" value="{$data['level5'][0]}" autocomplete="off" placeholder="客户当日安装下限">
+    </div>
+    <label class="layui-form-label" style="text-align: center;min-width:5px;width:5px;">~</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" name="level5[]" value="{$data['level5'][1]}" autocomplete="off" placeholder="客户当日安装上限">
+    </div>
+    <label class="layui-form-label" style="text-align: left">个</label><label class="layui-form-label"></label>
+    <div class="layui-input-inline">
+        <input type="number" min="0" class="layui-input" name="first5" value="{$data['first5']}" autocomplete="off" placeholder="元" step="0.01">
+    </div>
+    <!--<label class="layui-form-label">续充提成</label>-->
+    <!--<div class="layui-input-inline">-->
+        <!--<input type="text" class="layui-input" name="follow5" value="{$data['follow5']}" autocomplete="off" placeholder="%">-->
+    <!--</div>-->
+</div>
+    <!--<h3>出款时间配置</h3>-->
+    <!--<div class="layui-form-item">-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input type="text" class="layui-input" name="puttime" value="{$data['puttime']}" autocomplete="off" placeholder="这里输入文字提示">-->
+        <!--</div>-->
+    <!--</div>-->
+    <h3>客服联系方式设置</h3>
+    <div class="contact_set">
+        {foreach $custtext as $k=>$v }
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系方式</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="custtext[]" value="{$v}" autocomplete="off" placeholder="">
+            </div>
+            <label class="layui-form-label">内容</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="custQQ[]" value="{$custQQ[$k]}" autocomplete="off" placeholder="">
+            </div>
+            <div class="layui-inline">
+                <a type="" class="layui-btn layui-btn-danger contact_delete" >删除</a>
+            </div>
+        </div>
+        {/foreach}
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <a type="" class="layui-btn layui-btn-normal new_add" >新增</a>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <button type="submit" class="layui-btn layui-btn-normal" >保存设置</button>
+    </div>
+
+</form>
+<table id="dataTable">
+</table>
+<script src="__PUBLIC_JS__/layui/layui.js?v={:config('hisiphp.version')}"></script>
+<script>
+    var ADMIN_PATH = "{$_SERVER['SCRIPT_NAME']}", LAYUI_OFFSET = 60;
+    layui.config({
+        base: '__ADMIN_JS__/',
+        version: '{:config("hisiphp.version")}'
+    }).use('global');
+
+    $(function () {
+        $('.new_add').click(function () {
+            $( ".contact_set" ).append( "<div class=\"layui-form-item\">\n" +
+                "            <label class=\"layui-form-label\">联系方式</label>\n" +
+                "            <div class=\"layui-input-inline\">\n" +
+                "                <input type=\"text\"  class=\"layui-input\" name=\"custtext[]\" value=\"\" autocomplete=\"off\" placeholder=\"\">\n" +
+                "            </div>\n" +
+                "            <label class=\"layui-form-label\">内容</label>\n" +
+                "            <div class=\"layui-input-inline\">\n" +
+                "                <input type=\"text\" class=\"layui-input\" name=\"custQQ[]\" value=\"\" autocomplete=\"off\" placeholder=\"\">\n" +
+                "            </div>\n" +
+                "        </div>" );
+        });
+
+        $('.contact_delete').click(function () {
+            $(this).parent('.layui-inline').parent('.layui-form-item').remove() ;
+        });
+    })
+</script>

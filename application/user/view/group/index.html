@@ -1,0 +1,46 @@
+<table id="dataTable"></table>
+<script type="text/html" title="状态模板" id="statusTpl">
+    <input type="checkbox" name="status" value="{{ d.status }}" lay-skin="switch" lay-filter="switchStatus" lay-text="正常|关闭" {{ d.status == 1 ? 'checked' : '' }} data-href="{:url('status')}?table=admin_member_level&id={{ d.id }}">
+</script>
+
+<script type="text/html" title="默认设置模板" id="defaultTpl">
+    <input type="checkbox" name="default" value="{{ d.default }}" lay-skin="switch" lay-filter="switchStatus" lay-text="是|否" {{ d.default == 1 ? 'checked' : '' }} data-href="{:url('setDefault')}?id={{ d.id }}">
+</script>
+
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('edit')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal j-iframe-pop"hisi-data="{width: '520px', height: '420px', title: '修改会员等级'}">修改</a>
+    <a href="{:url('del')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger j-tr-del">删除</a>
+</script>
+
+<script id="toolbar" type="text/html">
+    <a href="{:url('add')}" class="layui-btn layui-btn-normal layui-btn-sm hisi-iframe-pop" hisi-data="{width: '550px', height: '420px', title: '添加会员'}">&nbsp;添加</a><a data-href="{:url('status?val=1')}" class="layui-btn j-page-btns layui-btn-sm" data-table="dataTable">&nbsp;启用</a><a data-href="{:url('status?val=0')}" class="layui-btn layui-btn-warm j-page-btns layui-btn-sm" data-table="dataTable">&nbsp;禁用</a><a data-href="{:url('del')}" class="layui-btn layui-btn-danger j-page-btns confirm layui-btn-sm">&nbsp;删除</a>
+</script>
+
+{include file="system@block/layui" /}
+<script type="text/javascript">
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url()}' //数据接口
+            ,skin: 'row'
+            ,even: true
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,toolbar: '#toolbar'
+            ,defaultToolbar: false
+            ,cols: [[ //表头
+                {type:'checkbox'}
+                ,{field: 'name', title: '等级名称'}
+                ,{field: 'intro', title: '等级简介'}
+                ,{field: 'discount', title: '折扣%'}
+                ,{field: 'min_exper', title: '最小经验值'}
+                ,{field: 'max_exper', title: '最大经验值'}
+                ,{field: 'status', title: '状态', width: 100, templet: '#statusTpl'}
+                ,{field: 'default', title: '默认', width: 80, templet: '#defaultTpl'}
+                ,{title: '操作', templet: '#buttonTpl'}
+            ]]
+        });
+    });
+</script>

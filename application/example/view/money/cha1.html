@@ -1,0 +1,63 @@
+<div class="layui-form hisi-search">
+    <form action="{:url()}" method="get" id="hisi-table-search">
+        <div class="layui-form-item">
+            <label class="layui-form-label">关键词</label>
+            <div class="layui-input-inline">
+                <input type="text" name="keyword" class="layui-input" lay-verify="required" placeholder="用户名/邮箱/手机/昵称" />
+            </div>
+        </div>
+        <div class="layui-form-item hisi-search-btn">
+            <div class="layui-input-inline">
+                <button type="submit" class="layui-btn layui-btn-normal layui-icon layui-icon-search">查询</button>
+            </div>
+        </div>
+    </form>
+</div>
+<table id="dataTable">
+
+    {foreach $data as $v}
+    <tr>
+        <td style="padding-right: 50px;padding-left: 10px"><h2>代理名称</h2></td>
+        <td><h2>{ $v->orderid }</h2></td>
+    </tr>
+    <tr>
+        <td style="padding-right: 50px;padding-top: 20px;padding-left: 10px"><h2>联系方式</h2></td>
+        <td style="padding-top: 20px"><h2>{{ v.orderid }}</h2></td>
+    </tr>
+    <tr>
+        <td style="padding-right: 50px;padding-top: 20px;padding-left: 10px"><h2>联系方式</h2></td>
+        <td style="padding-top: 20px"><h2>{{ = v.orderid }}</h2></td>
+    </tr>
+    <tr>
+        <td style="padding-right: 50px;padding-top: 20px;padding-left: 10px"><h2>提款记录</h2></td>
+    </tr>
+    {/foreach}
+</table>
+{include file="system@block/layui" /}
+
+
+<script type="text/javascript">
+
+    layui.use(['table'], function() {
+        var table = layui.table;
+        table.render({
+            elem: '#dataTable'
+            ,url: '{:url('', input('get.'))}' //数据接口
+            ,page: true //开启分页
+            ,skin: 'row'
+            ,even: true
+            ,limit: 20
+            ,text: {
+                none : '暂无相关数据'
+            }
+            ,cols: [[ //表头
+                {field: 'ctime', title: '提交时间',width:180, templet: '<div>{{ d.ctime }}</div>'}
+                ,{field: 'appid', title: '提交ID', templet: '<div>{{ d.appid }}</div>'}
+                ,{field: 'orderid', title: '单号', templet: '<div>{{ d.orderid }}</div>'}
+                ,{field: 'money', title: '申请金额', templet: '<div>{{ d.money }}</div>'}
+                ,{field: 'status', title: '状态', templet:function (d) {if (d.status == '0') {return "待审批";} else if (d.status == '1') {return "已审批";} else if (d.status == '2') {return "已驳回";} else {return "";}}}
+                ,{field: 'remark', title: '备注说明', templet: '<div>{{ d.remark }}</div>'}
+            ]]
+        });
+    });
+</script>

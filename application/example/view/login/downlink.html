@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>APP下载地址.html</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/layui.css">
+    <style>
+        .app-down{
+            padding-bottom: .5rem !important;
+        }
+        .flex_row{
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+        }
+        .flex_row + .flex_row{
+            margin-top: 20px;
+        }
+        .flex_row .left{
+            flex: 1 1 0;
+            margin-right: 10px;
+        }
+        .flex_row .left .text{
+            margin-top: 5px;
+            background: #eee;
+            border:1px solid #bbb;
+            line-height: 1.4em;
+            height: 4.2em;
+            margin-bottom: 10px;
+        }
+        .link{
+            color: #fff;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        .qrcode{
+            width: 150px;
+            height: 150px;
+            margin-bottom: 10px;
+            background: #eee;
+            margin: auto;
+        }
+        .btn_show{
+            position: absolute;
+            bottom: 0px;
+            right: 9px;
+        }
+        .link.btn{
+            margin-right: 1.1rem;
+        }
+        .mask{
+            position: fixed;
+            width: 100%;
+            background: rgba(0,0,0,.5);
+            display: none;
+            top: 0;
+            left: 0;
+            z-index: 99;
+            height: 100%;
+        }
+        .right {
+            height: 43vh;
+            width: 85%;
+            background-size: 100% auto;
+            z-index: 99;
+            /* margin-left: 5%; */
+            position: relative;
+            margin: auto;
+            padding-top: 39%;
+            margin-top: 20%;
+        }
+        .close{
+            position: absolute;
+            top: -8%;
+            right: -8%;
+            z-index: 999;
+        }
+        .text_wz{
+            width: 80%;
+            background: #fff;
+            /* margin: auto; */
+            text-align: center;
+            border-radius: 25px;
+            margin: auto;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+        .text_wz p{
+            margin: 0;
+        }
+        .qqc_title{
+            text-align: center;
+            color: #f50000;
+            background: rgba(255,255,255,.5);
+            background: rgba(123, 85, 85, 0.3);
+            width: 47%;
+            margin: auto;
+            margin: 30px auto 0 atuo;
+            margin-top: 10px;
+        }
+        .qrcode img{
+            width: 150px;
+        }
+        .btn-block{
+            display: none;
+        }
+        @media screen and (min-width: 750px){
+            .close {
+                position: absolute;
+                top: -7%;
+                right: -10%;
+                z-index: 999;
+            }
+            .qrcode {
+                width: 150px;
+                height: 150px;
+                margin-bottom: 10px;
+                background: #eee;
+                margin: auto;
+                position: absolute;
+                left: 25%;
+                top: 22%;
+            }
+            .right {
+                height: 490px;
+                width: 300px;
+                position: relative;
+                margin: auto;
+                background-size: 100%;
+                margin-top: 8%;
+                padding-top: 0;
+            }
+            .text_wz{
+                display: none;
+            }
+            .qqc_title{
+                position: absolute;
+                left: 29%;
+                top: 55%;
+            }
+            .btn-block{
+                position: absolute;
+                bottom: 41px;
+                width: 100%;
+                display: block;
+            }
+            .btn-block button{
+                border: 0px;
+                width: 100%;
+                background: #3c8dbc;
+                color: #fff;
+                padding: 10px 16px;
+                font-size: 18px;
+            }
+        }
+        canvas{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="nav">
+            <div class="nav_left">
+                <i class="iconfont icon-caidan1 menuIcon"></i>
+            </div>
+            <div class="nav_title">推广链接</div>
+        </div>
+    </header>
+    <div class="menu">
+        <div class="fl menulist <?php echo 'menulist_c'.$_theme_id ?>">
+            <ul>
+                <li><a href="/admin.php/example/main/form">首页</a></li>
+                <li><a href="/admin.php/example/main/userinfo">账户资料</a></li>
+                <!--<li><a href="/admin.php/example/main/form">业绩报表</a></li>-->
+                <li><a href="/admin.php/example/main/link">推广链接</a></li>
+                <!--<li><a href="/admin.php/example/main/getrecord">提款记录</a></li>-->
+                <!--<li><a href="/admin.php/example/main/faq">FAQ</a></li>-->
+            </ul>
+        </div>
+        <div class="fr menu-other"></div>
+    </div>
+    <section>
+        <br/>
+        <div class="app-down">
+            <input type="hidden" id="num" value="{$num}">
+            {foreach $data as $v}
+            <div class="flex_row">
+                <div class="left">
+                    <p class="p"> 推广链接</p>
+                    <div class="text">
+                        {$v.content}<span class="URL" id="url{$v.id}" >{$v.url}</span>
+                    </div>
+                    <p style="text-align: right">
+                        <a href="javacript:void(0);" class="link btn <?php echo 'btn_bg_c'.$_theme_id ?>" data-clipboard-action="copy" data-clipboard-target="#url{$v.id}" id="link{$v.id}">复制推广链接</a>
+                    </p>
+                </div>
+                <div class="btn_show"><a href="javascript:;" class="link <?php echo 'btn_bg_c'.$_theme_id ?>">显示二维码</a></div>
+                <div class="mask" >
+                <div class="right">
+                    <div class="qrcode" id="qrcode{$v.id}"></div><!--二维码-->
+                        <div class="close">
+                            <img src="/images/close.png" alt="">
+                        </div>
+                        <div class="btn-block">
+                            <button type="button" style="border:0px;" onclick="saveQrcodeImage()">保存图片</button>
+                        </div>
+                </div>
+                <div class="text_wz">
+                    请使用微信、QQ、浏览器扫一扫
+                    <p>长按图片保存二维码</p>
+                </div>
+            </div>
+            </div>
+            {/foreach}
+        </div>
+
+    </section>
+
+
+    <script src="/static/example/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/example/js/layui.js"></script>
+    <script src="/static/example/js/clipboard.min.js"></script>
+<!--    <script src="/static/example/js/jquery.qrcode.min.js"></script>-->
+
+    <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+    <script src="/static/example/js/common.js"></script>
+    <script>
+        var clipboard = new Clipboard('.btn');
+
+        clipboard.on('success', function (e) {
+            //console.log("ok");
+        });
+
+        clipboard.on('error', function (e) {
+            //console.log("false");
+        });
+        $(".btn").on('click',function () {
+
+            layer.msg('复制成功');
+        });
+        window.onload = function () {
+            var num=$("#num").val();
+            if(num>0){
+                for (i = 0; i < num; i++) {
+                    var n=i+1;
+                    var url=$("#url"+n).html();
+                    $('#qrcode'+n).qrcode({
+                        width: 150,
+                        height: 150,
+                        text: url
+                    });
+
+                    var canvas=document.getElementsByTagName('canvas')[0];
+                    var img = convertCanvasToImage(canvas);
+                    $('#qrcode'+n).append(img);// 添加DOM
+                    //从 canvas 提取图片 image
+                    function convertCanvasToImage(canvas) {
+                    //新建Image对象
+                    var image = new Image();
+                    // canvas.toDataURL 返回的是一串Base64编码的URL
+                    image.src = canvas.toDataURL("image/png");
+                    return image;
+                  }
+                }
+            }
+
+            // var name, value;
+            // var str = location.href; //取得整个地址栏
+            // var num = str.indexOf("?")
+            // str = str.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
+            // var arr = str.split("&"); //各个参数放到数组里
+            // for (var i = 0; i < arr.length; i++) {
+            //     num = arr[i].indexOf("=");
+            //     if (num > 0) {
+            //         name = arr[i].substring(0, num);
+            //         value = arr[i].substr(num + 1);
+            //         this[name] = value;
+            //     }
+            // }
+            // $("#email").text(value);
+            // $.ajax({
+            //     url: "/admin.php/example/main/link",
+            //     data: { },
+            //     type: "POST",
+            //     success: function (data) {
+            //         data = JSON.parse(data);
+            //         if (data.code == '200') {
+            //             $("#url").text(data.data.link);
+            //             $('#qrcode').qrcode({ width: 180, height: 180, text: data.data.link });
+            //
+            //         } else {
+            //             alert(data.message);
+            //         }
+            //     }
+            // });
+            $.ajax({
+                url: "/admin.php/example/main/help",
+                data: {},
+                type: "POST",
+                success: function (data) {
+                    data = JSON.parse(data);
+
+                    if (data.code == '1') {
+                        $("#help").attr('href',data.help[0].helpurl);
+
+                    } else {
+                        alert('网络繁忙');
+                    }
+                }
+            });
+        }
+                //调用
+        function saveQrcodeImage() {
+        var qrcodeImage = $('.qrcode img').attr("src");
+        var alink = document.createElement("a");
+        alink.href = qrcodeImage;
+        alink.download = "二维码.png";
+        alink.click();
+        }
+    </script>
+<script>
+
+
+    $('.btn_show').click(function(){
+        $(this).siblings('.mask').show();
+    })
+
+$('.close').click(function(){
+        $('.mask').hide()
+    })
+</script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>等待开通账户.html</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/example/css/iconfont.css">
+    <link rel="stylesheet" href="/static/example/css/reset.css?v=3">
+    <link rel="stylesheet" href="/static/example/css/style1.css?v=3">
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="nav_title">代理注册账号</div>
+        <div class="nav_right <?php echo 'btn_bg_c'.$_theme_id ?>">
+            <a href="logout">退出登录</a>
+        </div>
+    </div>
+</header>
+
+<section>
+        <div class="waiting_for tac">
+            <p>账号被驳回</p>
+            <span>原因：注册资料不完整</span>
+        </div>
+
+        <div class="tac loginSecTo m30"><button class="login-btn">联系客服</button></div>
+
+</section>
+
+
+<script src="/static/example/js/jquery-3.3.1.min.js"></script>
+<script src="/static/example/js/common.js"></script>
+<script>
+    $(function () {
+            $('.login-btn').on('click', function (evt) {
+                
+                $.ajax({
+                    url: "/admin.php/example/login/cust",
+                    data: { email: $('#email').val(),password: $('#password').val()},
+                    type: "POST",
+                    //dataType: "json",
+                    success: function (data) {
+                        // data = eval("(" + data+ ")");
+                        if(data.status == '200'){
+                            alert('客服QQ：'+data.qq);
+                        }else{
+                            alert('网络繁忙');
+                        }
+                        // data = jQuery.parseJSON(data);  // dataType注释了，故注意反序列化
+                    }
+                });
+
+            });
+
+        });
+</script>
+</body>
+</html>
