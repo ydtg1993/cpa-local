@@ -14,6 +14,7 @@ namespace app\system\admin;
 use app\system\model\SystemUser as UserModel;
 use app\system\model\SystemRole as RoleModel;
 use app\system\model\SystemMenu as MenuModel;
+use think\Db;
 
 /**
  * 后台用户、角色控制器
@@ -179,7 +180,13 @@ class User extends Admin
                 $data['password'] = md5($data['password']);
                 $data['password_confirm'] = md5($data['password_confirm']);
             }
-            
+
+            if(!isset($data['apps'])){
+                $data['apps'] = '';
+            }else {
+                $apps = join(',', $data['apps']);
+                $data['apps'] = $apps;
+            }
             // 验证
             $result = $this->validate($data, 'SystemUser.update');
             if($result !== true) {
@@ -210,6 +217,10 @@ class User extends Admin
             ['title' => '设置权限'],
         ];
 
+        $admin_user = Db::table('hisi_system_user')->where('id',$id)->find();
+        $apps = Db::table('hisi_example_app_channel')->select();
+        $this->assign('apps_checked', (array)explode(',',$admin_user['apps']));
+        $this->assign('apps', $apps);
         $this->assign('menu_list', MenuModel::getAllChild());
         $this->assign('hisiTabData', $tabData);
         $this->assign('hisiTabType', 2);

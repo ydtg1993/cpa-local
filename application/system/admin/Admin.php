@@ -85,7 +85,15 @@ class Admin extends Common
                 } else {
                     $breadCrumbs = MenuModel::getBreadCrumbs($curMenu['id']);
                 }
-                
+
+                $admin_user = Db::table('hisi_system_user')->where('id',$login['uid'])->find();
+                $apps_checked = (array)explode(',',$admin_user['apps']);
+                $apps = Db::table('hisi_example_app_channel')->select();
+                if($login['uid']==1){
+                    $apps_checked = array_column($apps,'id');
+                }
+                $this->assign('apps_checked', $apps_checked);
+                $this->assign('apps', $apps);
                 $this->assign('hisiBreadcrumb', $breadCrumbs);
                 // 获取当前访问的菜单信息
                 $this->assign('hisiCurMenu', $curMenu);

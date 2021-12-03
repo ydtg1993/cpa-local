@@ -28,6 +28,9 @@ class Index extends Admin
      */
     public function index()
     {
+        if(isset($_POST) && isset($_POST['app'])){
+            setcookie('app_selected',$_POST['app']);
+        }
         if (cookie('hisi_iframe')) {
             $this->view->engine->layout(false);
             return $this->fetch('iframe');
