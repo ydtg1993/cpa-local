@@ -28,8 +28,9 @@ class Index extends Admin
      */
     public function index()
     {
-        if(isset($_POST) && isset($_POST['app'])){
-            $_SESSION['app_selected']= (int)$_POST['app'];
+        if ($this->request->isPost()) {
+            $_SESSION['app_selected']= (int)$this->request->post('app');
+            return;
         }
         if (cookie('hisi_iframe')) {
             $this->view->engine->layout(false);

@@ -2,8 +2,8 @@
     <div class="fl header-logo">后台管理中心  </div>
     <div class="fl header-fold"><a href="javascript:;" title="打开/关闭左侧导航" class="aicon ai-shouqicaidan" id="foldSwitch"></a></div>
     <div class="fl" style="height: 60px;line-height: 60px;">
-        <form action="http://{$_SERVER['HTTP_HOST']}/admin.php/system/index/index.html" method="post" id="select-app">
-            <select name="app" onchange="submitForm();">
+
+            <select id="app_choice" name="app" onchange="submitForm();">
                 <option>渠道app选择</option>
 <?php
 foreach($apps as $app){
@@ -17,11 +17,21 @@ foreach($apps as $app){
             </select>
             <script>
                 function submitForm(){
-                    var form = document.getElementById("select-app");
-                    form.submit();
+                    var app = document.getElementById('app_choice').value;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "http://{$_SERVER['HTTP_HOST']}/admin.php/system/index/index.html", true);
+                    xhr.timeout = 3000;
+                    xhr.responseType = "json";
+                    xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+                    xhr.send(JSON.stringify({app:app}));
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            window.location.href = "http://{$_SERVER['HTTP_HOST']}/admin.php/system/index/index.html";
+                        }
+                    };
                 }
             </script>
-        </form>
+
     </div>
     <ul class="layui-nav fl nobg main-nav">
         {volist name="hisiMenus" id="vo"}
