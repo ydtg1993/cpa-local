@@ -1,0 +1,119 @@
+<style>
+    .appid,
+    .selectGroup .layui-form-select {
+        display: none;
+    }
+
+    .isActive .appid {
+        display: block;
+    }
+
+    .isActive .layui-form-select {
+        display: block;
+    }
+
+    .putMsg {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    /*.putMsg > div {
+        width: 30%;
+    }*/
+
+    .submitBtn > div {
+        margin-left: 0;
+    }
+</style>
+
+<form class="layui-form putMsg" action="">
+
+</form>
+<div><span style="text-indent: 2em;" id="installnum"></span></div>
+
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+<script src="/static/js/layui_exts/excel.min.js"></script>
+
+<div class="page-tab-content">
+    <form class="layui-form" action="/admin.php/example/appchannel/editdatado.html" method="post" id="editForm" abineguid="CE3CD989DBCC47799A35F8A0B426B433">
+        <div class="layui-form-item">
+            <label class="layui-form-label">app名称</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$list.app_name}" class="layui-input field-title" name="app_name" lay-verify="required" autocomplete="off" placeholder="请输入app名称">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Appid</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$list.appid}" class="layui-input field-title" name="appid" lay-verify="required" autocomplete="off" placeholder="请输入appid">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">appDB名称</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$list.app_db_name}" class="layui-input field-title" name="app_db_name" lay-verify="required" autocomplete="off" placeholder="请输入appDB名称">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">app数据库用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$list.app_db_user}" class="layui-input field-title" name="app_db_user" lay-verify="required" autocomplete="off" placeholder="请输入app数据库用户名">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">app数据库端口</label>
+            <div class="layui-input-inline">
+                <input type="number" value="{$list.app_db_port}" class="layui-input field-title" name="app_db_port" lay-verify="required" autocomplete="off" placeholder="请输入app数据库端口">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">app数据库密码</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$list.app_db_pwd}" class="layui-input field-title" name="app_db_pwd" lay-verify="required" autocomplete="off" placeholder="请输入app名称">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">app数据库访问地址</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$list.app_db_addr}" class="layui-input field-title" name="app_db_addr" lay-verify="required" autocomplete="off" placeholder="请输入app数据库访问地址">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">拉取app数据的api域名</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$list.app_api_domain}" class="layui-input field-title" name="app_api_domain" lay-verify="required" autocomplete="off" placeholder="请输入拉取app数据的api域名">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">app的注册域名</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$list.app_register_domain}" class="layui-input field-title" name="app_register_domain"  autocomplete="off" placeholder="请输入app的注册域名">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">使用状态</label>
+            <div class="layui-input-inline">
+                <select name="status" class="layui-input field-title">
+                    <option value="">全部状态</option>
+                    <option value="0" {if condition="$list.status == 0"} selected {/if}>上架中</option>
+                    <option value="1" {if condition="$list.status == 1"} selected {/if}>已下架</option>
+                </select>
+            </div>
+        </div>
+        <input type="hidden" name="hidden_id" value="{$list.id}">
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="hidden" class="field-id" name="id">
+                <input type="hidden" name="module" value="system">
+                <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit">提交</button>
+                <a href="/admin.php/example/appchannel/list.html" class="layui-btn layui-btn-primary ml10"><i class="aicon ai-fanhui"></i>返回</a>
+            </div>
+        </div>
+    </form>
+    <script src="/static/js/layui/layui.js?v=2.0.5"></script>
+</div>

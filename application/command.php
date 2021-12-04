@@ -16,4 +16,9 @@ return [
     'app\command\PullInstallLogOp',
     'app\command\TodayInstall',
     'app\command\TodayInstallHistory',
+    'app\command\AsyncTaskPull',
+    'app\command\LastTwoMonthInstall',
+    'app\command\InsertHistoryData',
+    'app\command\TodayInstallNew',
+    'app\command\TodayInstallHistoryNew',
 ];

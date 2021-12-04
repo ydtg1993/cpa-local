@@ -1,0 +1,146 @@
+<style>
+    .appid,
+    .selectGroup .layui-form-select {
+        display: none;
+    }
+
+    .isActive .appid {
+        display: block;
+    }
+
+    .isActive .layui-form-select {
+        display: block;
+    }
+
+    .putMsg {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    /*.putMsg > div {
+        width: 30%;
+    }*/
+
+    .submitBtn > div {
+        margin-left: 0;
+    }
+</style>
+
+<form class="layui-form putMsg" action="">
+    <div class="layui-form-item isActive" style="width: 130px">
+        <input type="text" id="appid" name="appid" value="{$appid ?: ''}" placeholder="请输入appid" autocomplete="off"
+               class="appid layui-input">
+    </div>
+
+    <div class="layui-form-item" style="width: 100px">
+        <select name="status">
+            <option value="">全部状态</option>
+            <option value="0" {if condition="$status != null && $status == 0"} selected {/if}>上架中</option>
+            <option value="1" {if condition="$status != null && $status == 1"} selected {/if}>已下架</option>
+        </select>
+    </div>
+    <div class="layui-form-item submitBtn">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="sub" lay-submit lay-filter="sss">查询</button>
+        </div>
+    </div>
+</form>
+<div class="layui-form-item submitBtn" style="float: right;margin-top: -20px;">
+    <div class="layui-input-block">
+        <a  href="/admin.php/example/appchannel/addappchannel.html" class="layui-btn"  lay-submit lay-filter="sss">新增</a>
+    </div>
+</div>
+<div><span style="text-indent: 2em;" id="installnum"></span></div>
+
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+<script src="/static/js/layui_exts/excel.min.js"></script>
+
+
+<script type="text/javascript">
+    function createTime(v) {
+        var date = new Date(v);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? '0' + m : m;
+        var d = date.getDate();
+        d = d < 10 ? ("0" + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ("0" + h) : h;
+        var M = date.getMinutes();
+        M = M < 10 ? ("0" + M) : M;
+        var str = y + "-" + m + "-" + d + " " + h + ":" + M;
+        return str;
+    }
+</script>
+
+<script type="text/html" title="操作按钮模板" id="buttonTpl">
+    <a href="{:url('example/appchannel/xiajia')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-danger " title="下架" width="460" height="270">下架</a>
+    <a href="{:url('example/appchannel/shangjia')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-normal " title="发布" width="460" height="270">发布</a>
+    <a href="{:url('example/appchannel/editappchannel')}?id={{ d.id }}" class="layui-btn layui-btn-xs layui-btn-container " title="编辑" width="460" height="270">编辑</a>
+</script>
+<script type="text/javascript">
+    layui.use(['layer', 'form', 'table', 'laydate', 'jquery'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            form = layui.form,
+            laydate = layui.laydate,
+            table = layui.table;
+        // 加载框
+        var loading;
+        loading = layer.load(1, {shade: [0.3, '#fff']});
+        var tableIns = table.render({
+            elem: '#dataTable',
+            cols: [[ //表头
+                {field: 'id', title: '序号'}
+                , {field: 'appid', title: 'Appid'}
+                , {field: 'app_name', title: 'app名称'}
+                , {field: 'app_db_name', title: 'appDB名称'}
+                , {field: 'app_db_user', title: 'app数据库用户名'}
+                , {field: 'app_db_port', title: 'app数据库端口'}
+                , {field: 'app_db_pwd', title: 'app数据库密码'}
+                , {field: 'app_db_addr', title: 'app数据库访问地址'}
+                , {field: 'app_api_domain', title: '拉取app数据的api域名'}
+                , {field: 'app_register_domain', title: 'app的注册域名'}
+                , {
+                    field: 'status', title: '使用状态', templet: function (dd) {
+                        if (dd.status == 1) {
+                            return "<span style='color: orangered;'>已下架</span>";
+                        } else if (dd.status == 0) {
+                            return "<span style='color: blue;'>使用中</span>";
+                        }
+                        return "未知";
+                    }
+                }
+                ,{title: '操作', width: 200, templet: '#buttonTpl'}
+            ]],
+            url: '{:url(\'\', input(\'get.\'))}',
+            method: 'POST',
+            page: true,
+            even: true,
+            height: 'full-90',
+            request: {
+                pageName: 'page', //页码的参数名称，默认：page
+                limitName: 'limit' //每页数据量的参数名，默认：limit
+            },
+            limit: 20,
+            done: function (res, curr, count) {
+                $("#installnum").text("合计总量：" + res.count);
+                layer.close(loading);
+            }
+        });
+
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startDate',
+            type: 'datetime',
+            value: '{$start_date}'
+        });
+        laydate.render({
+            elem: '#endDate',
+            type: 'datetime',
+            value: '{$end_date}'
+        });
+    });
+</script>

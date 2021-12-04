@@ -1,0 +1,127 @@
+<style>
+    .appid,
+    .selectGroup .layui-form-select {
+        display: none;
+    }
+
+    .isActive .appid {
+        display: block;
+    }
+
+    .isActive .layui-form-select {
+        display: block;
+    }
+
+    .putMsg {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    /*.putMsg > div {
+        width: 30%;
+    }*/
+
+    .submitBtn > div {
+        margin-left: 0;
+    }
+</style>
+
+<form class="layui-form putMsg" action="">
+
+</form>
+<div><span style="text-indent: 2em;" id="installnum"></span></div>
+
+<table id="dataTable"></table>
+{include file="system@block/layui" /}
+<script src="/static/js/layui_exts/excel.min.js"></script>
+
+
+<script type="text/javascript">
+    function createTime(v) {
+        var date = new Date(v);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? '0' + m : m;
+        var d = date.getDate();
+        d = d < 10 ? ("0" + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ("0" + h) : h;
+        var M = date.getMinutes();
+        M = M < 10 ? ("0" + M) : M;
+        var str = y + "-" + m + "-" + d + " " + h + ":" + M;
+        return str;
+    }
+</script>
+<script type="text/javascript">
+    layui.use(['layer', 'form', 'table', 'laydate', 'jquery'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            form = layui.form,
+            laydate = layui.laydate,
+            table = layui.table;
+        // 加载框
+        var loading;
+        loading = layer.load(1, {shade: [0.3, '#fff']});
+        var tableIns = table.render({
+            elem: '#dataTable',
+            cols: [[ //表头
+                {field: 'id', title: '序号'}
+                , {field: 'uid', title: '邀请人ID'}
+                , {field: 'invite_uid', title: '被邀请人ID'}
+                , {field: 'invite_time', title: '邀请时间'}
+                , {field: 'user_nickname', title: '邀请人名称'}
+                , {field: 'invite_nickname', title: '被邀请人昵称'}
+                , {field: 'invite_user_phonenumber', title: '被邀请人手机号'}
+                , {
+                    field: 'invite_user_os', title: '设备类型', templet: function (dd) {
+                        if (dd.invite_user_os == 1) {
+                            return "Android";
+                        } else if (dd.invite_user_os == 2) {
+                            return "IOS";
+                        }
+                        return "未知";
+                    }
+                }
+                , {field: 'invite_user_phonenumber', title: '被邀请人手机号'}
+
+                , {field: 'op_uptime', title: 'OP时间'}
+                , {
+                    field: 'status', title: '状态', templet: function (dd) {
+                        if (dd.status == 1) {
+                            return "已分成";
+                        } else if (dd.status == 0) {
+                            return "<font color=red>未分成</font>";
+                        }
+                        return "未知";
+                    }
+                }
+            ]],
+            url: '{:url(\'\', input(\'get.\'))}',
+            method: 'POST',
+            page: true,
+            even: true,
+            height: 'full-90',
+            request: {
+                pageName: 'page', //页码的参数名称，默认：page
+                limitName: 'limit' //每页数据量的参数名，默认：limit
+            },
+            limit: 20,
+            done: function (res, curr, count) {
+                $("#installnum").text("合计总量：" + res.count);
+                layer.close(loading);
+            }
+        });
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startDate',
+            type: 'datetime',
+            value: '{$start_date}'
+        });
+        laydate.render({
+            elem: '#endDate',
+            type: 'datetime',
+            value: '{$end_date}'
+        });
+    });
+</script>
