@@ -87,12 +87,20 @@ class Admin extends Common
                 }
 
                 $admin_user = Db::table('hisi_system_user')->where('id',$login['uid'])->find();
-                $apps_checked = (array)explode(',',$admin_user['apps']);
-                $apps = Db::table('hisi_example_app_channel')->select();
                 if($login['uid']==1){
-                    $apps_checked = array_column($apps,'id');
+                    $apps = Db::table('hisi_example_app_channel')->select();
+                    $apps_has = array_column($apps,'id');
+                }else{
+                    $apps_has = (array)explode(',',$admin_user['apps']);
                 }
-                $this->assign('apps_checked', $apps_checked);
+                if(isset($_SESSION['app_selected'])){
+                    $checked_app = $_SESSION['app_selected'];
+                }else{
+                    $checked_app = isset($apps_has[0]) ? (int)$apps_has[0] : '';
+                }
+
+                $apps = Db::table('hisi_example_app_channel')->whereIn('id',$apps_has)->select();
+                $this->assign('checked_app', $checked_app);
                 $this->assign('apps', $apps);
                 $this->assign('hisiBreadcrumb', $breadCrumbs);
                 // 获取当前访问的菜单信息

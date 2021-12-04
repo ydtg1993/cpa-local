@@ -7,9 +7,11 @@
                 <option>渠道app选择</option>
 <?php
 foreach($apps as $app){
-   if(in_array($app['id'],$apps_checked)){
-         echo '<option value='.$app['id'].'>'.$app['app_name'].'</option>';
-   }
+    if($checked_app == $app["id"]){
+        echo '<option value='.$app["id"].' selected="selected">'.$app['app_name'].'</option>';
+    }else{
+        echo '<option value='.$app["id"].'>'.$app['app_name'].'</option>';
+    }
 }
 ?>
             </select>
