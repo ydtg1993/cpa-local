@@ -218,7 +218,7 @@ class User extends Admin
         ];
 
         $admin_user = Db::table('hisi_system_user')->where('id',$id)->find();
-        $apps = Db::table('hisi_example_app_channel')->select();
+        $apps = Db::table('hisi_example_app_channel')->where('status',0)->select();
         $this->assign('apps_checked', (array)explode(',',$admin_user['apps']));
         $this->assign('apps', $apps);
         $this->assign('menu_list', MenuModel::getAllChild());

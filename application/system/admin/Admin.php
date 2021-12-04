@@ -99,7 +99,7 @@ class Admin extends Common
                     $checked_app = isset($apps_has[0]) ? (int)$apps_has[0] : '';
                 }
 
-                $apps = Db::table('hisi_example_app_channel')->whereIn('id',$apps_has)->select();
+                $apps = Db::table('hisi_example_app_channel')->whereIn('id',$apps_has)->where('status',0)->select();
                 $this->assign('checked_app', $checked_app);
                 $this->assign('apps', $apps);
                 $this->assign('hisiBreadcrumb', $breadCrumbs);
