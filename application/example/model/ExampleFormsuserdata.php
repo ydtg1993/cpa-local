@@ -8,5 +8,5 @@ use think\Model;
 
 class ExampleFormsuserdata
 {
-
+    protected $is_cover = true;
 }

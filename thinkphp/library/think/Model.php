@@ -55,6 +55,8 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     use model\concern\TimeStamp;
     use model\concern\Conversion;
 
+    protected $is_cover = false;
+
     /**
      * 是否存在数据
      * @var bool
@@ -207,11 +209,26 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         if (is_null($this->resultSetType)) {
             $this->resultSetType = $config['resultset_type'];
         }
-
-        if (!empty($this->connection) && is_array($this->connection)) {
-            // 设置模型的数据库连接
-            $this->connection = array_merge($config, $this->connection);
+        if($this->is_cover === true){
+            $app_db_info_str  =  $_SESSION['app_db_info'];
+            $app_db_info = json_decode($app_db_info_str,true);
+            $this->connection =  [
+                'type' => 'mysql',
+                'hostname' => $app_db_info['app_db_addr'],
+                'database' => $app_db_info['app_db_name'],
+                'username' => $app_db_info['app_db_user'],
+                'password' => $app_db_info['app_db_pwd'],
+                'hostport' => $app_db_info['app_db_port'],
+                'charset' => 'utf8',
+                'prefix' => 'hisi_',
+            ];
+        }else{
+            if (!empty($this->connection) && is_array($this->connection)) {
+                // 设置模型的数据库连接
+                $this->connection = array_merge($config, $this->connection);
+            }
         }
+
 
         if ($this->observerClass) {
             // 注册模型观察者

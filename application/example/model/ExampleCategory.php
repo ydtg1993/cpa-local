@@ -18,6 +18,8 @@ class ExampleCategory extends Model
     // 自动写入时间戳
     protected $autoWriteTimestamp = false;
 
+    protected $is_cover = true;
+
     /**
      * 入库
      * @param array $data 入库数据

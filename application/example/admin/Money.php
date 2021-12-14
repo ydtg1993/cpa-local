@@ -1,6 +1,7 @@
 <?php
 
 namespace app\example\admin;
+use app\example\service\dbservice;
 use app\system\admin\Admin;
 use app\example\model\ExampleMoney as MoneyModel;
 use app\example\model\ExampleNews as NewsModel;
@@ -24,6 +25,12 @@ class Money extends Admin
             $category = CategoryModel::getSelect(CategoryModel::getChilds());
             $this->assign('category', $category);
         }
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
     }
 
     public function index()

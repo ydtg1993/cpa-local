@@ -11,6 +11,8 @@
 
 namespace app\example\admin;
 
+use app\example\model\ExampleNews;
+use app\example\service\dbservice;
 use app\system\admin\Admin;
 use app\example\model\ExampleNews as NewsModel;
 use app\example\model\ExampleLogintime as LogintimeModel;
@@ -159,6 +161,12 @@ class Index extends Admin
 
     public function index()
     {
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
         $email = $this->request->param('email/s');
         $level = $this->request->param('level/d');
         if ($this->request->isAjax()) {

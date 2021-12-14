@@ -4,6 +4,7 @@
 namespace app\example\admin;
 
 
+use app\example\service\dbservice;
 use app\system\admin\Admin;
 use think\Db;
 
@@ -11,11 +12,16 @@ class Install extends Admin
 {
     public function history()
     {
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
         $request   = $this->request;
         $startDate = $request->param("start_date");
         $endDate   = $request->param("end_date");
         if ($request->isPost()) {
-            $listQuery = Db::table("hisi_example_install_history_log eil");
+            $listQuery = $dbservice->doSqlJob($app_info)->table("hisi_example_install_history_log eil");
             $countQuery = clone $listQuery;
             $page = $request->post("page");
             $limit = $request->post("limit");
@@ -36,11 +42,16 @@ class Install extends Admin
 
     public function two_month()
     {
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
         $request   = $this->request;
         $startDate = $request->param("start_date");
         $endDate   = $request->param("end_date");
         if ($request->isPost()) {
-            $listQuery = Db::table("hisi_example_install_log eil");
+            $listQuery = $dbservice->doSqlJob($app_info)->table("hisi_example_install_log eil");
             $countQuery = clone $listQuery;
             $page = $request->post("page");
             $limit = $request->post("limit");

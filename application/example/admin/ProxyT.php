@@ -6,6 +6,7 @@ use app\example\model\ExampleNews;
 use app\example\model\ExampleOrder;
 use app\example\model\ExampleProxy;
 use app\example\model\ExampleProxyT;
+use app\example\service\dbservice;
 use app\system\admin\Admin;
 use app\example\model\ExampleForms as FormsModel;
 use app\example\model\ExampleFormsuser as Formsuser;
@@ -24,10 +25,22 @@ class ProxyT extends Admin
             $category = CategoryModel::getSelect(CategoryModel::getChilds());
             $this->assign('proxyT', $category);
         }
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
     }
 
     public function index()
     {
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
         $where = [];
         if ($this->request->isAjax()) {
             $data = [];
@@ -98,7 +111,7 @@ class ProxyT extends Admin
         $afterMoney = ExampleOrder::where($where)->where('remark', 0)->sum('amount');
         //安装量
         $installNum =
-            Db::table("hisi_example_formuser_install_log")->where($installWhere)->sum("installnum");
+            $dbservice->doSqlJob($app_info)->table("hisi_example_formuser_install_log")->where($installWhere)->sum("installnum");
         $this->assign('installNum', $installNum);
         $this->assign('remark', $this->request->get('remark'));
         $this->assign('level', $this->request->get('level'));

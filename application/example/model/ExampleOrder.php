@@ -12,6 +12,7 @@ class ExampleOrder extends Model
     protected $updateTime = 'mtime';
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
+    protected $is_cover = true;
 
     public function getContentAttr($value)
     {

@@ -4,6 +4,7 @@ namespace app\example\admin;
 use app\example\model\ExampleNews;
 use app\example\model\ExampleProxy;
 use app\example\model\ExampleProxy as ProxyModel;
+use app\example\service\dbservice;
 use app\system\model\SystemUser as UserModel;
 use app\system\admin\Admin;
 use app\example\model\ExampleCategory as CategoryModel;
@@ -23,6 +24,12 @@ class Proxy extends Admin
             $category = CategoryModel::getSelect(CategoryModel::getChilds());
             $this->assign('category', $category);
         }
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
     }
 
     public function editproxy($id)

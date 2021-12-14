@@ -13,6 +13,8 @@ class ExampleProxy extends Model
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
+    protected $is_cover = true;
+
     public function getContentAttr($value)
     {
         return htmlspecialchars_decode($value);

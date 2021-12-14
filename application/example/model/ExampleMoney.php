@@ -13,6 +13,8 @@ class ExampleMoney extends Model
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
+    protected $is_cover = true;
+
     //(0待审批，1已审批，2已驳回，3已打款)
     const  WITHDRAWAL_STATUS = [
         0 => '待审批',      //CPS是1

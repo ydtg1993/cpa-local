@@ -2,6 +2,7 @@
 
 namespace app\example\admin;
 
+use app\example\service\dbservice;
 use app\system\admin\Admin;
 use app\example\model\ExampleCategory as CategoryModel;
 use app\system\model\SystemMenu as MenuModel;
@@ -24,6 +25,13 @@ class CpaReport extends Admin
 
     public function index()
     {
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
+
         $request   = $this->request;
         $appid     = ($request->param("appid"));
         $uid       = ($request->param("uid"));
@@ -35,7 +43,7 @@ class CpaReport extends Admin
         if($request->isPost()) {
             $page = $request->post("page");
             $limit = $request->post("limit");
-            $listQuery = Db::table("hisi_example_install_log eil");
+            $listQuery = $dbservice->doSqlJob($app_info)->table("hisi_example_install_log eil");
                 //->join("hisi_example_news en", "eil.uid = en.appid");
             $countQuery = clone $listQuery;
             if($appid) {
@@ -100,6 +108,13 @@ class CpaReport extends Admin
 
     public function download()
     {
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
+
         require_once(__DIR__ . "/../../common/libs/PHPExcel/Classes/PHPExcel.php");
         require_once(__DIR__ . "/../../common/libs/PHPExcel/Classes/PHPExcel/Writer/Excel5.php");
         $objPHPExcel = new \PHPExcel();
@@ -129,7 +144,7 @@ class CpaReport extends Admin
         $os = intval($_GET["os"]);
         $page = 1;
         $limit = 10000;
-        $listQuery = Db::table("hisi_example_install_log eil")
+        $listQuery = $dbservice->doSqlJob($app_info)->table("hisi_example_install_log eil")
             ->join("hisi_example_news en", "eil.uid = en.appid");
         if ($appid) {
             $listQuery->where("eil.uid", "=", $appid);

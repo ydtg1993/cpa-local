@@ -24,6 +24,8 @@ class ExampleNews extends Model
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
+    protected $is_cover = true;
+
     public static $user = array();
 
     public function getContentAttr($value)
@@ -35,7 +37,6 @@ class ExampleNews extends Model
     {
         return $this->hasOne('ExampleCategory', 'id', 'cid');
     }
-
     /**
      * 入库
      * @param array $data 入库数据

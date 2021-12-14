@@ -7,6 +7,7 @@ use app\example\model\ExampleNews;
 use app\example\model\ExampleOrder as OrderModel;
 use app\example\model\ExampleOrder;
 use app\example\model\ExampleProxy;
+use app\example\service\dbservice;
 use app\system\admin\Admin;
 use app\example\model\ExampleForms as FormsModel;
 use app\example\model\ExampleFormsuser as Formsuser;
@@ -26,6 +27,12 @@ class Forms extends Admin
             $category = CategoryModel::getSelect(CategoryModel::getChilds());
             $this->assign('category', $category);
         }
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
     }
 
     protected function spellingParams(array $arr)
@@ -74,8 +81,14 @@ class Forms extends Admin
 
     public function index()
     {
-        $order = MoneyModel::where('status', 3)->whereTime('ctime', 'today')->select();
-        $order1 = MoneyModel::whereTime('ctime', 'today')->select();
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
+        $order = $dbservice->doSqlJob($app_info)->table("hisi_example_money")->where('status', 3)->whereTime('ctime', 'today')->select();
+        $order1 = $dbservice->doSqlJob($app_info)->table("hisi_example_money")->whereTime('ctime', 'today')->select();
         $drawing = 0;
         $drawingpass = 0;
         $n = 0;
@@ -89,28 +102,28 @@ class Forms extends Admin
         $data['drawing'] = $drawing;
         $data['drawingpass'] = $drawingpass;
         /****************************之前老代码，今日提款申请和今日出款额************************/
-        $data['today_count'] = Db::table("hisi_example_install_log eil")
+        $data['today_count'] = $dbservice->doSqlJob($app_info)->table("hisi_example_install_log eil")
             //->join("hisi_example_news en", "eil.uid = en.appid")
             ->whereTime("eil.invite_time", "today")
             ->count("eil.id");
-        $data['today_android_count'] = Db::table("hisi_example_install_log eil")
+        $data['today_android_count'] = $dbservice->doSqlJob($app_info)->table("hisi_example_install_log eil")
             //->join("hisi_example_news en", "eil.uid = en.appid")
             ->whereTime("eil.invite_time", "today")
             ->where("eil.invite_user_os", "=", "1")
             ->count("eil.id");
-        $data['today_ios_count'] = Db::table("hisi_example_install_log eil")
+        $data['today_ios_count'] = $dbservice->doSqlJob($app_info)->table("hisi_example_install_log eil")
             //->join("hisi_example_news en", "eil.uid = en.appid")
             ->whereTime("eil.invite_time", "today")
             ->where("eil.invite_user_os", "=", "2")
             ->count("eil.id");
-        $data['all_count'] = Db::table("hisi_example_install_log eil")
+        $data['all_count'] = $dbservice->doSqlJob($app_info)->table("hisi_example_install_log eil")
             //->join("hisi_example_news en", "eil.uid = en.appid")
             ->count("eil.id");
-        $data['all_android_count'] = Db::table("hisi_example_install_log eil")
+        $data['all_android_count'] = $dbservice->doSqlJob($app_info)->table("hisi_example_install_log eil")
             //->join("hisi_example_news en", "eil.uid = en.appid")
             ->where("eil.invite_user_os", "=", "1")
             ->count("eil.id");
-        $data['all_ios_count'] = Db::table("hisi_example_install_log eil")
+        $data['all_ios_count'] = $dbservice->doSqlJob($app_info)->table("hisi_example_install_log eil")
             //->join("hisi_example_news en", "eil.uid = en.appid")
             ->where("eil.invite_user_os", "=", "2")
             ->count("eil.id");
@@ -276,6 +289,13 @@ class Forms extends Admin
 
     public function history()
     {
+        $dbservice = new dbservice();
+        $app_info = $dbservice->db_start();
+        if(!$app_info){
+            $this->redirect('login');
+        }
+        $_SESSION['app_db_info'] = json_encode($app_info);
+
         $this->makeData();
         $startDate = urldecode($this->request->param('startDate/s'));
         $endDate = urldecode($this->request->param('endDate/s'));
@@ -299,7 +319,7 @@ class Forms extends Admin
             $data['data'] = $list = HistoryModel::field('from_unixtime(datetime,\'%Y-%m-%d\') as datetime,total_recharge,total_profit,add_user_count,first_recharge,continue_recharge,first_count,continue_count,apply_amount,payment_amount')->where($where)->page($page)->limit($limit)->order('datetime desc')->select();
 
             $installNumberArr =
-                Db::table("hisi_example_formuser_install_log")
+                $dbservice->doSqlJob($app_info)->table("hisi_example_formuser_install_log")
                     ->field('ctime as date, installnum')
                     ->where($installNumberWhere)
                     ->group("date")->select();
