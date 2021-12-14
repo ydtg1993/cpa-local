@@ -56,7 +56,7 @@
                 }
                 $.ajax({
                     url: "/admin.php/example/login/login",
-                    data: { email: $('#email').val(), password: $('#password').val() },
+                    data: { email: $('#email').val(), password: $('#password').val() ,hostname:window.location.hostname},
                     type: "POST",
                     //dataType: "json",
                     success: function (data) {

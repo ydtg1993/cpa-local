@@ -153,7 +153,7 @@
             $.ajax({
                 url: "/admin.php/example/login/reg",
                 data: { appid: $('#appid').val(), we: $('#we').val(), qq: $('#qq').val(), phone: $('#phone').val(), email: $('#email').val(), password: $('#password').val(), content: $('#content').val(),
-                    invite_code:$('#invite_code').val()},
+                    invite_code:$('#invite_code').val(),hostname:window.location.hostname},
                 type: "POST",
                 //dataType: "json",
                 success: function (data) {

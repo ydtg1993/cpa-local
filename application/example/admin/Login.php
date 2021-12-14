@@ -3,6 +3,7 @@
 namespace app\example\admin;
 
 use app\example\model\ExampleFormsuser;
+use app\example\service\dbservice;
 use think\Db;
 use think\Exception;
 use think\facade\Session;
@@ -139,6 +140,16 @@ class Login extends Controller
                 $data = input('post.');
                 $password = md5(trim($data['password']));
                 $username = trim($data['email']);
+
+                $db_info = Db::table("hisi_example_app_channel")->where('app_register_domain',$data['hostname'])
+                    ->find();
+                if(!$db_info){
+                    return json(['status' => '2', 'msg' => '域名还未授权']);
+                }
+                $dbservice = new dbservice();
+                $_SESSION['app_db_info'] = json_encode($db_info);
+                $dbservice->doSqlJob($db_info);
+
                 if ($model->login($username, $password) == 1) {
 //                var_dump($_SESSION);
                     return json(['status' => 'success', 'msg' => '登录成功']);
@@ -186,6 +197,16 @@ class Login extends Controller
             $data['mtime'] = time();
             $appid = $data['appid'];
             $data['status'] = 1;
+
+            $db_info = Db::table("hisi_example_app_channel")->where('app_register_domain',$data['hostname'])
+                ->find();
+            if(!$db_info){
+                return json(['status' => '2', 'msg' => '域名还未授权']);
+            }
+            $dbservice = new dbservice();
+            $_SESSION['app_db_info'] = json_encode($db_info);
+            $dbservice->doSqlJob($db_info);
+
             $count = NewsModel::where("email='{$data['email']}' || appid='" . $appid . "'")->count();
             if ($count > 0) {
                 return json(['status' => '2', 'msg' => '登录账号已被占用或appid已被注册']);
@@ -194,6 +215,7 @@ class Login extends Controller
                 $formuser["appid"] = $appid;
                 $formuser["status"] = "1";
                 ExampleFormsuser::create($formuser);
+                unset($data['hostname']);
                 $mid = NewsModel::insertGetId($data);  //insertGetId注册成功返回用户id
                 if ($mid > 0) {
                     //防止session污染

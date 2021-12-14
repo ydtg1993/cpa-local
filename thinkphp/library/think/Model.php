@@ -209,7 +209,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         if (is_null($this->resultSetType)) {
             $this->resultSetType = $config['resultset_type'];
         }
-        if($this->is_cover === true){
+        if($this->is_cover === true && isset($_SESSION['app_db_info'])){
             $app_db_info_str  =  $_SESSION['app_db_info'];
             $app_db_info = json_decode($app_db_info_str,true);
             $this->connection =  [
