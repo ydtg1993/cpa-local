@@ -1,13 +1,45 @@
 <div class="layui-header" style="z-index:999!important;">
-    <div class="fl header-logo">后台管理中心</div>
+    <div class="fl header-logo">后台管理中心  </div>
     <div class="fl header-fold"><a href="javascript:;" title="打开/关闭左侧导航" class="aicon ai-shouqicaidan" id="foldSwitch"></a></div>
+    <div class="fl" style="height: 60px;line-height: 60px;">
+
+        <select id="app_choice" name="app" onchange="submitForm();">
+            <option>渠道app选择</option>
+            <?php
+foreach($apps as $app){
+    if($checked_app == $app["id"]){
+        echo '<option value='.$app["id"].' selected="selected">'.$app['app_name'].'</option>';
+            }else{
+            echo '<option value='.$app["id"].'>'.$app['app_name'].'</option>';
+            }
+            }
+            ?>
+        </select>
+        <script>
+            function submitForm(){
+                var app = document.getElementById('app_choice').value;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "https://{$_SERVER['HTTP_HOST']}/admin.php/system/index/index.html", true);
+                xhr.timeout = 3000;
+                xhr.responseType = "json";
+                xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+                xhr.send(JSON.stringify({app:app}));
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        window.location.href = "http://{$_SERVER['HTTP_HOST']}/admin.php/system/index/index.html";
+                    }
+                };
+            }
+        </script>
+
+    </div>
     <ul class="layui-nav fl nobg main-nav">
         {volist name="hisiMenus" id="vo"}
-            {if condition="($hisiCurParents['pid'] eq $vo['id'] and $ca neq 'plugins/run') or ($ca eq 'plugins/run' and $vo['id'] eq 3)"}
-           <li class="layui-nav-item layui-this">
+        {if condition="($hisiCurParents['pid'] eq $vo['id'] and $ca neq 'plugins/run') or ($ca eq 'plugins/run' and $vo['id'] eq 3)"}
+        <li class="layui-nav-item layui-this">
             {else /}
-            <li class="layui-nav-item">
-            {/if} 
+        <li class="layui-nav-item">
+            {/if}
             <a href="javascript:;">{$vo['title']}</a></li>
         {/volist}
     </ul>
@@ -28,9 +60,9 @@
             <a href="javascript:void(0);"><i class="layui-icon layui-icon-website"></i></a>
             <dl class="layui-nav-child">
                 {volist name="languages" id="vo"}
-                    {if condition="$vo['pack']"}
-                    <dd><a href="{:url('system/index/index')}?lang={$vo['code']}">{$vo['name']}</a></dd>
-                    {/if}
+                {if condition="$vo['pack']"}
+                <dd><a href="{:url('system/index/index')}?lang={$vo['code']}">{$vo['name']}</a></dd>
+                {/if}
                 {/volist}
                 <dd>
                     <a data-id="000" class="admin-nav-item top-nav-item" href="{:url('system/language/index')}">语言包管理</a>
@@ -58,40 +90,40 @@
         {volist name="hisiMenus" id="v"}
         {if condition="($hisiCurParents['pid'] eq $v['id'] and $ca neq 'plugins/run') or ($ca eq 'plugins/run' and $v['id'] eq 3)"}
         <ul class="layui-nav layui-nav-tree">
-        {else /}
-        <ul class="layui-nav layui-nav-tree" style="display:none;">
-        {/if}
-        {if (isset($v['childs']))}
-            {volist name="v['childs']" id="vv" key="kk"}
-            <li class="layui-nav-item {if condition="$kk eq 1"}layui-nav-itemed{/if}">
+            {else /}
+            <ul class="layui-nav layui-nav-tree" style="display:none;">
+                {/if}
+                {if (isset($v['childs']))}
+                {volist name="v['childs']" id="vv" key="kk"}
+                <li class="layui-nav-item {if condition="$kk eq 1"}layui-nav-itemed{/if}">
                 <a href="javascript:;"><i class="{$vv['icon']}"></i>{$vv['title']}<span class="layui-nav-more"></span></a>
                 <dl class="layui-nav-child">
                     {if condition="$vv['title'] eq '快捷菜单'"}
-                        <dd>
-                            <a class="admin-nav-item" data-id="0" href="{:input('cookie.hisi_iframe') ? url('system/index/welcome') : url('system/index/index')}"><i class="aicon ai-shouye"></i> 后台首页</a>
-                        </dd>
-                        {if (isset($vv['childs']))}
-                        {volist name="vv['childs']" id="vvv"}
-                        <dd>
-                            <a class="admin-nav-item" data-id="{$vvv['id']}" href="{if condition="strpos('http', $vvv['url']) heq false"}{:url($vvv['url'], $vvv['param'])}{else /}{$vvv['url']}{/if}">{if condition="file_exists('.'.$vvv['icon'])"}<img src="{$vvv['icon']}" width="16" height="16" />{else /}<i class="{$vvv['icon']}"></i>{/if} {$vvv['title']}</a><i data-href="{:url('system/menu/del?id='.$vvv['id'])}" class="layui-icon j-del-menu">&#xe640;</i>
-                        </dd>
-                        {/volist}
-                        {/if}
+                    <dd>
+                        <a class="admin-nav-item" data-id="0" href="{:input('cookie.hisi_iframe') ? url('system/index/welcome') : url('system/index/index')}"><i class="aicon ai-shouye"></i> 后台首页</a>
+                    </dd>
+                    {if (isset($vv['childs']))}
+                    {volist name="vv['childs']" id="vvv"}
+                    <dd>
+                        <a class="admin-nav-item" data-id="{$vvv['id']}" href="{if condition="strpos('http', $vvv['url']) heq false"}{:url($vvv['url'], $vvv['param'])}{else /}{$vvv['url']}{/if}">{if condition="file_exists('.'.$vvv['icon'])"}<img src="{$vvv['icon']}" width="16" height="16" />{else /}<i class="{$vvv['icon']}"></i>{/if} {$vvv['title']}</a><i data-href="{:url('system/menu/del?id='.$vvv['id'])}" class="layui-icon j-del-menu">&#xe640;</i>
+                    </dd>
+                    {/volist}
+                    {/if}
                     {else /}
-                        {if (isset($vv['childs']))}
-                        {volist name="vv['childs']" id="vvv"}
-                        <dd>
-                            <a class="admin-nav-item" data-id="{$vvv['id']}" href="{if condition="strpos('http', $vvv['url']) heq false"}{:url($vvv['url'], $vvv['param'])}{else /}{$vvv['url']}{/if}">{if condition="file_exists('.'.$vvv['icon'])"}<img src="{$vvv['icon']}" width="16" height="16" />{else /}<i class="{$vvv['icon']}"></i>{/if} {$vvv['title']}</a>
-                        </dd>
-                        {/volist}
-                        {/if}
+                    {if (isset($vv['childs']))}
+                    {volist name="vv['childs']" id="vvv"}
+                    <dd>
+                        <a class="admin-nav-item" data-id="{$vvv['id']}" href="{if condition="strpos('http', $vvv['url']) heq false"}{:url($vvv['url'], $vvv['param'])}{else /}{$vvv['url']}{/if}">{if condition="file_exists('.'.$vvv['icon'])"}<img src="{$vvv['icon']}" width="16" height="16" />{else /}<i class="{$vvv['icon']}"></i>{/if} {$vvv['title']}</a>
+                    </dd>
+                    {/volist}
+                    {/if}
                     {/if}
                 </dl>
-            </li>
+                </li>
+                {/volist}
+                {/if}
+            </ul>
             {/volist}
-        {/if}
-        </ul>
-        {/volist}
     </div>
 </div>
 <script type="text/html" id="hisi-theme-tpl">
